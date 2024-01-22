@@ -1,0 +1,24 @@
+﻿mut int foo = 25;
+foo = foo + 1;
+
+mut obj o = {
+	bar: foo,
+	goober: 4,
+	snooter:
+	{
+		rooter: 5
+	}
+};
+
+
+
+func int add(int i, int j)
+{
+	mut int k = i + j;
+
+	println(k)
+	
+	return k
+}
+
+println(add(foo, 5))
