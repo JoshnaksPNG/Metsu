@@ -24,6 +24,8 @@ namespace NewLangInterpreter.Frontend
             Property,
             ObjectLiteral,
             StringLiteral,
+            CharLiteral,
+            FloatLiteral,
 
             // Expressions
             Identifier,
@@ -32,6 +34,20 @@ namespace NewLangInterpreter.Frontend
             AssignmentExpr,
             MemberExpr,
             CallExper
+        }
+
+        public enum DataType
+        {
+            String,
+            Char,
+            Float,
+            Int,
+            Bool,
+
+            Function,
+            Object,
+
+            Null,
         }
 
         public enum Operator
@@ -50,7 +66,10 @@ namespace NewLangInterpreter.Frontend
             public NodeType kind;
         }
 
-        public class Expression : Statement { }
+        public class Expression : Statement 
+        {
+            public DataType dataType;
+        }
 
         public class Program : Statement
         {
@@ -82,23 +101,25 @@ namespace NewLangInterpreter.Frontend
 
             public string identifier;
 
-            ///public Datatype Here
+            public DataType dataType;
 
             public Expression? value;
 
-            public VarDeclaration(string ident, bool isConst)
+            public VarDeclaration(string ident, bool isConst, DataType dataType)
             {
                 kind = NodeType.VarDeclaration;
                 isConstant = isConst;
                 identifier = ident;
+                this.dataType = dataType;
             }
 
-            public VarDeclaration(string ident, bool isConst, Expression val)
+            public VarDeclaration(string ident, bool isConst, Expression val, DataType dataType)
             {
                 kind = NodeType.VarDeclaration;
                 isConstant = isConst;
                 identifier = ident;
                 value = val;
+                this.dataType = dataType;
             }
 
             public override string ToString()
@@ -540,6 +561,36 @@ namespace NewLangInterpreter.Frontend
                     Console.Error.WriteLine("Error! Unknown Operator!" + val);
                     System.Environment.Exit(0);
                     return Operator.Unknown;
+            }
+        }
+
+        public static DataType type_from_string(string val)
+        {
+            switch (val) 
+            {
+                case "int":
+                    return DataType.Int;
+
+                case "char":
+                    return DataType.Char;
+
+                case "float":
+                    return DataType.Float;
+
+                case "bool":
+                    return DataType.Bool;
+
+                case "string":
+                    return DataType.String;
+
+                case "obj":
+                    return DataType.Object;
+
+                case "func":
+                    return DataType.Function;
+
+                default:
+                    throw new Exception("Unrecognized Datatype!");
             }
         }
     }

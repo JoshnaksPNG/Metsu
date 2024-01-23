@@ -25,7 +25,9 @@ namespace NewLangInterpreter.Runtime.eval
         {
             AST.Expression val = declaration.value != null ? declaration.value : new AST.NullLiteral();
 
-            return env.declareVar(declaration.identifier, Interpreter.evaluate(val, env), declaration.isConstant);
+            Values.RuntimeVal v = Interpreter.evaluate(val, env);
+
+            return env.declareVar(declaration.identifier, v, declaration.isConstant, declaration.dataType);
         }
 
         public static Values.RuntimeVal eval_function_declaration(AST.FunctionDeclaration declaration, Environment env)
@@ -39,7 +41,7 @@ namespace NewLangInterpreter.Runtime.eval
 
             Values.FunctionVal fn = new Values.FunctionVal(declaration.name, param_names, env, declaration.body);
 
-            return env.declareVar(fn.name, fn, true);
+            return env.declareVar(fn.name, fn, true, AST.DataType.Function);
         }
 
         public static Values.RuntimeVal eval_return(AST.ReturnStatement ret_stmt, Environment env)

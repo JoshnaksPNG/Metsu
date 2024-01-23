@@ -1,6 +1,7 @@
 ﻿using NewLangInterpreter.Frontend;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,9 @@ namespace NewLangInterpreter.Runtime
             Null,
             Integer,
             Boolean,
+            Float,
+            Character,
+            String,
             Object,
             NativeFn,
             Function,
@@ -74,13 +78,63 @@ namespace NewLangInterpreter.Runtime
             }
         }
 
+        public class FloatVal : RuntimeVal
+        {
+            public float value;
+
+            public FloatVal(float val)
+            {
+                type = ValueType.Float;
+                value = val;
+            }
+
+            public override string ToString()
+            {
+                /*string returned = "{ type: ";
+
+                returned += type.ToString();
+
+                returned += ", value: ";
+
+                returned += value.ToString() + " }";
+
+                return returned;*/
+                return value.ToString();
+            }
+        }
+
+        public class CharVal : RuntimeVal
+        {
+            public char value;
+
+            public CharVal(char val)
+            {
+                type = ValueType.Character;
+                value = val;
+            }
+
+            public override string ToString()
+            {
+                /*string returned = "{ type: ";
+
+                returned += type.ToString();
+
+                returned += ", value: ";
+
+                returned += value.ToString() + " }";
+
+                return returned;*/
+                return value.ToString();
+            }
+        }
+
         public class StringVal : RuntimeVal
         {
             public string value;
 
             public StringVal(string val)
             {
-                type = ValueType.Integer;
+                type = ValueType.String;
                 value = val;
             }
 
@@ -205,6 +259,40 @@ namespace NewLangInterpreter.Runtime
                 returned += "}";
 
                 return returned;
+            }
+        }
+
+        public static AST.DataType value_type_to_data_type(ValueType valueType) 
+        {
+            switch(valueType) 
+            {
+                case ValueType.NativeFn:
+                case ValueType.Function:
+                    return AST.DataType.Function;
+
+                case ValueType.Null: 
+                    return AST.DataType.Null;
+
+                case ValueType.Object: 
+                    return AST.DataType.Object;
+
+                case ValueType.Boolean: 
+                    return AST.DataType.Bool;
+
+                case ValueType.Integer: 
+                    return AST.DataType.Int;
+
+                case ValueType.Character: 
+                    return AST.DataType.Char;
+
+                case ValueType.String: 
+                    return AST.DataType.String;
+
+                case ValueType.Float: 
+                    return AST.DataType.Float;
+
+                default:
+                    throw new Exception("Unsupported ValueType");
             }
         }
     }

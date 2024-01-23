@@ -118,7 +118,7 @@ namespace NewLangInterpreter.Runtime.eval
                 {
                     // TODO: Verify function has all parameters
 
-                    scope.declareVar(func.parameters[i], args[i], true); // Parameters are constant
+                    scope.declareVar(func.parameters[i], args[i], true, Values.value_type_to_data_type(args[i].type)); // Parameters are constant
                 }
 
                 Values.RuntimeVal result = null;

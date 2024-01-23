@@ -27,6 +27,7 @@ namespace NewLangInterpreter.Frontend
             Integer,
             Float,
             String,
+            Char,
 
             DataType,
             Identifier,

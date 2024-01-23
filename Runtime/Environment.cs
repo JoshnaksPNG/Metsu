@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NewLangInterpreter.Frontend;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,8 @@ namespace NewLangInterpreter.Runtime
     {
         public static void setupGlobal(Environment scope)
         {
-            scope.declareVar("true", new Values.BoolVal(true), true);
-            scope.declareVar("false", new Values.BoolVal(false), true);
+            scope.declareVar("true", new Values.BoolVal(true), true, AST.DataType.Bool);
+            scope.declareVar("false", new Values.BoolVal(false), true, AST.DataType.Bool);
 
             // Define native method
             scope.declareVar("print", new Values.NativeFnVal( (List<RuntimeVal>args, Environment env) => 
@@ -22,7 +23,7 @@ namespace NewLangInterpreter.Runtime
                     Console.Write(arg.ToString());
                 }
                 return new Values.NullVal();
-            }), true);
+            }), true, AST.DataType.Function);
 
             scope.declareVar("println", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
             {
@@ -31,35 +32,35 @@ namespace NewLangInterpreter.Runtime
                     Console.WriteLine(arg.ToString());
                 }
                 return new Values.NullVal();
-            }), true);
+            }), true, AST.DataType.Function);
 
             scope.declareVar("hour", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
             {
 
                 return new Values.IntVal(DateTime.Now.Hour);
 
-            }), true);
+            }), true, AST.DataType.Function);
 
             scope.declareVar("minute", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
             {
 
                 return new Values.IntVal(DateTime.Now.Minute);
 
-            }), true);
+            }), true, AST.DataType.Function);
 
             scope.declareVar("second", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
             {
 
                 return new Values.IntVal(DateTime.Now.Second);
 
-            }), true);
+            }), true, AST.DataType.Function);
 
             scope.declareVar("sleep_second", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
             {
                 System.Threading.Thread.Sleep(1000);
                 return new Values.IntVal(0);
 
-            }), true);
+            }), true, AST.DataType.Function);
 
             scope.declareVar("sleep", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
             {
@@ -76,7 +77,7 @@ namespace NewLangInterpreter.Runtime
                 
                 return new Values.IntVal(0);
 
-            }), true);
+            }), true, AST.DataType.Function);
         }
 
         private bool is_default_constant;
@@ -88,6 +89,7 @@ namespace NewLangInterpreter.Runtime
             isGlobal = true;
             parent = null;
             this.variables = new Dictionary<string, Values.RuntimeVal>();
+            this.var_types = new Dictionary<string, AST.DataType>();
             this.constants = new HashSet<string> { };
             this.is_default_constant = true;
 
@@ -99,6 +101,7 @@ namespace NewLangInterpreter.Runtime
             isGlobal = false;
             this.parent = parent;
             this.variables = new Dictionary<string, Values.RuntimeVal>();
+            this.var_types = new Dictionary<string, AST.DataType>();
             this.constants = new HashSet<string> { };
             this.is_default_constant = true;
         }
@@ -106,9 +109,10 @@ namespace NewLangInterpreter.Runtime
         private Environment? parent;
 
         public Dictionary<string, Values.RuntimeVal> variables;
+        public Dictionary<string, AST.DataType> var_types;
         public HashSet<string> constants;
 
-        public Values.RuntimeVal declareVar(string name, Values.RuntimeVal value, bool isConst) 
+        public Values.RuntimeVal declareVar(string name, Values.RuntimeVal value, bool isConst, AST.DataType type) 
         {
             if(this.variables.ContainsKey(name)) 
             {
@@ -121,7 +125,15 @@ namespace NewLangInterpreter.Runtime
                 constants.Add(name);
             }
 
+            AST.DataType val_type = Values.value_type_to_data_type(value.type);
+
+            if (val_type != type)
+            {
+                throw new Exception("Cannot assign value of type: " + val_type + " to variable of type: " + type);
+            }
+
             this.variables[name] = value;
+            var_types[name] = type;
             return value;
         }
 
@@ -134,6 +146,13 @@ namespace NewLangInterpreter.Runtime
             {
                 Console.Error.WriteLine("Cannot reassign to constant \"" + name + "\"");
                 System.Environment.Exit(0);
+            }
+
+            AST.DataType type = Values.value_type_to_data_type(value.type);
+
+            if (type != env.var_types[name])
+            {
+                throw new Exception("Cannot assign value of type: " + type + " to variable of type: " + env.var_types[name]);
             }
 
             env.variables[name] = value;

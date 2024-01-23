@@ -168,6 +168,26 @@ namespace NewLangInterpreter.Frontend
 
                             tokens.Add(new Token(Token.TokenType.String, value));
                         }
+                        else if (src[0] == '\'')
+                        {
+                            src.RemoveAt(0);
+                            char value ;
+
+                            if (src[0] == '\\')
+                            {
+                                src.RemoveAt(0);
+
+                                value = ESCAPE_CHARACTERS[src[0]];
+                            }
+                            else
+                            {
+                                value = src[0];
+                            }
+
+                            src.RemoveAt(0);
+
+                            tokens.Add(new Token(Token.TokenType.Char, "" + value));
+                        }
                         else
                         {
                             Console.WriteLine("Unrecognized character found in source: " + src[0] + "\nCharcode: " + ((byte)src[0]));
@@ -228,12 +248,24 @@ namespace NewLangInterpreter.Frontend
             { "char", Token.TokenType.DataType },
             { "float", Token.TokenType.DataType },
             { "bool", Token.TokenType.DataType },
+            { "string", Token.TokenType.DataType },
             { "obj", Token.TokenType.DataType },
 
             { "true", Token.TokenType.Boolean },
             { "false", Token.TokenType.Boolean },
 
             { "null", Token.TokenType.Null },
+        };
+
+        public Dictionary<char, char> ESCAPE_CHARACTERS = new Dictionary<char, char>()
+        {
+            { 'n', '\n' },
+            { 'r', '\r' },
+            { 't', '\t' },
+            { 'v', '\v' },
+            { '\\', '\\' },
+            { '\'', '\'' },
+            { '\"', '\"' },
         };
     }
 

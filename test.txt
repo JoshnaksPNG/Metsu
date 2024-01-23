@@ -21,4 +21,8 @@ func int add(int i, int j)
 	return k
 }
 
+mut int typer = "test string";
+
+println(typer)
+
 println(add(foo, 5))

@@ -240,6 +240,8 @@ namespace NewLangInterpreter.Frontend
 
             Token type_token = this.advance(Token.TokenType.DataType, "Expected variable datatype following mut or const!");
 
+            AST.DataType dataType = AST.type_from_string(type_token.value);
+
             string identifier = this.advance(Token.TokenType.Identifier, "Expected identifier following datatype!").value;
 
             // Check if Declaration
@@ -252,12 +254,12 @@ namespace NewLangInterpreter.Frontend
                     System.Environment.Exit(0);
                 }
 
-                return new AST.VarDeclaration(identifier, isConstant);
+                return new AST.VarDeclaration(identifier, isConstant, dataType);
             }
 
             this.advance(Token.TokenType.Assign, "Expected assignment operator following identifier in variable declaration");
 
-            AST.Statement declaration = new AST.VarDeclaration(identifier, isConstant, parse_expr());
+            AST.Statement declaration = new AST.VarDeclaration(identifier, isConstant, parse_expr(), dataType);
 
             this.advance(Token.TokenType.SemiColon, "Expected Semicolon ';' after variable declaration statement");
 
