@@ -81,6 +81,25 @@ namespace NewLangInterpreter.Frontend
             return result;
         }
 
+        float parse_float(string raw) 
+        {
+            float result = 0;
+            string[] split_raw = raw.Split('.');
+            string whole = split_raw[0];
+            string frac = split_raw[1];
+
+            
+            int frac_length = frac.Length;
+            int frag_basis = parse_int(frac);
+
+            result += parse_int(whole);
+
+            result += (float) Math.Pow(10, -1d * frac_length) * frag_basis;
+
+
+            return result;
+        }
+
         int digitval(char digit)
         {
             int digitval = 0;
@@ -497,6 +516,9 @@ namespace NewLangInterpreter.Frontend
 
                 case Token.TokenType.Integer:
                     return new AST.IntLiteral(parse_int(advance().value));
+
+                case Token.TokenType.Float:
+                    return new AST.FloatLiteral(parse_float(advance().value));
 
                 case Token.TokenType.Char:
                     return new AST.CharLiteral((advance().value)[0]);

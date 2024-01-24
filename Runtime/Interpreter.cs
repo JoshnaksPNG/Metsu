@@ -21,6 +21,9 @@ namespace NewLangInterpreter.Runtime
                 case AST.NodeType.IntLiteral:
                     return new Values.IntVal(((AST.IntLiteral)astNode).value);
 
+                case AST.NodeType.FloatLiteral:
+                    return new Values.FloatVal(((AST.FloatLiteral)astNode).value);
+
                 case AST.NodeType.CharLiteral:
                     return new Values.CharVal(((AST.CharLiteral)astNode).value);
 

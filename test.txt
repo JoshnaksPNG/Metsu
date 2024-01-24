@@ -25,6 +25,10 @@ mut string typer = "test string";
 
 mut char char_test = 'd';
 
+mut float float_test = 12.12;
+
+println(float_test)
+
 println(char_test)
 
 println(typer)

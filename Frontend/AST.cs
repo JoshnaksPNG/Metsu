@@ -425,6 +425,30 @@ namespace NewLangInterpreter.Frontend
             }
         }
 
+        public class FloatLiteral : Expression
+        {
+            public FloatLiteral(float value)
+            {
+                kind = NodeType.FloatLiteral;
+                this.value = value;
+            }
+
+            public float value;
+
+            public override string ToString()
+            {
+                string returned = "{ kind: ";
+
+                returned += kind.ToString();
+
+                returned += ", value: ";
+
+                returned += value.ToString() + " }";
+
+                return returned;
+            }
+        }
+
         public class StringLiteral : Expression
         {
             public StringLiteral(string value)
