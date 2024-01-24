@@ -498,6 +498,9 @@ namespace NewLangInterpreter.Frontend
                 case Token.TokenType.Integer:
                     return new AST.IntLiteral(parse_int(advance().value));
 
+                case Token.TokenType.Char:
+                    return new AST.CharLiteral((advance().value)[0]);
+
                 case Token.TokenType.String:
                     return new AST.StringLiteral(advance().value);
 

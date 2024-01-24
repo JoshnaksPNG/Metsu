@@ -79,11 +79,6 @@ namespace NewLangInterpreter.Frontend
                         src.RemoveAt(0);
                         break;
 
-                    case '\'':
-                        tokens.Add(new Token(Token.TokenType.SingleQuote, src[0].ToString()));
-                        src.RemoveAt(0);
-                        break;
-
                     case '.':
                         tokens.Add(new Token(Token.TokenType.Period, src[0].ToString()));
                         src.RemoveAt(0);
@@ -178,13 +173,23 @@ namespace NewLangInterpreter.Frontend
                                 src.RemoveAt(0);
 
                                 value = ESCAPE_CHARACTERS[src[0]];
+                                src.RemoveAt(0);
                             }
                             else
                             {
+
                                 value = src[0];
+                                src.RemoveAt(0);
                             }
 
-                            src.RemoveAt(0);
+                            if (src[0] == '\'')
+                            {
+                                src.RemoveAt(0);
+                            }
+                            else
+                            {
+                                throw new Exception("Expected Closing single quote \"'\" ");
+                            }
 
                             tokens.Add(new Token(Token.TokenType.Char, "" + value));
                         }

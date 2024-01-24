@@ -449,6 +449,30 @@ namespace NewLangInterpreter.Frontend
             }
         }
 
+        public class CharLiteral : Expression
+        {
+            public CharLiteral(char value)
+            {
+                kind = NodeType.CharLiteral;
+                this.value = value;
+            }
+
+            public char value;
+
+            public override string ToString()
+            {
+                string returned = "{ kind: ";
+
+                returned += kind.ToString();
+
+                returned += ", value: ";
+
+                returned += value.ToString() + " }";
+
+                return returned;
+            }
+        }
+
         public class ObjectLiteral : Expression
         {
             public ObjectLiteral()
