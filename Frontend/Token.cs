@@ -60,6 +60,13 @@ namespace NewLangInterpreter.Frontend
             Colon,
 
             EOF,
+
+            // Control Flow
+            If,
+            Else,
+            While,
+            Do,
+            For,
         }
 
         override public string ToString()

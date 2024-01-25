@@ -10,22 +10,20 @@ mut obj o = {
 	}
 };
 
-
-
 func int add(int i, int j)
 {
 	mut int k = i + j;
 
 	println(k)
 	
-	return k
+	return k;
 }
 
-mut string typer = "test string";
+string typer = "test string";
 
-mut char char_test = 'd';
+char char_test = 'd';
 
-mut float float_test = 12.12;
+float float_test = 12.12;
 
 println(float_test)
 

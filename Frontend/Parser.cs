@@ -186,16 +186,38 @@ namespace NewLangInterpreter.Frontend
         {
             switch (tokens[0].type)
             {
+                case Token.TokenType.DataType:
+                    if (tokens[1].type == Token.TokenType.Identifier)
+                    {
+                        if (tokens[2].type == Token.TokenType.Assign)
+                        {
+                            return parse_var_declaration_default();
+                        }
+                        else if (tokens[2].type == Token.TokenType.OpenParen)
+                        {
+                            return parse_func_declaration(true);
+                        }
+                        else
+                        {
+                            throw new Exception("Illegal token after identifier!");
+                        }
+                    } 
+                    else
+                    {
+                        throw new Exception("Expected Identifier after datatype");
+                    }
 
                 case Token.TokenType.Mut:
                 case Token.TokenType.Const:
                     return this.parse_var_declaration();
 
                 case Token.TokenType.Function:
-                    return this.parse_func_declaration();
+                    return this.parse_func_declaration(false);
 
                 case Token.TokenType.Return:
                     return this.parse_return_stmt();
+
+                case Token.TokenType.If:
 
                 default:
                     return this.parse_expr();
@@ -208,13 +230,18 @@ namespace NewLangInterpreter.Frontend
 
             AST.Expression ret_val = parse_expr();
 
+            advance(Token.TokenType.SemiColon, "Expected Semi-Colon After Return Statement");
+
             return new AST.ReturnStatement("", ret_val);
         }
 
-        private AST.Statement parse_func_declaration()
+        private AST.Statement parse_func_declaration(bool is_default)
         {
-            advance(); // Advance Past Function Keyword
-
+            if(!is_default) 
+            {
+                advance(); // Advance Past Function Keyword
+            }
+            
             Token return_type_token = this.advance(Token.TokenType.DataType, "Expected variable datatype following mut or const!");
 
             string identifier = this.advance(Token.TokenType.Identifier, "Expected identifier following datatype!").value;
@@ -283,7 +310,31 @@ namespace NewLangInterpreter.Frontend
             this.advance(Token.TokenType.SemiColon, "Expected Semicolon ';' after variable declaration statement");
 
             return declaration;
+        }
 
+        private AST.Statement parse_var_declaration_default()
+        {
+            Token type_token = this.advance(Token.TokenType.DataType, "Expected variable datatype!");
+
+            AST.DataType dataType = AST.type_from_string(type_token.value);
+
+            string identifier = this.advance(Token.TokenType.Identifier, "Expected identifier following datatype!").value;
+
+            // Check if Declaration
+            if (tokens[0].type == Token.TokenType.SemiColon)
+            {
+                this.advance();
+
+                return new AST.VarDeclaration(identifier, dataType);
+            }
+
+            this.advance(Token.TokenType.Assign, "Expected assignment operator following identifier in variable declaration");
+
+            AST.Statement declaration = new AST.VarDeclaration(identifier, parse_expr(), dataType);
+
+            this.advance(Token.TokenType.SemiColon, "Expected Semicolon ';' after variable declaration statement");
+
+            return declaration;
         }
 
         AST.Expression parse_expr()

@@ -27,7 +27,9 @@ namespace NewLangInterpreter.Runtime.eval
 
             Values.RuntimeVal v = Interpreter.evaluate(val, env);
 
-            return env.declareVar(declaration.identifier, v, declaration.isConstant, declaration.dataType);
+            bool assign_const = declaration.is_default ? env.immutable_by_default : declaration.isConstant;
+
+            return env.declareVar(declaration.identifier, v, assign_const, declaration.dataType);
         }
 
         public static Values.RuntimeVal eval_function_declaration(AST.FunctionDeclaration declaration, Environment env)

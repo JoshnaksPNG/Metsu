@@ -105,12 +105,24 @@ namespace NewLangInterpreter.Frontend
 
             public Expression? value;
 
+            public bool is_default;
+
+            public VarDeclaration(string ident, DataType dataType)
+            {
+                kind = NodeType.VarDeclaration;
+                isConstant = false;
+                is_default = true;
+                identifier = ident;
+                this.dataType = dataType;
+            }
+
             public VarDeclaration(string ident, bool isConst, DataType dataType)
             {
                 kind = NodeType.VarDeclaration;
                 isConstant = isConst;
                 identifier = ident;
                 this.dataType = dataType;
+                is_default = false;
             }
 
             public VarDeclaration(string ident, bool isConst, Expression val, DataType dataType)
@@ -120,6 +132,17 @@ namespace NewLangInterpreter.Frontend
                 identifier = ident;
                 value = val;
                 this.dataType = dataType;
+                is_default = false;
+            }
+
+            public VarDeclaration(string ident, Expression val, DataType dataType)
+            {
+                kind = NodeType.VarDeclaration;
+                isConstant = false;
+                identifier = ident;
+                value = val;
+                this.dataType = dataType;
+                is_default = true;
             }
 
             public override string ToString()

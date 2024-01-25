@@ -260,6 +260,12 @@ namespace NewLangInterpreter.Frontend
             { "false", Token.TokenType.Boolean },
 
             { "null", Token.TokenType.Null },
+
+            { "if", Token.TokenType.If },
+            { "else", Token.TokenType.Else },
+            { "do", Token.TokenType.Do },
+            { "while", Token.TokenType.While },
+            { "for", Token.TokenType.For },
         };
 
         public Dictionary<char, char> ESCAPE_CHARACTERS = new Dictionary<char, char>()
