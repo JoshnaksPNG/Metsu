@@ -337,6 +337,46 @@ namespace NewLangInterpreter.Frontend
             return declaration;
         }
 
+        // TODO: THIS
+        private AST.Statement parse_if_statement(bool is_default)
+        {
+            if (!is_default)
+            {
+                advance(); // Advance Past If Keyword
+            }
+
+            List<KeyValuePair<AST.Expression, string>> args = parse_args_typed(); // SHOULD PARSE BOOL STATEMENTS HERE
+
+            List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>();
+
+            foreach (KeyValuePair<AST.Expression, string> e in args)
+            {
+                if (e.Key.kind != AST.NodeType.Identifier)
+                {
+                    throw new Exception("Expected identifiers inside function definition");
+                }
+
+                KeyValuePair<string, string> param = new KeyValuePair<string, string>(((AST.Identifier)e.Key).symbol, e.Value);
+
+                parameters.Add(param);
+            }
+
+            advance(Token.TokenType.OpenCurleyBracket, "Expected function body in function declaration");
+
+            List<AST.Statement> body = new List<AST.Statement>();
+
+            while (tokens[0].type != Token.TokenType.EOF && tokens[0].type != Token.TokenType.CloseCurleyBracket)
+            {
+                body.Add(parse_stmt());
+            }
+
+            advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of function body");
+
+            AST.FunctionDeclaration function = new AST.FunctionDeclaration(identifier, body, parameters);
+
+            return function;
+        }
+
         AST.Expression parse_expr()
         {
             return parse_assignment_expr();

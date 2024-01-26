@@ -17,6 +17,7 @@ namespace NewLangInterpreter.Frontend
             VarDeclaration,
             FunctionDeclaration,
             Return,
+            IfStatement,
 
             // Literals
             IntLiteral,
@@ -224,6 +225,29 @@ namespace NewLangInterpreter.Frontend
             }*/
         }
 
+        public class IfStatement : Statement
+        {
+            public List<Statement> body;
+
+            public IfStatement()
+            {
+                kind = NodeType.IfStatement;
+                body = new List<Statement>();
+            }
+
+            public override string ToString()
+            {
+                string returned = "{ kind: ";
+
+                returned += kind.ToString();
+
+                returned += ", body: ";
+
+                returned += body.ToString() + " }";
+
+                return returned;
+            }
+        }
 
         public class AssignmentExpr : Expression 
         {
