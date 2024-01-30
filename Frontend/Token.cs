@@ -41,6 +41,9 @@ namespace NewLangInterpreter.Frontend
             SingleQuote,
             BackTick,
 
+            ComparisonOperator,
+            BooleanOperator,
+
             // Brackets
             OpenParen, CloseParen,
             OpenSquareBracket, CloseSquareBracket,

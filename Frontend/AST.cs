@@ -59,6 +59,21 @@ namespace NewLangInterpreter.Frontend
             Divide,
             Modulo,
 
+            AddAssignment,
+            SubtractAssignment,
+            MultiplyAssignment,
+            DivideAssignment,
+            ModuloAssignment,
+
+            Increment,
+            Decrement,
+            Exponentiate,
+
+            LogicalAnd,
+            LogicalOr,
+
+            LogicalNot,
+
             Unknown,
         }
 
@@ -229,7 +244,7 @@ namespace NewLangInterpreter.Frontend
         {
             public List<Statement> body;
 
-            public IfStatement()
+            public IfStatement(List<Statement> body)
             {
                 kind = NodeType.IfStatement;
                 body = new List<Statement>();
@@ -651,6 +666,15 @@ namespace NewLangInterpreter.Frontend
 
                 case "%": 
                     return Operator.Modulo;
+
+                case "&&":
+                    return Operator.LogicalAnd;
+
+                case "||":
+                    return Operator.LogicalOr;
+
+                case "!":
+                    return Operator.LogicalNot;
 
                 default:
                     Console.Error.WriteLine("Error! Unknown Operator!" + val);

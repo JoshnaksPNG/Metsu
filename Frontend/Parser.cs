@@ -372,7 +372,7 @@ namespace NewLangInterpreter.Frontend
 
             advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of function body");
 
-            AST.FunctionDeclaration function = new AST.FunctionDeclaration(identifier, body, parameters);
+            AST.FunctionDeclaration function = new AST.IfStatement(identifier, body, parameters);
 
             return function;
         }
@@ -398,6 +398,43 @@ namespace NewLangInterpreter.Frontend
             }
 
             return left;
+        }
+
+        AST.Expression parse_logical_expr()
+        {
+            AST.Expression left_expr = parse_bitwise_expr();
+
+            while (tokens[0].value == "&&" || tokens[0].value == "||")
+            {
+                string oper = advance().value;
+
+                AST.Expression right_expr = parse_bitwise_expr();
+
+                left_expr = new AST.BinaryExpr(left_expr, right_expr, AST.operator_from_string(oper));
+            }
+
+            return left_expr;
+        }
+
+        AST.Expression parse_bitwise_expr()
+        {
+            return this.parse_comparison_expr();
+        }
+
+        AST.Expression parse_comparison_expr()
+        {
+            AST.Expression left_expr = parse_object_expr();
+
+            while (tokens[0].type == Token.TokenType.ComparisonOperator)
+            {
+                string oper = advance().value;
+
+                AST.Expression right_expr = parse_object_expr();
+
+                left_expr = new AST.BinaryExpr(left_expr, right_expr, AST.operator_from_string(oper));
+            }
+
+            return left_expr;
         }
 
         //{ Properties[] }

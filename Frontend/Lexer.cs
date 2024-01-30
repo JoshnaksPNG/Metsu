@@ -65,18 +65,83 @@ namespace NewLangInterpreter.Frontend
                     case '*':
                     case '/':
                     case '%':
+                        if ((src[0] == '+' || src[0] == '-' || src[0] == '*') && src[0] == src[1])
+                        {
+                            tokens.Add(new Token(Token.TokenType.UnaryOperator, "" + src[0] + src[1]));
+                            src.RemoveAt(0);
+                            src.RemoveAt(0);
+                            break;
+                        }
+                        else if (src[1] == '=')
+                        {
+                            tokens.Add(new Token(Token.TokenType.BinaryOperator, "" + src[0] + src[1]));
+                            src.RemoveAt(0);
+                            src.RemoveAt(0);
+                            break;
+                        }
+
                         tokens.Add(new Token(Token.TokenType.BinaryOperator, src[0].ToString()));
                         src.RemoveAt(0);
                         break;
 
                     case '!':
+                        if (src[1] == '=')
+                        {
+                            tokens.Add(new Token(Token.TokenType.ComparisonOperator, "" + src[0] + src[1]));
+                            src.RemoveAt(0);
+                            src.RemoveAt(0);
+                            break;
+                        }
                         tokens.Add(new Token(Token.TokenType.UnaryOperator, src[0].ToString()));
                         src.RemoveAt(0);
                         break;
 
+                    case '&':
+                        if (src[0] == src[1])
+                        {
+                            tokens.Add(new Token(Token.TokenType.BooleanOperator, "" + src[0] + src[1]));
+                            src.RemoveAt(0);
+                            src.RemoveAt(0);
+                        }
+                        break;
+
+                    case '|':
+                        if (src[0] == src[1])
+                        {
+                            tokens.Add(new Token(Token.TokenType.BooleanOperator, "" + src[0] + src[1]));
+                            src.RemoveAt(0);
+                            src.RemoveAt(0);
+                        }
+                        break;
+
                     case '=':
-                        tokens.Add(new Token(Token.TokenType.Assign, src[0].ToString()));
-                        src.RemoveAt(0);
+                        if (src[1] == '=')
+                        {
+                            tokens.Add(new Token(Token.TokenType.ComparisonOperator, "=="));
+                            src.RemoveAt(0);
+                            src.RemoveAt(0);
+                        }
+                        else
+                        {
+                            tokens.Add(new Token(Token.TokenType.Assign, src[0].ToString()));
+                            src.RemoveAt(0);
+                        }
+                        
+                        break;
+
+                    case '>':
+                    case '<':
+                        if (src[1] == '=')
+                        {
+                            tokens.Add(new Token(Token.TokenType.ComparisonOperator, "" + src[0] + src[1]));
+                            src.RemoveAt(0);
+                            src.RemoveAt(0);
+                        }
+                        else
+                        {
+                            tokens.Add(new Token(Token.TokenType.ComparisonOperator, "" + src[0]));
+                            src.RemoveAt(0);
+                        }
                         break;
 
                     case '.':
@@ -148,7 +213,7 @@ namespace NewLangInterpreter.Frontend
                         {
                             src.RemoveAt(0);
                         }
-                        else if (src[0] == '"')
+                        else if (src[0] == '"') // Parse String Token
                         {
                             src.RemoveAt(0);
                             string value = "";
@@ -163,7 +228,7 @@ namespace NewLangInterpreter.Frontend
 
                             tokens.Add(new Token(Token.TokenType.String, value));
                         }
-                        else if (src[0] == '\'')
+                        else if (src[0] == '\'') // Parse Character Token
                         {
                             src.RemoveAt(0);
                             char value ;
