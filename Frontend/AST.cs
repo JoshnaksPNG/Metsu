@@ -243,11 +243,13 @@ namespace NewLangInterpreter.Frontend
         public class IfStatement : Statement
         {
             public List<Statement> body;
+            public Expression condition;
 
-            public IfStatement(List<Statement> body)
+            public IfStatement(List<Statement> body, Expression condition)
             {
                 kind = NodeType.IfStatement;
-                body = new List<Statement>();
+                this.body = body;
+                this.condition = condition;
             }
 
             public override string ToString()

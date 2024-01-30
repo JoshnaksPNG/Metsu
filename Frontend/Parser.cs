@@ -218,6 +218,7 @@ namespace NewLangInterpreter.Frontend
                     return this.parse_return_stmt();
 
                 case Token.TokenType.If:
+                    return this.parse_if_statement();
 
                 default:
                     return this.parse_expr();
@@ -338,28 +339,11 @@ namespace NewLangInterpreter.Frontend
         }
 
         // TODO: THIS
-        private AST.Statement parse_if_statement(bool is_default)
+        private AST.Statement parse_if_statement()
         {
-            if (!is_default)
-            {
-                advance(); // Advance Past If Keyword
-            }
+            advance(); // Advance Past If Keyword
 
-            List<KeyValuePair<AST.Expression, string>> args = parse_args_typed(); // SHOULD PARSE BOOL STATEMENTS HERE
-
-            List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>();
-
-            foreach (KeyValuePair<AST.Expression, string> e in args)
-            {
-                if (e.Key.kind != AST.NodeType.Identifier)
-                {
-                    throw new Exception("Expected identifiers inside function definition");
-                }
-
-                KeyValuePair<string, string> param = new KeyValuePair<string, string>(((AST.Identifier)e.Key).symbol, e.Value);
-
-                parameters.Add(param);
-            }
+            AST.Expression condition = parse_expr();
 
             advance(Token.TokenType.OpenCurleyBracket, "Expected function body in function declaration");
 
@@ -372,9 +356,9 @@ namespace NewLangInterpreter.Frontend
 
             advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of function body");
 
-            AST.FunctionDeclaration function = new AST.IfStatement(identifier, body, parameters);
+            AST.IfStatement if_stmt = new AST.IfStatement(body, condition);
 
-            return function;
+            return if_stmt;
         }
 
         AST.Expression parse_expr()
