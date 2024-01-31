@@ -77,5 +77,43 @@ namespace NewLangInterpreter.Runtime.eval
 
             return new Values.NullVal();
         }
+
+        public static Values.RuntimeVal eval_if_else_stmt(AST.IfElseStatement if_else_stmt, Environment env)
+        {
+            Values.RuntimeVal condition_val = Interpreter.evaluate(if_else_stmt.ifstmt.condition, env);
+
+            Environment scope = new Environment(env);
+
+            if (((Values.BoolVal)condition_val).value)
+            {
+                Values.RuntimeVal result = null;
+
+                foreach (AST.Statement stmt in if_else_stmt.ifstmt.body)
+                {
+                    result = Interpreter.evaluate(stmt, env);
+                }
+
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+            else
+            {
+                Values.RuntimeVal result = null;
+
+                foreach (AST.Statement stmt in if_else_stmt.body)
+                {
+                    result = Interpreter.evaluate(stmt, env);
+                }
+
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            return new Values.NullVal();
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace NewLangInterpreter.Frontend
             FunctionDeclaration,
             Return,
             IfStatement,
+            IfElseStatement,
 
             // Literals
             IntLiteral,
@@ -251,6 +252,32 @@ namespace NewLangInterpreter.Frontend
                 kind = NodeType.IfStatement;
                 this.body = body;
                 this.condition = condition;
+            }
+
+            public override string ToString()
+            {
+                string returned = "{ kind: ";
+
+                returned += kind.ToString();
+
+                returned += ", body: ";
+
+                returned += body.ToString() + " }";
+
+                return returned;
+            }
+        }
+
+        public class IfElseStatement : Statement
+        {
+            public IfStatement ifstmt;
+            public List<Statement> body;
+
+            public IfElseStatement(IfStatement ifstmt, List<Statement> body)
+            {
+                kind = NodeType.IfElseStatement;
+                this.body = body;
+                this.ifstmt = ifstmt;
             }
 
             public override string ToString()

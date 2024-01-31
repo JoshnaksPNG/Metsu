@@ -343,7 +343,6 @@ namespace NewLangInterpreter.Frontend
             return declaration;
         }
 
-        // TODO: THIS
         private AST.Statement parse_if_statement()
         {
             advance(); // Advance Past If Keyword
@@ -363,7 +362,37 @@ namespace NewLangInterpreter.Frontend
 
             AST.IfStatement if_stmt = new AST.IfStatement(body, condition);
 
-            return if_stmt;
+            if (tokens[0].type == Token.TokenType.Else)
+            {
+                advance(); // Advance Past Else Keyword
+
+                List<AST.Statement> else_body = new List<AST.Statement>();
+
+                if (tokens[0].type == Token.TokenType.If)
+                {
+                    else_body.Add(parse_if_statement());
+                }
+                else
+                {
+                    advance(Token.TokenType.OpenCurleyBracket, "Expected function body in function declaration");
+
+                    while (tokens[0].type != Token.TokenType.EOF && tokens[0].type != Token.TokenType.CloseCurleyBracket)
+                    {
+                        else_body.Add(parse_stmt());
+                    }
+
+                    advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of function body");
+
+                }
+
+                return new AST.IfElseStatement(if_stmt, else_body);
+            }
+            else
+            {
+                return if_stmt;
+            }
+
+            
         }
 
         AST.Expression parse_expr()

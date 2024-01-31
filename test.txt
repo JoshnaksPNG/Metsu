@@ -28,12 +28,13 @@ float float_test = 12.12;
 println(add(foo, 5))
 
 
-if(true)
-{
-  println("true is true")
-}
-
 if(false)
 {
-  println("false is true")
+	println("statement is true")
+} else if(false)
+{
+	println("statement is false, then true")
+} else
+{
+	println("statement is false, then false")
 }
