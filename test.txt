@@ -28,7 +28,7 @@ float float_test = 12.12;
 println(add(foo, 5))
 
 
-if(false)
+if(true)
 {
 	println("statement is true")
 } else if(false)
@@ -37,4 +37,11 @@ if(false)
 } else
 {
 	println("statement is false, then false")
+}
+
+while(true)
+{
+	println(second())
+
+	sleep(1000)
 }

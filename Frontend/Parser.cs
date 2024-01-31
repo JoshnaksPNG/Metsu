@@ -225,6 +225,12 @@ namespace NewLangInterpreter.Frontend
                 case Token.TokenType.If:
                     return this.parse_if_statement();
 
+                case Token.TokenType.While:
+                    return this.parse_while_statement();
+
+                case Token.TokenType.Do:
+                    return this.parse_do_while_statement();
+
                 default:
                     return this.parse_expr();
             }
@@ -349,7 +355,7 @@ namespace NewLangInterpreter.Frontend
 
             AST.Expression condition = parse_expr();
 
-            advance(Token.TokenType.OpenCurleyBracket, "Expected function body in function declaration");
+            advance(Token.TokenType.OpenCurleyBracket, "Expected function body in if declaration");
 
             List<AST.Statement> body = new List<AST.Statement>();
 
@@ -358,7 +364,7 @@ namespace NewLangInterpreter.Frontend
                 body.Add(parse_stmt());
             }
 
-            advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of function body");
+            advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of if body");
 
             AST.IfStatement if_stmt = new AST.IfStatement(body, condition);
 
@@ -374,14 +380,14 @@ namespace NewLangInterpreter.Frontend
                 }
                 else
                 {
-                    advance(Token.TokenType.OpenCurleyBracket, "Expected function body in function declaration");
+                    advance(Token.TokenType.OpenCurleyBracket, "Expected function body in else declaration");
 
                     while (tokens[0].type != Token.TokenType.EOF && tokens[0].type != Token.TokenType.CloseCurleyBracket)
                     {
                         else_body.Add(parse_stmt());
                     }
 
-                    advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of function body");
+                    advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of else body");
 
                 }
 
@@ -393,6 +399,54 @@ namespace NewLangInterpreter.Frontend
             }
 
             
+        }
+
+        private AST.Statement parse_while_statement()
+        {
+            advance(); // Advance Past While Keyword
+
+            AST.Expression condition = parse_expr();
+
+            advance(Token.TokenType.OpenCurleyBracket, "Expected function body in while declaration");
+
+            List<AST.Statement> body = new List<AST.Statement>();
+
+            while (tokens[0].type != Token.TokenType.EOF && tokens[0].type != Token.TokenType.CloseCurleyBracket)
+            {
+                body.Add(parse_stmt());
+            }
+
+            advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of while body");
+
+            AST.WhileStatement while_stmt = new AST.WhileStatement(body, condition);
+            
+            return while_stmt;
+        }
+
+        private AST.Statement parse_do_while_statement()
+        {
+            advance(); // Advance Past While Keyword
+
+            advance(Token.TokenType.OpenCurleyBracket, "Expected function body in do while declaration");
+
+            List<AST.Statement> body = new List<AST.Statement>();
+
+            while (tokens[0].type != Token.TokenType.EOF && tokens[0].type != Token.TokenType.CloseCurleyBracket)
+            {
+                body.Add(parse_stmt());
+            }
+
+            advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of do while body");
+
+            advance(Token.TokenType.While, "Expected While Token at end of Do While Body");
+
+            AST.Expression condition = parse_expr();
+
+            advance(Token.TokenType.SemiColon, "Expeced Semi-colon at end of Do While Statement");
+
+            AST.DoWhileStatement do_while_stmt = new AST.DoWhileStatement(body, condition);
+
+            return do_while_stmt;
         }
 
         AST.Expression parse_expr()

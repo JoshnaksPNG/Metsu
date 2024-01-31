@@ -71,6 +71,9 @@ namespace NewLangInterpreter.Runtime
                 case AST.NodeType.IfElseStatement:
                     return Statements.eval_if_else_stmt((AST.IfElseStatement)astNode, env);
 
+                case AST.NodeType.WhileStatement:
+                    return Statements.eval_while_stmt((AST.WhileStatement)astNode, env);
+
                 default:
                     Console.Error.WriteLine("Error: This AST Node has not been set up for interpretation: " + astNode);
                     System.Environment.Exit(0);

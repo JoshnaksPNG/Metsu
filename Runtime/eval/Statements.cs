@@ -90,7 +90,7 @@ namespace NewLangInterpreter.Runtime.eval
 
                 foreach (AST.Statement stmt in if_else_stmt.ifstmt.body)
                 {
-                    result = Interpreter.evaluate(stmt, env);
+                    result = Interpreter.evaluate(stmt, scope);
                 }
 
                 if (result != null)
@@ -104,13 +104,35 @@ namespace NewLangInterpreter.Runtime.eval
 
                 foreach (AST.Statement stmt in if_else_stmt.body)
                 {
-                    result = Interpreter.evaluate(stmt, env);
+                    result = Interpreter.evaluate(stmt, scope);
                 }
 
                 if (result != null)
                 {
                     return result;
                 }
+            }
+
+            return new Values.NullVal();
+        }
+
+        public static Values.RuntimeVal eval_while_stmt(AST.WhileStatement while_stmt, Environment env)
+        {
+            Environment scope = new Environment(env);
+
+            bool do_loop = ((Values.BoolVal)Interpreter.evaluate(while_stmt.condition, env)).value;
+            
+            while (do_loop)
+            {
+                Values.RuntimeVal result = null;
+
+                foreach (AST.Statement stmt in while_stmt.body)
+                {
+                    result = Interpreter.evaluate(stmt, scope);
+                }
+
+                do_loop = ((Values.BoolVal)Interpreter.evaluate(while_stmt.condition, env)).value;
+                
             }
 
             return new Values.NullVal();

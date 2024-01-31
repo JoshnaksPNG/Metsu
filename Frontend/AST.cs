@@ -19,6 +19,8 @@ namespace NewLangInterpreter.Frontend
             Return,
             IfStatement,
             IfElseStatement,
+            WhileStatement,
+            DoWhileStatement,
 
             // Literals
             IntLiteral,
@@ -278,6 +280,58 @@ namespace NewLangInterpreter.Frontend
                 kind = NodeType.IfElseStatement;
                 this.body = body;
                 this.ifstmt = ifstmt;
+            }
+
+            public override string ToString()
+            {
+                string returned = "{ kind: ";
+
+                returned += kind.ToString();
+
+                returned += ", body: ";
+
+                returned += body.ToString() + " }";
+
+                return returned;
+            }
+        }
+
+        public class WhileStatement : Statement
+        {
+            public List<Statement> body;
+            public Expression condition;
+
+            public WhileStatement(List<Statement> body, Expression condition)
+            {
+                kind = NodeType.WhileStatement;
+                this.body = body;
+                this.condition = condition;
+            }
+
+            public override string ToString()
+            {
+                string returned = "{ kind: ";
+
+                returned += kind.ToString();
+
+                returned += ", body: ";
+
+                returned += body.ToString() + " }";
+
+                return returned;
+            }
+        }
+
+        public class DoWhileStatement : Statement
+        {
+            public List<Statement> body;
+            public Expression condition;
+
+            public DoWhileStatement(List<Statement> body, Expression condition)
+            {
+                kind = NodeType.DoWhileStatement;
+                this.body = body;
+                this.condition = condition;
             }
 
             public override string ToString()
