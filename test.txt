@@ -25,12 +25,15 @@ char char_test = 'd';
 
 float float_test = 12.12;
 
-println(float_test)
-
-println(char_test)
-
-println(typer)
-
 println(add(foo, 5))
 
-char_test
+
+if(true)
+{
+  println("true is true")
+}
+
+if(false)
+{
+  println("false is true")
+}

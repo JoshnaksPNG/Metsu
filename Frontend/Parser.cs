@@ -100,6 +100,11 @@ namespace NewLangInterpreter.Frontend
             return result;
         }
 
+        bool parse_bool(string raw) 
+        {
+            return raw == "true";
+        }
+
         int digitval(char digit)
         {
             int digitval = 0;
@@ -637,6 +642,9 @@ namespace NewLangInterpreter.Frontend
 
                 case Token.TokenType.String:
                     return new AST.StringLiteral(advance().value);
+
+                case Token.TokenType.Boolean:
+                    return new AST.BoolLiteral(parse_bool(advance().value));
 
                 case Token.TokenType.OpenParen:
                     advance(); // Eat Open Paren

@@ -51,5 +51,31 @@ namespace NewLangInterpreter.Runtime.eval
 
             return Interpreter.evaluate(ret_stmt.value, env);
         }
+
+        public static Values.RuntimeVal eval_if_stmt(AST.IfStatement if_stmt, Environment env)
+        {
+            Values.RuntimeVal condition_val = Interpreter.evaluate(if_stmt.condition, env);
+
+            Environment scope = new Environment(env);
+
+            if (((Values.BoolVal)condition_val).value)
+            {
+                Values.RuntimeVal result = null;
+
+                foreach (AST.Statement stmt in if_stmt.body) 
+                {
+                    result = Interpreter.evaluate(stmt, env);
+                }
+
+                if (result != null) 
+                {
+                    return result;
+                }
+
+                return new Values.NullVal();
+            }
+
+            return new Values.NullVal();
+        }
     }
 }

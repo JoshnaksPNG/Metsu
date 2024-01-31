@@ -27,6 +27,7 @@ namespace NewLangInterpreter.Frontend
             StringLiteral,
             CharLiteral,
             FloatLiteral,
+            BoolLiteral,
 
             // Expressions
             Identifier,
@@ -546,6 +547,30 @@ namespace NewLangInterpreter.Frontend
             }
 
             public char value;
+
+            public override string ToString()
+            {
+                string returned = "{ kind: ";
+
+                returned += kind.ToString();
+
+                returned += ", value: ";
+
+                returned += value.ToString() + " }";
+
+                return returned;
+            }
+        }
+
+        public class BoolLiteral : Expression
+        {
+            public BoolLiteral(bool value)
+            {
+                kind = NodeType.BoolLiteral;
+                this.value = value;
+            }
+
+            public bool value;
 
             public override string ToString()
             {

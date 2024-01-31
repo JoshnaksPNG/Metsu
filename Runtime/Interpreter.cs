@@ -33,6 +33,9 @@ namespace NewLangInterpreter.Runtime
                 case AST.NodeType.NullLiteral:
                     return new Values.NullVal();
 
+                case AST.NodeType.BoolLiteral:
+                    return new Values.BoolVal(((AST.BoolLiteral)astNode).value);
+
                 case AST.NodeType.Identifier:
                     return Expressions.eval_identifier((AST.Identifier)astNode, env);
 
@@ -61,6 +64,9 @@ namespace NewLangInterpreter.Runtime
 
                 case AST.NodeType.Return:
                     return Statements.eval_return((AST.ReturnStatement)astNode, env);
+
+                case AST.NodeType.IfStatement:
+                    return Statements.eval_if_stmt((AST.IfStatement)astNode, env);
 
                 default:
                     Console.Error.WriteLine("Error: This AST Node has not been set up for interpretation: " + astNode);
