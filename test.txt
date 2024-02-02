@@ -10,6 +10,11 @@ proc change_foo(int a)
 
 void change_bar(int a)
 {
+	if(a == 2)
+	{
+		return;
+	}
+
 	bar = a;
 }
 

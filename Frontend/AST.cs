@@ -203,9 +203,9 @@ namespace NewLangInterpreter.Frontend
 
         public class ReturnStatement : Statement
         {
-            public Expression value;
+            public Expression? value;
 
-            public ReturnStatement(string type, Expression value) 
+            public ReturnStatement(Expression value) 
             {
                 this.kind = NodeType.Return;
                 this.value = value;

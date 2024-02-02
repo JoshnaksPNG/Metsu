@@ -257,11 +257,21 @@ namespace NewLangInterpreter.Frontend
         {
             advance(); // Advance past return keyword
 
-            AST.Expression ret_val = parse_expr();
+            AST.Expression ret_val;
+
+            if (tokens[0].type != Token.TokenType.SemiColon)
+            {
+                ret_val = parse_expr();
+            }
+            else
+            {
+                ret_val = null;
+            }
+            
 
             advance(Token.TokenType.SemiColon, "Expected Semi-Colon After Return Statement");
 
-            return new AST.ReturnStatement("", ret_val);
+            return new AST.ReturnStatement(ret_val);
         }
 
         private AST.Statement parse_func_declaration(bool is_default)
