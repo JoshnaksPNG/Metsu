@@ -449,6 +449,31 @@ namespace NewLangInterpreter.Frontend
             return do_while_stmt;
         }
 
+        // TODO Later
+        /*private AST.Statement parse_for_statement()
+        {
+            advance(); // Advance Past While Keyword
+
+
+
+            AST.Expression condition = parse_expr();
+
+            advance(Token.TokenType.OpenCurleyBracket, "Expected function body in while declaration");
+
+            List<AST.Statement> body = new List<AST.Statement>();
+
+            while (tokens[0].type != Token.TokenType.EOF && tokens[0].type != Token.TokenType.CloseCurleyBracket)
+            {
+                body.Add(parse_stmt());
+            }
+
+            advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of while body");
+
+            AST.WhileStatement while_stmt = new AST.WhileStatement(body, condition);
+
+            return while_stmt;
+        }*/
+
         AST.Expression parse_expr()
         {
             return parse_assignment_expr();
@@ -456,7 +481,7 @@ namespace NewLangInterpreter.Frontend
 
         AST.Expression parse_assignment_expr()
         {
-            AST.Expression left = this.parse_object_expr();
+            AST.Expression left = this.parse_logical_expr();
 
             if (tokens[0].type == Token.TokenType.Assign)
             {

@@ -67,7 +67,7 @@ void run(string path)
     Console.WriteLine(result.ToString());
 }
 
-Console.WriteLine("Type Repl for Repl, or Run {path} to run a file");
+Console.WriteLine("Type Repl for Repl, or Run to run test file");//Console.WriteLine("Type Repl for Repl, or Run {path} to run a file");
 string choice = Console.ReadLine();
 
 if (choice.ToLower() == "exit")

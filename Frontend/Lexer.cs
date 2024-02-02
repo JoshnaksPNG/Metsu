@@ -65,7 +65,7 @@ namespace NewLangInterpreter.Frontend
                     case '*':
                     case '/':
                     case '%':
-                        if ((src[0] == '+' || src[0] == '-' || src[0] == '*') && src[0] == src[1])
+                        if ((src[0] == '+' || src[0] == '-') && src[0] == src[1])
                         {
                             tokens.Add(new Token(Token.TokenType.UnaryOperator, "" + src[0] + src[1]));
                             src.RemoveAt(0);

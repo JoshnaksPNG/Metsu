@@ -1,21 +1,21 @@
 ﻿func int clock_recursive()
 {
-	print("Hour: ")
-	println(hour())
+	while(true)
+	{
+		print("Hour: ")
+		println(hour())
 
-	print("Minute: ")
-	println(minute())
+		print("Minute: ")
+		println(minute())
 
-	print("Second: ")
-	println(second())
+		print("Second: ")
+		println(second())
 	
-	println(" ")
+		println(" ")
 
-	sleep(1000)
-
-	clock_recursive()
-
-	return 0
+		sleep(1000)
+	}
+	
 }
 
 clock_recursive()

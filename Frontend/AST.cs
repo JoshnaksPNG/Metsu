@@ -78,6 +78,13 @@ namespace NewLangInterpreter.Frontend
 
             LogicalNot,
 
+            GreaterThan,
+            GreaterEqTo,
+            LessThan,
+            LessEqTo,
+            EqualTo,
+            NotEqualTo,
+
             Unknown,
         }
 
@@ -332,6 +339,36 @@ namespace NewLangInterpreter.Frontend
                 kind = NodeType.DoWhileStatement;
                 this.body = body;
                 this.condition = condition;
+            }
+
+            public override string ToString()
+            {
+                string returned = "{ kind: ";
+
+                returned += kind.ToString();
+
+                returned += ", body: ";
+
+                returned += body.ToString() + " }";
+
+                return returned;
+            }
+        }
+
+        public class ForStatement : Statement
+        {
+            public List<Statement> body;
+            public Expression condition;
+            public Expression initial;
+            public Expression repetand;
+
+            public ForStatement(List<Statement> body, Expression condition, Expression initial, Expression repetand)
+            {
+                kind = NodeType.WhileStatement;
+                this.body = body;
+                this.condition = condition;
+                this.initial = initial;
+                this.repetand = repetand;
             }
 
             public override string ToString()
@@ -784,8 +821,26 @@ namespace NewLangInterpreter.Frontend
                 case "!":
                     return Operator.LogicalNot;
 
+                case ">":
+                    return Operator.GreaterThan;
+
+                case "<":
+                    return Operator.LessThan;
+
+                case ">=":
+                    return Operator.GreaterEqTo;
+
+                case "<=":
+                    return Operator.LessEqTo;
+
+                case "==":
+                    return Operator.EqualTo;
+
+                case "!=":
+                    return Operator.NotEqualTo;
+
                 default:
-                    Console.Error.WriteLine("Error! Unknown Operator!" + val);
+                    Console.Error.WriteLine("Error! Unknown Operator: " + val);
                     System.Environment.Exit(0);
                     return Operator.Unknown;
             }

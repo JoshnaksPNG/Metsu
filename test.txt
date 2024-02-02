@@ -39,9 +39,4 @@ if(true)
 	println("statement is false, then false")
 }
 
-while(true)
-{
-	println(second())
-
-	sleep(1000)
-}
+7 != 5

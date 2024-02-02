@@ -137,5 +137,27 @@ namespace NewLangInterpreter.Runtime.eval
 
             return new Values.NullVal();
         }
+
+        public static Values.RuntimeVal eval_do_while_stmt(AST.DoWhileStatement do_while_stmt, Environment env)
+        {
+            Environment scope = new Environment(env);
+
+            bool do_loop = ((Values.BoolVal)Interpreter.evaluate(do_while_stmt.condition, env)).value;
+
+            do
+            {
+                Values.RuntimeVal result = null;
+
+                foreach (AST.Statement stmt in do_while_stmt.body)
+                {
+                    result = Interpreter.evaluate(stmt, scope);
+                }
+
+                do_loop = ((Values.BoolVal)Interpreter.evaluate(do_while_stmt.condition, env)).value;
+
+            } while (do_loop);
+
+            return new Values.NullVal();
+        }
     }
 }
