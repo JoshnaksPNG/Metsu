@@ -77,6 +77,9 @@ namespace NewLangInterpreter.Runtime
                 case AST.NodeType.DoWhileStatement:
                     return Statements.eval_do_while_stmt((AST.DoWhileStatement)astNode, env);
 
+                case AST.NodeType.ForStatement:
+                    return Statements.eval_for_stmt((AST.ForStatement)astNode, env);
+
                 default:
                     Console.Error.WriteLine("Error: This AST Node has not been set up for interpretation: " + astNode);
                     System.Environment.Exit(0);

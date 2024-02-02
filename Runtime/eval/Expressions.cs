@@ -137,6 +137,18 @@ namespace NewLangInterpreter.Runtime.eval
             throw new Exception("Cannot Apply Operator " + opr + "To Value");
         }
 
+        public static Values.RuntimeVal eval_logical_bin_expr(Values.BoolVal left,  Values.BoolVal right, AST.Operator opr) 
+        {
+            if (opr == AST.Operator.LogicalAnd)
+            {
+                return new Values.BoolVal(left.value && right.value);
+            }
+            else
+            {
+                return new Values.BoolVal(left.value || right.value);
+            }
+        }
+
         public static Values.RuntimeVal eval_binary_expression(AST.BinaryExpr binaryExpr, Environment env)
         {
             Values.RuntimeVal left_side = Interpreter.evaluate(binaryExpr.left, env);
@@ -153,6 +165,18 @@ namespace NewLangInterpreter.Runtime.eval
                     case AST.Operator.EqualTo:
                     case AST.Operator.NotEqualTo:
                         return eval_comparison_expr(left_side, right_side, binaryExpr.opr);
+
+                    case AST.Operator.LogicalAnd: 
+                    case AST.Operator.LogicalOr:
+                        if (left_side.type == Values.ValueType.Boolean && right_side.type == Values.ValueType.Boolean)
+                        {
+                            return eval_logical_bin_expr((Values.BoolVal)left_side, (Values.BoolVal)right_side, binaryExpr.opr);
+                        }
+                        else
+                        {
+                            throw new Exception("Logical operators only apply to boolean values");
+                        }
+                        
                 }
 
                 if (left_side.type == Values.ValueType.Integer)

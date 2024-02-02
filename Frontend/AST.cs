@@ -21,6 +21,7 @@ namespace NewLangInterpreter.Frontend
             IfElseStatement,
             WhileStatement,
             DoWhileStatement,
+            ForStatement,
 
             // Literals
             IntLiteral,
@@ -359,12 +360,12 @@ namespace NewLangInterpreter.Frontend
         {
             public List<Statement> body;
             public Expression condition;
-            public Expression initial;
+            public Statement initial;
             public Expression repetand;
 
-            public ForStatement(List<Statement> body, Expression condition, Expression initial, Expression repetand)
+            public ForStatement(List<Statement> body, Expression condition, Statement initial, Expression repetand)
             {
-                kind = NodeType.WhileStatement;
+                kind = NodeType.ForStatement;
                 this.body = body;
                 this.condition = condition;
                 this.initial = initial;

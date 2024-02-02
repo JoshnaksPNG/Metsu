@@ -28,7 +28,7 @@ float float_test = 12.12;
 println(add(foo, 5))
 
 
-if(true)
+if(3 == 3 || 'b' == 'c')
 {
 	println("statement is true")
 } else if(false)
@@ -39,4 +39,7 @@ if(true)
 	println("statement is false, then false")
 }
 
-7 != 5
+for(int i = 0; i < 9; i = i+1;)
+{
+	println(i)
+}

@@ -64,7 +64,7 @@ namespace NewLangInterpreter.Runtime.eval
 
                 foreach (AST.Statement stmt in if_stmt.body) 
                 {
-                    result = Interpreter.evaluate(stmt, env);
+                    result = Interpreter.evaluate(stmt, scope);
                 }
 
                 if (result != null) 
@@ -120,7 +120,7 @@ namespace NewLangInterpreter.Runtime.eval
         {
             Environment scope = new Environment(env);
 
-            bool do_loop = ((Values.BoolVal)Interpreter.evaluate(while_stmt.condition, env)).value;
+            bool do_loop = ((Values.BoolVal)Interpreter.evaluate(while_stmt.condition, scope)).value;
             
             while (do_loop)
             {
@@ -131,8 +131,34 @@ namespace NewLangInterpreter.Runtime.eval
                     result = Interpreter.evaluate(stmt, scope);
                 }
 
-                do_loop = ((Values.BoolVal)Interpreter.evaluate(while_stmt.condition, env)).value;
+                do_loop = ((Values.BoolVal)Interpreter.evaluate(while_stmt.condition, scope)).value;
                 
+            }
+
+            return new Values.NullVal();
+        }
+
+        public static Values.RuntimeVal eval_for_stmt(AST.ForStatement for_stmt, Environment env)
+        {
+            Environment scope = new Environment(env);
+
+            Interpreter.evaluate(for_stmt.initial, scope);
+
+            bool do_loop = ((Values.BoolVal)Interpreter.evaluate(for_stmt.condition, scope)).value;
+
+            while (do_loop)
+            {
+                Values.RuntimeVal result = null;
+
+                foreach (AST.Statement stmt in for_stmt.body)
+                {
+                    result = Interpreter.evaluate(stmt, scope);
+                }
+
+                Interpreter.evaluate(for_stmt.repetand, scope);
+
+                do_loop = ((Values.BoolVal)Interpreter.evaluate(for_stmt.condition, scope)).value;
+
             }
 
             return new Values.NullVal();
@@ -142,7 +168,7 @@ namespace NewLangInterpreter.Runtime.eval
         {
             Environment scope = new Environment(env);
 
-            bool do_loop = ((Values.BoolVal)Interpreter.evaluate(do_while_stmt.condition, env)).value;
+            bool do_loop = ((Values.BoolVal)Interpreter.evaluate(do_while_stmt.condition, scope)).value;
 
             do
             {
@@ -153,7 +179,7 @@ namespace NewLangInterpreter.Runtime.eval
                     result = Interpreter.evaluate(stmt, scope);
                 }
 
-                do_loop = ((Values.BoolVal)Interpreter.evaluate(do_while_stmt.condition, env)).value;
+                do_loop = ((Values.BoolVal)Interpreter.evaluate(do_while_stmt.condition, scope)).value;
 
             } while (do_loop);
 

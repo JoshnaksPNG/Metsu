@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -231,6 +232,9 @@ namespace NewLangInterpreter.Frontend
                 case Token.TokenType.Do:
                     return this.parse_do_while_statement();
 
+                case Token.TokenType.For: 
+                    return this.parse_for_statement();
+
                 default:
                     return this.parse_expr();
             }
@@ -450,13 +454,19 @@ namespace NewLangInterpreter.Frontend
         }
 
         // TODO Later
-        /*private AST.Statement parse_for_statement()
+        private AST.Statement parse_for_statement()
         {
-            advance(); // Advance Past While Keyword
+            advance(); // Advance Past For Keyword
 
-
+            AST.Statement declaration = parse_var_declaration();
 
             AST.Expression condition = parse_expr();
+
+            advance(Token.TokenType.SemiColon, "Expected semicolon after for condition");
+
+            AST.Expression post_expr = parse_expr();
+
+            advance(Token.TokenType.CloseParen, "Expected closing parenthasis before for body");
 
             advance(Token.TokenType.OpenCurleyBracket, "Expected function body in while declaration");
 
@@ -469,14 +479,18 @@ namespace NewLangInterpreter.Frontend
 
             advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of while body");
 
-            AST.WhileStatement while_stmt = new AST.WhileStatement(body, condition);
+            AST.ForStatement for_stmt = new AST.ForStatement(body, condition, declaration, post_expr);
 
-            return while_stmt;
-        }*/
+            return for_stmt;
+        }
 
         AST.Expression parse_expr()
         {
-            return parse_assignment_expr();
+            AST.Expression expr = parse_assignment_expr();
+
+            // this.advance(Token.TokenType.SemiColon, "Expected Semicolon ';' after expression");
+
+            return expr;
         }
 
         AST.Expression parse_assignment_expr()
