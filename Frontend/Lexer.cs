@@ -195,12 +195,46 @@ namespace NewLangInterpreter.Frontend
                             src.RemoveAt(0);
                             break;
 
+                        /*case '#':
+                            tokens.Add(new Token(Token.TokenType.MetaStart, src[0].ToString()));
+                            src.RemoveAt(0);
+                            break;*/
+
 
                         // Handle Multi-Character Token
                         default:
 
-                            // Build Number Token
-                            if (char.IsDigit(src[0]))
+                            if (src[0] == '#') // Parse Meta Statement
+                            {
+                                // Advance Past #
+                                src.RemoveAt(0);
+
+                                string ident = "";
+
+                                while (src.Count > 0 && (char.IsLetter(src[0]) || valid_ident_chars.Contains(src[0])))
+                                {
+                                    ident += src[0];
+                                    src.RemoveAt(0);
+                                }
+
+                                // Check for Reserved Keyword
+                                if (META_KEYWORDS.ContainsKey(ident))
+                                {
+                                    Token.TokenType reserved;
+
+                                    reserved = META_KEYWORDS[ident];
+
+                                    tokens.Add(new Token(reserved, ident));
+
+                                }
+                                else
+                                {
+                                    throw new Exception("Invalid Meta Keyword");
+                                }
+                                
+
+                            }
+                            else if (char.IsDigit(src[0])) // Build Number Token
                             {
                                 string num = "";
 
@@ -365,6 +399,18 @@ namespace NewLangInterpreter.Frontend
             { "do", Token.TokenType.Do },
             { "while", Token.TokenType.While },
             { "for", Token.TokenType.For },
+
+            
+        };
+
+        public Dictionary<string, Token.TokenType> META_KEYWORDS = new Dictionary<string, Token.TokenType>()
+        {
+            { "immutable", Token.TokenType.MetaImmutable },
+            { "constant", Token.TokenType.MetaImmutable },
+            { "mutable", Token.TokenType.MetaMutable },
+
+            { "silly", Token.TokenType.MetaSilly },
+            { "funny", Token.TokenType.MetaSilly },
         };
 
         public Dictionary<char, char> ESCAPE_CHARACTERS = new Dictionary<char, char>()

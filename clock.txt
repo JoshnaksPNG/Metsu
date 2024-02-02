@@ -2,20 +2,20 @@
 {
 	while(true)
 	{
-		print("Hour: ")
-		println(hour())
+		print("Hour: ");
+		println(hour());
 
-		print("Minute: ")
-		println(minute())
+		print("Minute: ");
+		println(minute());
 
-		print("Second: ")
-		println(second())
+		print("Second: ");
+		println(second());
 	
-		println(" ")
+		println(" ");
 
-		sleep(1000)
+		sleep(1000);
 	}
 	
 }
 
-clock_recursive()
+clock_recursive();

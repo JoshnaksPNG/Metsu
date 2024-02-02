@@ -72,6 +72,12 @@ namespace NewLangInterpreter.Frontend
             While,
             Do,
             For,
+
+            // Meta
+            MetaStart,
+            MetaImmutable,
+            MetaMutable,
+            MetaSilly,
         }
 
         override public string ToString()

@@ -39,7 +39,11 @@ namespace NewLangInterpreter.Frontend
             UnaryExpr,
             AssignmentExpr,
             MemberExpr,
-            CallExper
+            CallExper,
+
+            // Meta-Statements
+            SetMutDefault,
+            SetSilly,
         }
 
         public enum DataType
@@ -792,6 +796,33 @@ namespace NewLangInterpreter.Frontend
 
                 return returned;
             }
+        }
+
+        public class MetaStatement : Statement 
+        {
+
+        }
+
+        public class MutDefaultStatement : MetaStatement 
+        {
+            public MutDefaultStatement(bool val) 
+            {
+                kind = NodeType.SetMutDefault;
+                this.is_immutable = val;
+            }
+
+            public bool is_immutable;
+        }
+
+        public class SillyDefaultStatement : MetaStatement 
+        {
+            public SillyDefaultStatement()
+            {
+                kind = NodeType.SetSilly;
+                this.val = true;
+            }
+
+            public bool val;
         }
 
         public static Operator operator_from_string(string val)

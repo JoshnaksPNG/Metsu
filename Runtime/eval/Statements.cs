@@ -27,7 +27,7 @@ namespace NewLangInterpreter.Runtime.eval
 
             Values.RuntimeVal v = Interpreter.evaluate(val, env);
 
-            bool assign_const = declaration.is_default ? env.immutable_by_default : declaration.isConstant;
+            bool assign_const = declaration.is_default ? env.is_default_constant : declaration.isConstant;
 
             return env.declareVar(declaration.identifier, v, assign_const, declaration.dataType);
         }

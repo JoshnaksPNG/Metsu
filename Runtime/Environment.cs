@@ -80,7 +80,7 @@ namespace NewLangInterpreter.Runtime
             }), true, AST.DataType.Function);
         }
 
-        private bool is_default_constant;
+        public bool is_default_constant;
 
         public bool isGlobal;
 
@@ -92,8 +92,7 @@ namespace NewLangInterpreter.Runtime
             this.var_types = new Dictionary<string, AST.DataType>();
             this.constants = new HashSet<string> { };
             this.is_default_constant = true;
-
-            immutable_by_default = true;
+            this.is_silly = false;
 
             setupGlobal(this);
         }
@@ -106,7 +105,7 @@ namespace NewLangInterpreter.Runtime
             this.var_types = new Dictionary<string, AST.DataType>();
             this.constants = new HashSet<string> { };
             this.is_default_constant = true;
-            immutable_by_default = false;
+            this.is_silly = false;
         }
 
         private Environment? parent;
@@ -114,7 +113,7 @@ namespace NewLangInterpreter.Runtime
         public Dictionary<string, Values.RuntimeVal> variables;
         public Dictionary<string, AST.DataType> var_types;
         public HashSet<string> constants;
-        public bool immutable_by_default;
+        public bool is_silly;
 
         public Values.RuntimeVal declareVar(string name, Values.RuntimeVal value, bool isConst, AST.DataType type) 
         {

@@ -235,6 +235,11 @@ namespace NewLangInterpreter.Frontend
                 case Token.TokenType.For: 
                     return this.parse_for_statement();
 
+                case Token.TokenType.MetaSilly:
+                case Token.TokenType.MetaMutable:
+                case Token.TokenType.MetaImmutable:
+                    return this.parse_meta_stmt();
+
                 default:
                     AST.Expression expr = this.parse_expr();
 
@@ -779,6 +784,29 @@ namespace NewLangInterpreter.Frontend
                     Environment.Exit(0);
                     return new AST.IntLiteral(0);
 
+            }
+        }
+
+        AST.MetaStatement parse_meta_stmt()
+        {
+            Token.TokenType tkn = tokens[0].type;
+
+            switch (tkn)
+            {
+                case Token.TokenType.MetaImmutable:
+                    advance();
+                    return new AST.MutDefaultStatement(true);
+
+                case Token.TokenType.MetaMutable:
+                    advance();
+                    return new AST.MutDefaultStatement(false);
+
+                case Token.TokenType.MetaSilly:
+                    advance();
+                    return new AST.SillyDefaultStatement();
+
+                default:
+                    throw new Exception("Unrecognized Meta Statement");
             }
         }
     }

@@ -80,6 +80,12 @@ namespace NewLangInterpreter.Runtime
                 case AST.NodeType.ForStatement:
                     return Statements.eval_for_stmt((AST.ForStatement)astNode, env);
 
+                case AST.NodeType.SetMutDefault:
+                    return MetaStatements.eval_meta_mutable_default(((AST.MutDefaultStatement)astNode).is_immutable, env);
+
+                case AST.NodeType.SetSilly:
+                    return MetaStatements.eval_meta_silly_default(((AST.SillyDefaultStatement)astNode).val, env);
+
                 default:
                     Console.Error.WriteLine("Error: This AST Node has not been set up for interpretation: " + astNode);
                     System.Environment.Exit(0);
