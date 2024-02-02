@@ -1,54 +1,54 @@
-﻿// println(4)
+﻿println(4);
 
-println(5)
+println(5);
 
-/*
-println(6)
-println(7)
-*/
 
-//mut int foo = 25;
-//foo = foo + 1;
+println(6);
+println(7);
 
-/*mut obj o = {
+
+mut int foo = 25;
+foo = foo + 1;
+
+mut obj o = {
 	bar: foo,
 	goober: 4,
 	snooter:
 	{
 		rooter: 5
 	}
-};*/
+};
 
-/*func int add(int i, int j)
+func int add(int i, int j)
 {
 	mut int k = i + j;
 
-	println(k)
+	println(k);
 	
 	return k;
-}*/
-
-//string typer = "test string";
-
-//char char_test = 'd';
-
-//float float_test = 12.12;
-
-//println(add(foo, 5))
-
-
-/*if(3 == 3 || 'b' == 'c')
-{
-	println("statement is true")
-} else if(false)
-{
-	println("statement is false, then true")
-} else
-{
-	println("statement is false, then false")
 }
 
-for(int i = 0; i < 9; i = i+1;)
+string typer = "test string";
+
+char char_test = 'd';
+
+float float_test = 12.12;
+
+println(add(foo, 5));
+
+
+if(3 == 3 || 'b' == 'c')
 {
-	println(i)
-}*/
+	println("statement is true");
+} else if(false)
+{
+	println("statement is false, then true");
+} else
+{
+	println("statement is false, then false");
+}
+
+for(int i = 0; i < 9; i = i+1)
+{
+	println(i);
+}

@@ -236,7 +236,11 @@ namespace NewLangInterpreter.Frontend
                     return this.parse_for_statement();
 
                 default:
-                    return this.parse_expr();
+                    AST.Expression expr = this.parse_expr();
+
+                    advance(Token.TokenType.SemiColon, "Expected Semi-colon after expression");
+
+                    return expr;
             }
         }
 
@@ -488,8 +492,6 @@ namespace NewLangInterpreter.Frontend
         {
             AST.Expression expr = parse_assignment_expr();
 
-            // this.advance(Token.TokenType.SemiColon, "Expected Semicolon ';' after expression");
-
             return expr;
         }
 
@@ -502,8 +504,6 @@ namespace NewLangInterpreter.Frontend
                 this.advance();
 
                 AST.Expression value = this.parse_assignment_expr();
-
-                this.advance(Token.TokenType.SemiColon, "Expected Semicolon ';' after variable assignment statement");
 
                 return new AST.AssignmentExpr(left, value);
             }
