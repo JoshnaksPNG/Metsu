@@ -60,6 +60,7 @@ namespace NewLangInterpreter.Frontend
             Const,
             Function,
             Return,
+            Procedure,
 
             SemiColon,
             Colon,

@@ -299,7 +299,7 @@ namespace NewLangInterpreter.Runtime.eval
             {
                 Values.FunctionVal func = (Values.FunctionVal) fn;
 
-                Environment scope = new Environment(func.declaration_environment, true);
+                Environment scope = new Environment(func.declaration_environment, true, func.returnType);
 
                 // Create Variables from Parameter List
                 for(int i = 0; i < func.parameters.Count; i++) 
@@ -326,6 +326,11 @@ namespace NewLangInterpreter.Runtime.eval
                 if (result != null)
                 {
                     return result;
+                }
+
+                if (func.returnType == AST.DataType.Void)
+                {
+                    return new Values.NullVal();
                 }
 
                 throw new Exception("Function Body Returned Null Result");

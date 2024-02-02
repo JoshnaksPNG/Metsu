@@ -36,7 +36,7 @@ namespace NewLangInterpreter.Frontend
                     src.RemoveAt(0);
 
                     // Remove Comment
-                    while (src[0] != '\n' && src[0] != '\r')
+                    while (src.Count > 0 && src[0] != '\n' && src[0] != '\r')
                     {
                         src.RemoveAt(0);
                     }
@@ -379,6 +379,7 @@ namespace NewLangInterpreter.Frontend
             { "mut", Token.TokenType.Mut },
             { "const", Token.TokenType.Const },
             { "func", Token.TokenType.Function },
+            { "proc", Token.TokenType.Procedure },
 
             { "return", Token.TokenType.Return },
 
@@ -388,6 +389,7 @@ namespace NewLangInterpreter.Frontend
             { "bool", Token.TokenType.DataType },
             { "string", Token.TokenType.DataType },
             { "obj", Token.TokenType.DataType },
+            { "void", Token.TokenType.DataType },
 
             { "true", Token.TokenType.Boolean },
             { "false", Token.TokenType.Boolean },

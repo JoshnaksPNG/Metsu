@@ -223,6 +223,10 @@ namespace NewLangInterpreter.Frontend
                 case Token.TokenType.Return:
                     return this.parse_return_stmt();
 
+                case Token.TokenType.Procedure:
+                    tokens[0] = new Token(Token.TokenType.DataType, "void");
+                    return this.parse_func_declaration(true);
+
                 case Token.TokenType.If:
                     return this.parse_if_statement();
 
@@ -267,7 +271,7 @@ namespace NewLangInterpreter.Frontend
                 advance(); // Advance Past Function Keyword
             }
             
-            Token return_type_token = this.advance(Token.TokenType.DataType, "Expected variable datatype following mut or const!");
+            Token return_type_token = this.advance(Token.TokenType.DataType, "Expected variable datatype following function keyword!");
 
             string identifier = this.advance(Token.TokenType.Identifier, "Expected identifier following datatype!").value;
 
@@ -298,7 +302,7 @@ namespace NewLangInterpreter.Frontend
 
             advance(Token.TokenType.CloseCurleyBracket, "Expected closing '}' at end of function body");
 
-            AST.FunctionDeclaration function = new AST.FunctionDeclaration(identifier, body, parameters);
+            AST.FunctionDeclaration function = new AST.FunctionDeclaration(identifier, body, parameters, return_type_token.value);
 
             return function;
         }

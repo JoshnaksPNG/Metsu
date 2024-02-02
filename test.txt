@@ -1,5 +1,24 @@
 ﻿#mutable
 
+int foo = 0;
+int bar = 0;
+
+proc change_foo(int a)
+{
+	foo = a;
+}
+
+void change_bar(int a)
+{
+	bar = a;
+}
+
+change_foo(1);
+change_bar(2);
+
+println(foo);
+println(bar);
+
 
 int check_silly_level()
 {
@@ -15,5 +34,5 @@ int check_silly_level()
 	return 0;
 }
 
-print("Silly Level: ");
-println(check_silly_level());
+// Below Statement throws exception, as check_silly_level() returns an int rather than a float
+//float c = check_silly_level();

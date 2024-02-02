@@ -58,6 +58,8 @@ namespace NewLangInterpreter.Frontend
             Object,
 
             Null,
+
+            Void,
         }
 
         public enum Operator
@@ -201,13 +203,10 @@ namespace NewLangInterpreter.Frontend
 
         public class ReturnStatement : Statement
         {
-            //public string type;
-
             public Expression value;
 
             public ReturnStatement(string type, Expression value) 
             {
-                //this.type = type;
                 this.kind = NodeType.Return;
                 this.value = value;
             }
@@ -222,16 +221,17 @@ namespace NewLangInterpreter.Frontend
 
             public List<Statement> body;
 
-            ///public Datatype Here
+            public DataType returnType;
 
             public Expression? value;
 
-            public FunctionDeclaration(string ident, List<Statement> body, List<KeyValuePair<string, string>> args)
+            public FunctionDeclaration(string ident, List<Statement> body, List<KeyValuePair<string, string>> args, string ret_type)
             {
                 kind = NodeType.FunctionDeclaration;
                 name = ident;
                 this.body = body;
                 this.parameters = args;
+                this.returnType = type_from_string(ret_type);
             }
 
             /*public override string ToString()
@@ -902,6 +902,9 @@ namespace NewLangInterpreter.Frontend
 
                 case "func":
                     return DataType.Function;
+
+                case "void":
+                    return DataType.Void;
 
                 default:
                     throw new Exception("Unrecognized Datatype!");

@@ -41,7 +41,7 @@ namespace NewLangInterpreter.Runtime.eval
                 param_names.Add(pair.Key);
             }
 
-            Values.FunctionVal fn = new Values.FunctionVal(declaration.name, param_names, env, declaration.body);
+            Values.FunctionVal fn = new Values.FunctionVal(declaration.name, param_names, env, declaration.body, declaration.returnType);
 
             return env.declareVar(fn.name, fn, true, AST.DataType.Function);
         }
@@ -57,7 +57,16 @@ namespace NewLangInterpreter.Runtime.eval
 
             killing_env.should_kill = true;
 
-            return Interpreter.evaluate(ret_stmt.value, env);
+            Values.RuntimeVal ret_val = Interpreter.evaluate(ret_stmt.value, env);
+
+
+
+            if (Values.value_type_to_data_type(ret_val.type) != killing_env.func_return_type && killing_env.func_return_type != AST.DataType.Void)
+            {
+                throw new Exception("Cannot return value of type: " +  ret_val.type + " in function of type: " + killing_env.func_return_type);
+            }
+
+            return ret_val;
         }
 
         public static Values.RuntimeVal eval_if_stmt(AST.IfStatement if_stmt, Environment env)

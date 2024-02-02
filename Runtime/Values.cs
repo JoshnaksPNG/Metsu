@@ -241,13 +241,16 @@ namespace NewLangInterpreter.Runtime
             public Environment declaration_environment;
             public List<AST.Statement> body;
 
-            public FunctionVal(string name, List<string> parameters, Environment declaration_environment, List<AST.Statement> body)
+            public AST.DataType returnType;
+
+            public FunctionVal(string name, List<string> parameters, Environment declaration_environment, List<AST.Statement> body, AST.DataType ret_type)
             {
                 type = ValueType.Function;
                 this.name = name;
                 this.parameters = parameters;
                 this.declaration_environment = declaration_environment;
                 this.body = body;
+                returnType = ret_type;
             }
 
             public override string ToString()

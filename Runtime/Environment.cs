@@ -95,6 +95,8 @@ namespace NewLangInterpreter.Runtime
             this.is_silly = false;
             should_kill = false;
 
+            func_return_type = AST.DataType.Void;
+
             setupGlobal(this);
         }
 
@@ -105,12 +107,14 @@ namespace NewLangInterpreter.Runtime
             this.variables = new Dictionary<string, Values.RuntimeVal>();
             this.var_types = new Dictionary<string, AST.DataType>();
             this.constants = new HashSet<string> { };
-            this.is_default_constant = true;
-            this.is_silly = false;
-            should_kill = false;
+            this.is_default_constant = parent.is_default_constant; ;
+            this.is_silly = parent.is_silly;
+            should_kill = parent.should_kill;
+
+            func_return_type = parent.func_return_type;
         }
 
-        public Environment(Environment parent, bool is_function_body)
+        public Environment(Environment parent, bool is_function_body, AST.DataType ret_type)
         {
             isGlobal = false;
             this.is_function_body = is_function_body;
@@ -121,6 +125,7 @@ namespace NewLangInterpreter.Runtime
             this.is_default_constant = parent.is_default_constant;
             this.is_silly = parent.is_silly;
             should_kill = parent.should_kill;
+            func_return_type = ret_type;
         }
 
         public Environment? parent;
@@ -131,6 +136,7 @@ namespace NewLangInterpreter.Runtime
         public bool is_silly;
         public bool is_function_body;
         public bool should_kill;
+        public AST.DataType func_return_type;
 
         public Values.RuntimeVal declareVar(string name, Values.RuntimeVal value, bool isConst, AST.DataType type) 
         {
