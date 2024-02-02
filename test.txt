@@ -1,8 +1,8 @@
-﻿//#mutable
+﻿#mutable
+#silly
 
 
-
-int foo = 0;
-foo = 1;
+float foo = 9.0;
+foo = foo + 10;
 
 println(foo);

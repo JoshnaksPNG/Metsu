@@ -10,13 +10,18 @@ namespace NewLangInterpreter.Runtime.eval
 {
     internal static class Expressions
     {
-        public static Values.IntVal eval_int_bin_expr(Values.IntVal left_side, Values.IntVal right_side, AST.Operator opr)
+        public static Values.IntVal eval_int_bin_expr(Values.IntVal left_side, Values.IntVal right_side, AST.Operator opr, bool is_silly)
         {
             int result = 0;
 
             switch (opr)
             {
                 case AST.Operator.Add:
+                    if(is_silly && left_side.value == 9 && right_side.value == 10) 
+                    {
+                        result = 21;
+                        break;
+                    }
                     result = left_side.value + right_side.value;
                     break;
 
@@ -44,7 +49,45 @@ namespace NewLangInterpreter.Runtime.eval
             return new Values.IntVal(result);
         }
 
-        // TODO
+        public static Values.FloatVal eval_float_bin_expr(Values.FloatVal left_side, Values.FloatVal right_side, AST.Operator opr, bool is_silly)
+        {
+            float result = 0;
+
+            switch (opr)
+            {
+                case AST.Operator.Add:
+                    if (is_silly && left_side.value == 9 && right_side.value == 10)
+                    {
+                        result = 21;
+                        break;
+                    }
+                    result = left_side.value + right_side.value;
+                    break;
+
+                case AST.Operator.Subtract:
+                    result = left_side.value - right_side.value;
+                    break;
+
+                case AST.Operator.Multiply:
+                    result = left_side.value * right_side.value;
+                    break;
+
+                case AST.Operator.Divide:
+                    result = left_side.value / right_side.value;
+                    break;
+
+                case AST.Operator.Modulo:
+                    result = left_side.value % right_side.value;
+                    break;
+
+                default:
+                    result = 0;
+                    break;
+            }
+
+            return new Values.FloatVal(result);
+        }
+
         public static Values.BoolVal eval_comparison_expr(Values.RuntimeVal left_val, Values.RuntimeVal right_val, AST.Operator opr)
         {
             if (right_val.type == Values.ValueType.Float || right_val.type == Values.ValueType.Integer)
@@ -166,7 +209,7 @@ namespace NewLangInterpreter.Runtime.eval
                     case AST.Operator.NotEqualTo:
                         return eval_comparison_expr(left_side, right_side, binaryExpr.opr);
 
-                    case AST.Operator.LogicalAnd: 
+                    case AST.Operator.LogicalAnd:
                     case AST.Operator.LogicalOr:
                         if (left_side.type == Values.ValueType.Boolean && right_side.type == Values.ValueType.Boolean)
                         {
@@ -176,14 +219,26 @@ namespace NewLangInterpreter.Runtime.eval
                         {
                             throw new Exception("Logical operators only apply to boolean values");
                         }
-                        
+
                 }
 
                 if (left_side.type == Values.ValueType.Integer)
                 {
-                    return eval_int_bin_expr((Values.IntVal)left_side, (Values.IntVal)right_side, binaryExpr.opr);
-                } 
+                    return eval_int_bin_expr((Values.IntVal)left_side, (Values.IntVal)right_side, binaryExpr.opr, env.is_silly);
+                }
+                else if (left_side.type == Values.ValueType.Float)
+                {
+                    return eval_float_bin_expr((Values.FloatVal)left_side, (Values.FloatVal)right_side, binaryExpr.opr, env.is_silly);
+                }
                 return new Values.NullVal();
+            }
+            else if (left_side.type == Values.ValueType.Float && right_side.type == Values.ValueType.Integer)
+            {
+                return eval_float_bin_expr((Values.FloatVal)left_side, new Values.FloatVal(((Values.IntVal)right_side).value), binaryExpr.opr, env.is_silly);
+            }
+            else if (left_side.type == Values.ValueType.Integer && right_side.type == Values.ValueType.Float)
+            {
+                return eval_float_bin_expr(new Values.FloatVal(((Values.IntVal)left_side).value), (Values.FloatVal)right_side, binaryExpr.opr, env.is_silly);
             }
             else
             {
