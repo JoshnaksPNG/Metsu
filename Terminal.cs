@@ -64,7 +64,7 @@ void run(string path)
 
     Values.RuntimeVal result = Interpreter.evaluate(program, env);
 
-    Console.WriteLine(result.ToString());
+    //Console.WriteLine(result.ToString());
 }
 
 Console.WriteLine("Type Repl for Repl, or Run to run test file");//Console.WriteLine("Type Repl for Repl, or Run {path} to run a file");
