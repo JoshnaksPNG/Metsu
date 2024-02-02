@@ -237,8 +237,8 @@ namespace NewLangInterpreter.Frontend
                             else if (char.IsDigit(src[0])) // Build Number Token
                             {
                                 string num = "";
-
-                                while (src.Count > 0 && (char.IsDigit(src[0]) || valid_num_chars.Contains(src[0])))
+                                
+                                while (src.Count > 0 && (char.IsDigit(src[0]) || valid_num_chars.Contains(Char.ToLower(src[0]))))
                                 {
                                     num += src[0];
                                     src.RemoveAt(0);
@@ -364,6 +364,41 @@ namespace NewLangInterpreter.Frontend
             '.',
             'x',
             'b',
+            'q',
+            'o',
+            'v',
+            'z',
+
+            
+            // HEX
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+
+            // Base-36
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'o',
+            'p',
+            'q',
+            'r',
+            's',
+            't',
+            'u',
+            'v',
+            'w',
+            'x',
+            'y',
+            'z',
         };
 
         List<char> skipable_chars = new List<char>()

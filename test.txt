@@ -1,28 +1,18 @@
 ﻿#mutable
 
-int foo = 0;
-int bar = 0;
-
-proc change_foo(int a)
-{
-	foo = a;
-}
-
-void change_bar(int a)
-{
-	if(a == 2)
-	{
-		return;
-	}
-
-	bar = a;
-}
-
-change_foo(1);
-change_bar(2);
+int foo = 0b11;
+int goo = 0q33;
+int jar = 0o77;
+int bar = 0xFF;
+int tod = 0vVV;
+int rod = 0zZZ;
 
 println(foo);
+println(goo);
+println(jar);
 println(bar);
+println(tod);
+println(rod);
 
 
 int check_silly_level()

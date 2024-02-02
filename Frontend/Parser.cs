@@ -48,11 +48,33 @@ namespace NewLangInterpreter.Frontend
                     switch (raw[1])
                     {
                         case 'b':
+                            raw = raw.Remove(1,1);
                             int_base = 2;
                             break;
 
+                        case 'q':
+                            raw = raw.Remove(1, 1);
+                            int_base = 4;
+                            break;
+
+                        case 'o':
+                            raw = raw.Remove(1, 1);
+                            int_base = 8;
+                            break;
+
                         case 'x':
+                            raw = raw.Remove(1, 1);
                             int_base = 16;
+                            break;
+
+                        case 'v':
+                            raw = raw.Remove(1, 1);
+                            int_base = 32;
+                            break;
+
+                        case 'z':
+                            raw = raw.Remove(1, 1);
+                            int_base = 36;
                             break;
                     }
                 }
@@ -72,6 +94,11 @@ namespace NewLangInterpreter.Frontend
             {
                 if (raw[i] != '_')
                 {
+                    if (digitval(raw[i]) > int_base - 1)
+                    {
+                        throw new Exception("Cannot parse digit with larger value than integer base");
+                    }
+
                     result += digitval(raw[i]) * (int)Math.Pow(int_base, j);
 
                     ++j;
@@ -146,6 +173,8 @@ namespace NewLangInterpreter.Frontend
                 case '9':
                     digitval = 9;
                     break;
+
+                // B16 HEX
                 case 'a':
                     digitval = 10;
                     break;
@@ -163,6 +192,68 @@ namespace NewLangInterpreter.Frontend
                     break;
                 case 'f':
                     digitval = 15;
+                    break;
+
+                // B36
+                case 'g':
+                    digitval = 16;
+                    break;
+                case 'h':
+                    digitval = 17;
+                    break;
+                case 'i':
+                    digitval = 18;
+                    break;
+                case 'j':
+                    digitval = 19;
+                    break;
+                case 'k':
+                    digitval = 20;
+                    break;
+                case 'l':
+                    digitval = 21;
+                    break;
+                case 'm':
+                    digitval = 22;
+                    break;
+                case 'n':
+                    digitval = 23;
+                    break;
+                case 'o':
+                    digitval = 24;
+                    break;
+                case 'p':
+                    digitval = 25;
+                    break;
+                case 'q':
+                    digitval = 26;
+                    break;
+                case 'r':
+                    digitval = 27;
+                    break;
+                case 's':
+                    digitval = 28;
+                    break;
+                case 't':
+                    digitval = 29;
+                    break;
+                case 'u':
+                    digitval = 30;
+                    break;
+                case 'v':
+                    digitval = 31;
+                    break;
+                case 'w':
+                    digitval = 32;
+                    break;
+                case 'x':
+                    digitval = 33;
+                    break;
+                case 'y':
+                    digitval = 34;
+                    break;
+                case 'z':
+                    digitval = 35;
                     break;
 
                 default:
