@@ -299,7 +299,7 @@ namespace NewLangInterpreter.Runtime.eval
             {
                 Values.FunctionVal func = (Values.FunctionVal) fn;
 
-                Environment scope = new Environment(func.declaration_environment);
+                Environment scope = new Environment(func.declaration_environment, true);
 
                 // Create Variables from Parameter List
                 for(int i = 0; i < func.parameters.Count; i++) 
@@ -316,6 +316,11 @@ namespace NewLangInterpreter.Runtime.eval
                 foreach (AST.Statement stmt in func.body)
                 {
                     result = Interpreter.evaluate(stmt, scope);
+
+                    if(scope.should_kill) 
+                    {
+                        break;
+                    }
                 }
 
                 if (result != null)

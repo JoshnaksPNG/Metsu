@@ -93,6 +93,7 @@ namespace NewLangInterpreter.Runtime
             this.constants = new HashSet<string> { };
             this.is_default_constant = true;
             this.is_silly = false;
+            should_kill = false;
 
             setupGlobal(this);
         }
@@ -106,14 +107,30 @@ namespace NewLangInterpreter.Runtime
             this.constants = new HashSet<string> { };
             this.is_default_constant = true;
             this.is_silly = false;
+            should_kill = false;
         }
 
-        private Environment? parent;
+        public Environment(Environment parent, bool is_function_body)
+        {
+            isGlobal = false;
+            this.is_function_body = is_function_body;
+            this.parent = parent;
+            this.variables = new Dictionary<string, Values.RuntimeVal>();
+            this.var_types = new Dictionary<string, AST.DataType>();
+            this.constants = new HashSet<string> { };
+            this.is_default_constant = parent.is_default_constant;
+            this.is_silly = parent.is_silly;
+            should_kill = parent.should_kill;
+        }
+
+        public Environment? parent;
 
         public Dictionary<string, Values.RuntimeVal> variables;
         public Dictionary<string, AST.DataType> var_types;
         public HashSet<string> constants;
         public bool is_silly;
+        public bool is_function_body;
+        public bool should_kill;
 
         public Values.RuntimeVal declareVar(string name, Values.RuntimeVal value, bool isConst, AST.DataType type) 
         {

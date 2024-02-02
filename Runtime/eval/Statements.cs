@@ -48,6 +48,14 @@ namespace NewLangInterpreter.Runtime.eval
 
         public static Values.RuntimeVal eval_return(AST.ReturnStatement ret_stmt, Environment env)
         {
+            Environment killing_env = env;
+
+            while(killing_env.parent != null && !killing_env.is_function_body) 
+            {
+                killing_env = killing_env.parent;
+            }
+
+            killing_env.should_kill = true;
 
             return Interpreter.evaluate(ret_stmt.value, env);
         }

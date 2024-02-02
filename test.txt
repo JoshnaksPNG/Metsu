@@ -1,8 +1,19 @@
 ﻿#mutable
-#silly
 
 
-float foo = 9.0;
-foo = foo + 10;
+int check_silly_level()
+{
+	bool is_silly =  9 + 10 == 21;
 
-println(foo);
+	if(is_silly)
+	{
+		print("Is Silly: ");
+		return 99;
+	}
+
+	print("Is Not Silly: ");
+	return 0;
+}
+
+print("Silly Level: ");
+println(check_silly_level());
