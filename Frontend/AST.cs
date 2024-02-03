@@ -746,15 +746,17 @@ namespace NewLangInterpreter.Frontend
 
         public class Property : Expression
         {
-            public Property(string key, Expression value)
+            public Property(string key, Expression value, string type)
             {
                 kind = NodeType.Property;
                 this.key = key;
                 this.value = value;
+                this.dataType = type_from_string(type);
             }
 
             public string key;
-            public Expression? value;   
+            public Expression? value;
+            public DataType dataType;
 
             public override string ToString()
             {

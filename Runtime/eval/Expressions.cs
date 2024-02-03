@@ -338,5 +338,16 @@ namespace NewLangInterpreter.Runtime.eval
 
             throw new Exception("Cannot call non-function value");
         }
+
+        public static Values.RuntimeVal eval_member_expr(AST.MemberExpr member, Environment env)
+        {
+            Identifier obj = (Identifier)(member.obj);
+
+            Identifier prop = (Identifier) member.property;
+
+            Values.ObjectVal obj_val = (Values.ObjectVal) env.lookupVar(obj.symbol);
+
+            return obj_val.properties[prop.symbol];
+        }
     }
 }

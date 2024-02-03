@@ -57,8 +57,9 @@ namespace NewLangInterpreter.Runtime
                 case AST.NodeType.AssignmentExpr:
                     return Expressions.eval_assignment((AST.AssignmentExpr)astNode, env);
 
-                //case AST.NodeType.MemberExpr:
-                //return Expressions.e((AST.MemberExpr)astNode,env);
+                case AST.NodeType.MemberExpr:
+                    return Expressions.eval_member_expr((AST.MemberExpr)astNode,env);
+
                 case AST.NodeType.FunctionDeclaration:
                     return Statements.eval_function_declaration((AST.FunctionDeclaration)astNode, env);
 

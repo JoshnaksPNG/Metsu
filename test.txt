@@ -1,33 +1,11 @@
 ﻿#mutable
 
-int foo = 0b11;
-int goo = 0q33;
-int jar = 0o77;
-int bar = 0xFF;
-int tod = 0vVV;
-int rod = 0zZZ;
-
-println(foo);
-println(goo);
-println(jar);
-println(bar);
-println(tod);
-println(rod);
-
-
-int check_silly_level()
+obj goober =
 {
-	bool is_silly =  9 + 10 == 21;
+   int foo : 4,
+   char bar : 'f'
 
-	if(is_silly)
-	{
-		print("Is Silly: ");
-		return 99;
-	}
+};
 
-	print("Is Not Silly: ");
-	return 0;
-}
+println(goober.bar);
 
-// Below Statement throws exception, as check_silly_level() returns an int rather than a float
-//float c = check_silly_level();

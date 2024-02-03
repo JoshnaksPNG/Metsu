@@ -672,13 +672,15 @@ namespace NewLangInterpreter.Frontend
 
             while (tokens[0].type != Token.TokenType.EOF && tokens[0].type != Token.TokenType.CloseCurleyBracket)
             {
+                string data_type = advance(Token.TokenType.DataType, "DataType expected").value;
+
                 string key = advance(Token.TokenType.Identifier, "Object Literal key expected").value;
 
                 advance(Token.TokenType.Colon, "missing Colon following identifier in Object Literal");
 
                 AST.Expression value = parse_expr();
 
-                properties.Add(new AST.Property(key, value));
+                properties.Add(new AST.Property(key, value, data_type));
                 if (tokens[0].type != Token.TokenType.CloseCurleyBracket)
                 {
                     advance(Token.TokenType.Comma, "Expected Comma or closing bracket following property");
