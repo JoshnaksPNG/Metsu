@@ -7,5 +7,14 @@ obj goober =
 
 };
 
-println(goober.bar);
+int rod(int a)
+{
+ return a + 5;
+}
+
+func cod = rod;
+
+
+
+println(cod(4));
 

@@ -309,7 +309,21 @@ namespace NewLangInterpreter.Frontend
                     return this.parse_var_declaration();
 
                 case Token.TokenType.Function:
-                    return this.parse_func_declaration(false);
+                    if (tokens[1].type == Token.TokenType.Identifier)
+                    {
+                        if (tokens[2].type == Token.TokenType.Assign)
+                        {
+                            return parse_var_function_declaration();
+                        }
+                        else
+                        {
+                            return this.parse_func_declaration(false);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Expected Identifier after Func Keyword");
+                    }
 
                 case Token.TokenType.Return:
                     return this.parse_return_stmt();
@@ -447,6 +461,31 @@ namespace NewLangInterpreter.Frontend
             Token type_token = this.advance(Token.TokenType.DataType, "Expected variable datatype!");
 
             AST.DataType dataType = AST.type_from_string(type_token.value);
+
+            string identifier = this.advance(Token.TokenType.Identifier, "Expected identifier following datatype!").value;
+
+            // Check if Declaration
+            if (tokens[0].type == Token.TokenType.SemiColon)
+            {
+                this.advance();
+
+                return new AST.VarDeclaration(identifier, dataType);
+            }
+
+            this.advance(Token.TokenType.Assign, "Expected assignment operator following identifier in variable declaration");
+
+            AST.Statement declaration = new AST.VarDeclaration(identifier, parse_expr(), dataType);
+
+            this.advance(Token.TokenType.SemiColon, "Expected Semicolon ';' after variable declaration statement");
+
+            return declaration;
+        }
+
+        private AST.Statement parse_var_function_declaration()
+        {
+            Token type_token = this.advance(Token.TokenType.Function, "Expected variable datatype!");
+
+            AST.DataType dataType = AST.DataType.Function;
 
             string identifier = this.advance(Token.TokenType.Identifier, "Expected identifier following datatype!").value;
 
