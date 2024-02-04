@@ -21,6 +21,7 @@ namespace NewLangInterpreter.Runtime
             Object,
             NativeFn,
             Function,
+            Array,
         }
 
         public class RuntimeVal 
@@ -208,6 +209,45 @@ namespace NewLangInterpreter.Runtime
             }
         }
 
+        public class ArrayVal : RuntimeVal
+        {
+            public List<RuntimeVal> elements;
+
+            public AST.DataType array_type;
+
+            public ArrayVal(AST.DataType array_type)
+            {
+                type = ValueType.Array;
+                elements = new List<RuntimeVal>();
+                this.array_type = array_type;
+            }
+
+            public ArrayVal(AST.DataType array_type, List<RuntimeVal> elements)
+            {
+                type = ValueType.Array;
+                this.elements = elements;
+                this.array_type = array_type;
+            }
+
+            public override string ToString()
+            {
+                string returned = "{ type: ";
+
+                returned += type.ToString();
+
+                returned += ", elements: [";
+
+                foreach (RuntimeVal element in elements)
+                {
+                    returned += element.ToString() + ",";
+                }
+
+                returned += "\n]}";
+
+                return returned;
+            }
+        }
+
         public delegate RuntimeVal FunctionCall(List<RuntimeVal> args, Environment env);
 
         public class NativeFnVal : RuntimeVal
@@ -294,8 +334,11 @@ namespace NewLangInterpreter.Runtime
                 case ValueType.Float: 
                     return AST.DataType.Float;
 
+                case ValueType.Array: 
+                    return AST.DataType.Array;
+
                 default:
-                    throw new Exception("Unsupported ValueType");
+                    throw new Exception("Unsupported ValueType: " + valueType);
             }
         }
     }

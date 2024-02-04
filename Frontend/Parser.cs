@@ -292,13 +292,17 @@ namespace NewLangInterpreter.Frontend
                         }
                         else if (tokens[2].type == Token.TokenType.OpenParen)
                         {
-                            return parse_func_declaration(true);
+                            return parse_func_declaration(true, false);
                         }
                         else
                         {
                             throw new Exception("Illegal token after identifier!");
                         }
-                    } 
+                    }
+                    else if (tokens[1].type == Token.TokenType.OpenSquareBracket && tokens[2].type == Token.TokenType.CloseSquareBracket)
+                    {
+                        return parse_array_declaration(false);
+                    }
                     else
                     {
                         throw new Exception("Expected Identifier after datatype");
@@ -317,7 +321,15 @@ namespace NewLangInterpreter.Frontend
                         }
                         else
                         {
-                            return this.parse_func_declaration(false);
+                            if (tokens[3].type == Token.TokenType.DataType)
+                            {
+                                return this.parse_func_declaration(false, false);
+                            }
+                            else
+                            {
+                                return this.parse_func_declaration(true, true);
+                            }
+                            
                         }
                     }
                     else
@@ -330,7 +342,7 @@ namespace NewLangInterpreter.Frontend
 
                 case Token.TokenType.Procedure:
                     tokens[0] = new Token(Token.TokenType.DataType, "void");
-                    return this.parse_func_declaration(true);
+                    return this.parse_func_declaration(true, false);
 
                 case Token.TokenType.If:
                     return this.parse_if_statement();
@@ -379,14 +391,24 @@ namespace NewLangInterpreter.Frontend
             return new AST.ReturnStatement(ret_val);
         }
 
-        private AST.Statement parse_func_declaration(bool is_default)
+        private AST.Statement parse_func_declaration(bool is_default, bool returns_function)
         {
             if(!is_default) 
             {
                 advance(); // Advance Past Function Keyword
             }
+
+            Token return_type_token;
+
+            if (returns_function)
+            {
+                return_type_token = this.advance(Token.TokenType.Function, "Expected variable datatype following function keyword!");
+            }
+            else
+            {
+                return_type_token = this.advance(Token.TokenType.DataType, "Expected variable datatype following function keyword!");
+            }
             
-            Token return_type_token = this.advance(Token.TokenType.DataType, "Expected variable datatype following function keyword!");
 
             string identifier = this.advance(Token.TokenType.Identifier, "Expected identifier following datatype!").value;
 
@@ -450,6 +472,62 @@ namespace NewLangInterpreter.Frontend
             this.advance(Token.TokenType.Assign, "Expected assignment operator following identifier in variable declaration");
 
             AST.Statement declaration = new AST.VarDeclaration(identifier, isConstant, parse_expr(), dataType);
+
+            this.advance(Token.TokenType.SemiColon, "Expected Semicolon ';' after variable declaration statement");
+
+            return declaration;
+        }
+
+        private AST.Statement parse_array_declaration(bool is_default)
+        {
+            bool isConstant;
+            string identifier;
+            AST.DataType dataType;
+            Token type_token;
+
+            if (is_default)
+            {
+                isConstant = this.advance().type == Token.TokenType.Const;
+
+                type_token = this.advance(Token.TokenType.DataType, "Expected variable datatype!");
+
+                dataType = AST.type_from_string(type_token.value);
+
+                // Advance past square brackets
+                advance(Token.TokenType.OpenSquareBracket, "Expected Opening square bracket.");
+                advance(Token.TokenType.CloseSquareBracket, "Expected Closing square bracket");
+
+                identifier = this.advance(Token.TokenType.Identifier, "Expected identifier following datatype!").value;
+
+                // Check if Declaration
+                if (tokens[0].type == Token.TokenType.SemiColon)
+                {
+                    this.advance();
+                    if (is_default && isConstant)
+                    {
+                        Console.Error.WriteLine("Parser Error: Must define value for Constant Variable declaration!");
+                        System.Environment.Exit(0);
+                    }
+
+                    return new AST.VarDeclaration(identifier, isConstant, AST.DataType.Array);
+                }
+            }
+            else
+            {
+                type_token = this.advance(Token.TokenType.DataType, "Expected variable datatype!");
+
+                dataType = AST.type_from_string(type_token.value);
+
+                // Advance past square brackets
+                advance(Token.TokenType.OpenSquareBracket, "Expected Opening square bracket.");
+                advance(Token.TokenType.CloseSquareBracket, "Expected Closing square bracket");
+
+                identifier = this.advance(Token.TokenType.Identifier, "Expected identifier following datatype!").value;
+            }
+
+            this.advance(Token.TokenType.Assign, "Expected assignment operator following identifier in variable declaration");
+
+            AST.Statement declaration = new AST.VarDeclaration(identifier, parse_expr(), AST.DataType.Array);
 
             this.advance(Token.TokenType.SemiColon, "Expected Semicolon ';' after variable declaration statement");
 
@@ -683,18 +761,47 @@ namespace NewLangInterpreter.Frontend
 
         AST.Expression parse_comparison_expr()
         {
-            AST.Expression left_expr = parse_object_expr();
+            AST.Expression left_expr = parse_array_expr();
 
             while (tokens[0].type == Token.TokenType.ComparisonOperator)
             {
                 string oper = advance().value;
 
-                AST.Expression right_expr = parse_object_expr();
+                AST.Expression right_expr = parse_array_expr();
 
                 left_expr = new AST.BinaryExpr(left_expr, right_expr, AST.operator_from_string(oper));
             }
 
             return left_expr;
+        }
+
+        AST.Expression parse_array_expr() 
+        {
+            if (tokens[0].type != Token.TokenType.OpenSquareBracket)
+            {
+                return parse_object_expr();
+            }
+
+            // Advance Past Opening Square Bracket
+            advance(Token.TokenType.OpenSquareBracket, "Expected open square bracket at begining of array literal");
+
+            List<AST.Expression> elements = new List<AST.Expression>();
+
+            while (tokens[0].type != Token.TokenType.EOF && tokens[0].type != Token.TokenType.CloseSquareBracket)
+            {
+                AST.Expression value = parse_expr();
+
+                elements.Add(value);
+
+                if (tokens[0].type != Token.TokenType.CloseSquareBracket)
+                {
+                    advance(Token.TokenType.Comma, "Expected Comma or closing bracket following element");
+                }
+            }
+
+            advance(Token.TokenType.CloseSquareBracket, "Array literal missing brace");
+
+            return new AST.ArrayLiteral(elements);
         }
 
         //{ Properties[] }

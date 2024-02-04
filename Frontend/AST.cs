@@ -32,6 +32,7 @@ namespace NewLangInterpreter.Frontend
             CharLiteral,
             FloatLiteral,
             BoolLiteral,
+            ArrayLiteral,
 
             // Expressions
             Identifier,
@@ -56,6 +57,7 @@ namespace NewLangInterpreter.Frontend
 
             Function,
             Object,
+            Array,
 
             Null,
 
@@ -736,6 +738,42 @@ namespace NewLangInterpreter.Frontend
                 foreach (Property property in properties) 
                 {
                     returned += property.ToString() + ", ";
+                }
+
+                returned += " ]}";
+
+                return returned;
+            }
+        }
+
+        public class ArrayLiteral : Expression
+        {
+            public ArrayLiteral()
+            {
+                kind = NodeType.ArrayLiteral;
+                elements = new List<Expression>();
+            }
+            public ArrayLiteral(List<Expression> elements)
+            {
+                kind = NodeType.ArrayLiteral;
+                this.elements = elements;
+            }
+
+            public List<Expression> elements;
+
+            public NodeType arrayType;
+
+            public override string ToString()
+            {
+                string returned = "{ kind: ";
+
+                returned += kind.ToString();
+
+                returned += ", elements: [";
+
+                foreach (Expression element in elements)
+                {
+                    returned += element.ToString() + ", ";
                 }
 
                 returned += " ]}";

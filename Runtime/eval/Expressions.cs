@@ -276,6 +276,33 @@ namespace NewLangInterpreter.Runtime.eval
             return _obj;
         }
 
+        public static Values.RuntimeVal eval_array_expr(AST.ArrayLiteral arr, Environment env)
+        {
+            List<Values.RuntimeVal> elems = new List<Values.RuntimeVal>();
+
+            Values.ValueType arrType = Values.ValueType.Null;
+
+            foreach (AST.Expression element in arr.elements)
+            {
+                Values.RuntimeVal val = Interpreter.evaluate(element, env);
+
+                if (arrType == Values.ValueType.Null)
+                {
+                    arrType = val.type;
+                }
+                else if(val.type != arrType)
+                {
+                    throw new Exception("Array element type does not match the type of array literal");
+                }
+
+                elems.Add(val);
+            }
+
+            Values.ArrayVal array = new Values.ArrayVal(Values.value_type_to_data_type(arrType), elems);
+
+            return array;
+        }
+
         public static Values.RuntimeVal eval_call_expr(AST.CallExpr call, Environment env)
         {
             List<Values.RuntimeVal> args = new List<Values.RuntimeVal>();//(List<Values.RuntimeVal>) call.args.Select((arg) => Interpreter.evaluate(arg, env));

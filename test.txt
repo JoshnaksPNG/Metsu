@@ -1,20 +1,5 @@
 ﻿#mutable
 
-obj goober =
-{
-   int foo : 4,
-   char bar : 'f'
+int[] arr = [3, 4, 5];
 
-};
-
-int rod(int a)
-{
- return a + 5;
-}
-
-func cod = rod;
-
-
-
-println(cod(4));
-
+println(arr);

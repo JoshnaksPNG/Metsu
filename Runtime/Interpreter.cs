@@ -42,6 +42,9 @@ namespace NewLangInterpreter.Runtime
                 case AST.NodeType.ObjectLiteral:
                     return Expressions.eval_object_expr((AST.ObjectLiteral)astNode, env);
 
+                case AST.NodeType.ArrayLiteral:
+                    return Expressions.eval_array_expr((AST.ArrayLiteral)astNode, env);
+
                 case AST.NodeType.CallExper:
                     return Expressions.eval_call_expr((AST.CallExpr)astNode, env);
 
