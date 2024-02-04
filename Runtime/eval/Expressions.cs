@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using static NewLangInterpreter.Frontend.AST;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace NewLangInterpreter.Runtime.eval
 {
@@ -254,7 +256,28 @@ namespace NewLangInterpreter.Runtime.eval
 
         public static Values.RuntimeVal eval_assignment(AST.AssignmentExpr node, Environment env)
         {
-            if(node.assignee.kind != AST.NodeType.Identifier) 
+            if(node.assignee.kind == NodeType.IndexExpr) 
+            {
+                AST.ArrayIndexExpr idx_expr = (AST.ArrayIndexExpr) node.assignee;
+
+                Identifier arr_symbol = (Identifier) idx_expr.arr;
+
+                Values.ArrayVal arr_val = (Values.ArrayVal)env.lookupVar(arr_symbol.symbol);
+
+                Values.IntVal int_val = (Values.IntVal)Interpreter.evaluate(idx_expr.idx, env);
+
+                if (int_val.value >= arr_val.elements.Count)
+                {
+                    throw new Exception("Index: " + int_val.value + " Out Of Bounds");
+                }
+
+                Values.RuntimeVal assignVal = Interpreter.evaluate(node.value, env);
+
+                arr_val.elements[int_val.value] = assignVal;
+
+                return assignVal;
+
+            } else if(node.assignee.kind != AST.NodeType.Identifier) 
             {
                 Console.Error.WriteLine("Error: Cannot assign to non-identifier");
                 System.Environment.Exit(0);
@@ -375,6 +398,22 @@ namespace NewLangInterpreter.Runtime.eval
             Values.ObjectVal obj_val = (Values.ObjectVal) env.lookupVar(obj.symbol);
 
             return obj_val.properties[prop.symbol];
+        }
+
+        public static Values.RuntimeVal eval_index_expr(AST.ArrayIndexExpr arr, Environment env)
+        {
+            Identifier array = (Identifier)(arr.arr);
+
+            Values.ArrayVal arr_val = (Values.ArrayVal) env.lookupVar (array.symbol);
+
+            Values.IntVal int_val = (Values.IntVal) Interpreter.evaluate(arr.idx, env);
+
+            if(int_val.value >= arr_val.elements.Count) 
+            {
+                throw new Exception("Index: " + int_val.value + " Out Of Bounds");
+            }
+
+            return arr_val.elements[int_val.value];
         }
     }
 }

@@ -3,3 +3,9 @@
 int[] arr = [3, 4, 5];
 
 println(arr);
+
+println(arr[1+1]);
+
+arr[1] = 8;
+
+println(arr[1+0]);

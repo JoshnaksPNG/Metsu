@@ -809,7 +809,7 @@ namespace NewLangInterpreter.Frontend
         {
             if (tokens[0].type != Token.TokenType.OpenCurleyBracket)
             {
-                return this.parse_additive_expr();
+                return this.parse_element_expr();
             }
 
             advance();
@@ -844,11 +844,30 @@ namespace NewLangInterpreter.Frontend
         //
         // AssignmentExpr
         // Object
+           // Array Accessor
         // AdditiveExpr
         // MultiplicativeExpr
         // Call
         // Member
         // Primary
+
+        AST.Expression parse_element_expr()
+        {
+            AST.Expression arr_expr = parse_additive_expr();
+
+            while (tokens[0].type == Token.TokenType.OpenSquareBracket)
+            {
+                advance();
+
+                AST.Expression index_expr = parse_additive_expr();
+
+                advance(Token.TokenType.CloseSquareBracket, "Expecting closing square bracket after array accessor");
+
+                arr_expr = new AST.ArrayIndexExpr(arr_expr, index_expr);
+            }
+
+            return arr_expr;
+        }
 
         AST.Expression parse_additive_expr()
         {
@@ -886,7 +905,9 @@ namespace NewLangInterpreter.Frontend
 
         AST.Expression parse_call_member_expr()
         {
-            AST.Expression member = parse_member_expr();
+            AST.Expression member; 
+            
+            member = parse_member_expr();
 
             if (tokens[0].type == Token.TokenType.OpenParen)
             {
@@ -965,7 +986,7 @@ namespace NewLangInterpreter.Frontend
         {
             AST.Expression obj = parse_primary_expr();
 
-            while (tokens[0].type == Token.TokenType.Period || tokens[0].type == Token.TokenType.OpenSquareBracket) 
+            while (tokens[0].type == Token.TokenType.Period)// || tokens[0].type == Token.TokenType.OpenSquareBracket) 
             {
                 Token _operator = advance();
                 AST.Expression property;

@@ -41,6 +41,7 @@ namespace NewLangInterpreter.Frontend
             AssignmentExpr,
             MemberExpr,
             CallExper,
+            IndexExpr,
 
             // Meta-Statements
             SetMutDefault,
@@ -530,6 +531,37 @@ namespace NewLangInterpreter.Frontend
                 returned += ", is_computed: ";
 
                 returned += is_computed.ToString() + " }";
+
+                return returned;
+            }
+        }
+
+        public class ArrayIndexExpr : Expression
+        {
+            public ArrayIndexExpr(Expression arr, Expression idx)
+            {
+                this.arr = arr;
+                this.idx = idx;
+
+                kind = NodeType.IndexExpr;
+            }
+
+            public Expression arr;
+            public Expression idx;
+
+            public override string ToString()
+            {
+                string returned = "{ kind: ";
+
+                returned += kind.ToString();
+
+                returned += ", arr: ";
+
+                returned += arr.ToString();
+
+                returned += ", idx: ";
+
+                returned += idx.ToString() + " }";
 
                 return returned;
             }
