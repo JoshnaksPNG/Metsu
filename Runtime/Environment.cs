@@ -46,6 +46,27 @@ namespace NewLangInterpreter.Runtime
             // Define Time Functions
             Dictionary<string, Values.RuntimeVal> chronoFunctions = new Dictionary<string, Values.RuntimeVal>()
             {
+                { "year", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+
+                        return new Values.IntVal(DateTime.Now.Year);
+
+                    })
+                },
+                { "month", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+
+                        return new Values.IntVal(DateTime.Now.Month);
+
+                    })
+                },
+                { "day", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+
+                        return new Values.IntVal(DateTime.Now.Day);
+
+                    })
+                },
                 { "hour", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
                     {
 
