@@ -15,51 +15,6 @@ namespace NewLangInterpreter.Runtime
             scope.declareVar("true", new Values.BoolVal(true), true, AST.DataType.Bool);
             scope.declareVar("false", new Values.BoolVal(false), true, AST.DataType.Bool);
 
-            scope.declareVar("hour", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
-            {
-
-                return new Values.IntVal(DateTime.Now.Hour);
-
-            }), true, AST.DataType.Function);
-
-            scope.declareVar("minute", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
-            {
-
-                return new Values.IntVal(DateTime.Now.Minute);
-
-            }), true, AST.DataType.Function);
-
-            scope.declareVar("second", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
-            {
-
-                return new Values.IntVal(DateTime.Now.Second);
-
-            }), true, AST.DataType.Function);
-
-            scope.declareVar("sleep_second", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
-            {
-                System.Threading.Thread.Sleep(1000);
-                return new Values.IntVal(0);
-
-            }), true, AST.DataType.Function);
-
-            scope.declareVar("sleep", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
-            {
-                if (args[0].type == Values.ValueType.Integer)
-                {
-                    IntVal time = (IntVal)args[0];
-                    System.Threading.Thread.Sleep(time.value);
-                }
-                else 
-                {
-                    throw new Exception("sleep only accepts one int");
-                }
-
-                
-                return new Values.IntVal(0);
-
-            }), true, AST.DataType.Function);
-
             // Define Native IO Functions
             Dictionary<string, Values.RuntimeVal> ioFunctions = new Dictionary<string, Values.RuntimeVal>() 
             {
