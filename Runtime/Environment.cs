@@ -110,7 +110,7 @@ namespace NewLangInterpreter.Runtime
                 { "sleep_second", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
                     {
                         System.Threading.Thread.Sleep(1000);
-                        return new Values.IntVal(0);
+                        return new Values.NullVal();
 
                     })
                 },
@@ -127,7 +127,7 @@ namespace NewLangInterpreter.Runtime
                         }
 
 
-                        return new Values.IntVal(0);
+                        return new Values.NullVal();
 
                     })
                 },
