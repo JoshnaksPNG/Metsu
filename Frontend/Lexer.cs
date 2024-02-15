@@ -283,12 +283,17 @@ namespace NewLangInterpreter.Frontend
                                 src.RemoveAt(0);
                                 string value = "";
 
-                                while (src.Count > 0 && src[0] != '"')
+                                while (src.Count > 0 && src[0] != '"' )
                                 {
                                     value += src[0];
                                     src.RemoveAt(0);
                                 }
 
+                                if (src.Count == 0)
+                                {
+                                    throw new Exception("Expeced \" character at end of string literal");
+                                }
+                                
                                 src.RemoveAt(0);
 
                                 tokens.Add(new Token(Token.TokenType.String, value));
