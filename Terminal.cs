@@ -79,8 +79,8 @@ if (choice.ToLower() == "exit")
 }
 else if (choice.ToLower().StartsWith("run"))
 {
-    //string path = choice.Split(' ')[1];
-    //run(path);
+    string path = choice.Split(' ')[1];
+    run(path);
     //run("C:\\git\\NewLangInterpreter\\test.txt");
-    run("C:\\git\\NewLangInterpreter\\clock.txt");
+    //run("C:\\git\\NewLangInterpreter\\clock.txt");
 }
