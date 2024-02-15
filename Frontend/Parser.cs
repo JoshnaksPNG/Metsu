@@ -332,9 +332,13 @@ namespace NewLangInterpreter.Frontend
                             
                         }
                     }
+                    else if (tokens[1].type == Token.TokenType.DataType)
+                    {
+                        return this.parse_func_declaration(false, false);
+                    }
                     else
                     {
-                        throw new Exception("Expected Identifier after Func Keyword");
+                        throw new Exception("Expected Identifier or Data Type after Func Keyword");
                     }
 
                 case Token.TokenType.Return:

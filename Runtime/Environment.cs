@@ -15,25 +15,6 @@ namespace NewLangInterpreter.Runtime
             scope.declareVar("true", new Values.BoolVal(true), true, AST.DataType.Bool);
             scope.declareVar("false", new Values.BoolVal(false), true, AST.DataType.Bool);
 
-            // Define native method
-            scope.declareVar("print", new Values.NativeFnVal( (List<RuntimeVal>args, Environment env) => 
-            {
-                foreach(RuntimeVal arg in args) 
-                {
-                    Console.Write(arg.ToString());
-                }
-                return new Values.NullVal();
-            }), true, AST.DataType.Function);
-
-            scope.declareVar("println", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
-            {
-                foreach (RuntimeVal arg in args)
-                {
-                    Console.WriteLine(arg.ToString());
-                }
-                return new Values.NullVal();
-            }), true, AST.DataType.Function);
-
             scope.declareVar("hour", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
             {
 
@@ -78,6 +59,89 @@ namespace NewLangInterpreter.Runtime
                 return new Values.IntVal(0);
 
             }), true, AST.DataType.Function);
+
+            // Define Native IO Functions
+            Dictionary<string, Values.RuntimeVal> ioFunctions = new Dictionary<string, Values.RuntimeVal>() 
+            {
+                { "print", new Values.NativeFnVal( (List<RuntimeVal>args, Environment env) =>
+                    {
+                        foreach(RuntimeVal arg in args)
+                        {
+                            Console.Write(arg.ToString());
+                        }
+                        return new Values.NullVal();
+                    }) 
+                },
+                { "println", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        foreach (RuntimeVal arg in args)
+                        {
+                            Console.WriteLine(arg.ToString());
+                        }
+                        return new Values.NullVal();
+                    })
+                },
+            };
+
+            Values.ObjectVal io = new Values.ObjectVal();
+            io.properties = ioFunctions;
+
+            scope.declareVar("io", io, true, AST.DataType.Object);
+
+            // Define Time Functions
+            Dictionary<string, Values.RuntimeVal> chronoFunctions = new Dictionary<string, Values.RuntimeVal>()
+            {
+                { "hour", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+
+                        return new Values.IntVal(DateTime.Now.Hour);
+
+                    })
+                },
+                { "minute", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+
+                        return new Values.IntVal(DateTime.Now.Minute);
+
+                    })
+                },
+                { "second", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+
+                        return new Values.IntVal(DateTime.Now.Second);
+
+                    })
+                },
+                { "sleep_second", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                        return new Values.IntVal(0);
+
+                    })
+                },
+                { "sleep", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            IntVal time = (IntVal)args[0];
+                            System.Threading.Thread.Sleep(time.value);
+                        }
+                        else
+                        {
+                            throw new Exception("sleep only accepts one int");
+                        }
+
+
+                        return new Values.IntVal(0);
+
+                    })
+                },
+            };
+
+            Values.ObjectVal chrono = new Values.ObjectVal();
+            chrono.properties = chronoFunctions;
+
+            scope.declareVar("chrono", chrono, true, AST.DataType.Object);
         }
 
         public bool is_default_constant;

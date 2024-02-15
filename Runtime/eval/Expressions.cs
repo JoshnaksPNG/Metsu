@@ -44,7 +44,7 @@ namespace NewLangInterpreter.Runtime.eval
                     break;
 
                 default:
-                    result = 0;
+                    throw new Exception("Operator not supported: " + opr.ToString());
                     break;
             }
 
@@ -83,11 +83,120 @@ namespace NewLangInterpreter.Runtime.eval
                     break;
 
                 default:
-                    result = 0;
+                    throw new Exception("Operator not supported: " + opr.ToString());
                     break;
             }
 
             return new Values.FloatVal(result);
+        }
+
+        public static Values.StringVal eval_string_bin_expr(Values.RuntimeVal left_side, Values.RuntimeVal right_side, AST.Operator opr, bool is_silly)
+        {
+            string result = "";
+
+            string left = "";
+            string right = "";
+
+            switch (left_side.type)
+            {
+                case Values.ValueType.Null:
+                    left = "null"; 
+                    break;
+
+                case Values.ValueType.Boolean:
+                    left = "" + ((Values.BoolVal)left_side).value; 
+                    break;
+
+                case Values.ValueType.Float:
+                    left = "" + ((Values.FloatVal)left_side).value;
+                    break;
+
+                case Values.ValueType.Integer:
+                    left = "" + ((Values.IntVal)left_side).value;
+                    break;
+
+                case Values.ValueType.Character:
+                    left = "" + ((Values.CharVal)left_side).value;
+                    break;
+
+                case Values.ValueType.String:
+                    left = ((Values.StringVal)left_side).value;
+                    break;
+
+                case Values.ValueType.Array:
+                    left = "[ARRAY VALUE]";
+                    break;
+
+                case Values.ValueType.Object:
+                    left = "{OBJECT VALUE}";
+                    break;
+
+                case Values.ValueType.NativeFn:
+                case Values.ValueType.Function:
+                    left = "{FUNCTION VALUE}";
+                    break;
+
+                default:
+                    throw new Exception("Unexpected DataType: "+ left_side.type.ToString());
+                    break;
+            }
+
+            switch (right_side.type)
+            {
+                case Values.ValueType.Null:
+                    right = "null";
+                    break;
+
+                case Values.ValueType.Boolean:
+                    right = "" + ((Values.BoolVal)right_side).value;
+                    break;
+
+                case Values.ValueType.Float:
+                    right = "" + ((Values.FloatVal)right_side).value;
+                    break;
+
+                case Values.ValueType.Integer:
+                    right = "" + ((Values.IntVal)right_side).value;
+                    break;
+
+                case Values.ValueType.Character:
+                    right = "" + ((Values.CharVal)right_side).value;
+                    break;
+
+                case Values.ValueType.String:
+                    right = ((Values.StringVal)right_side).value;
+                    break;
+
+                case Values.ValueType.Array:
+                    right = "[ARRAY VALUE]";
+                    break;
+
+                case Values.ValueType.Object:
+                    right = "{OBJECT VALUE}";
+                    break;
+
+                case Values.ValueType.NativeFn:
+                case Values.ValueType.Function:
+                    right = "{FUNCTION VALUE}";
+                    break;
+
+                default:
+                    throw new Exception("Unexpected DataType: " + right_side.type.ToString());
+                    break;
+            }
+
+            switch (opr)
+            {
+                case AST.Operator.Add:
+                    result = left + right;
+                    break;
+
+                default:
+                    throw new Exception("Operator not supported: " + opr.ToString());
+                    break;
+            }
+
+            return new Values.StringVal(result);
         }
 
         public static Values.BoolVal eval_comparison_expr(Values.RuntimeVal left_val, Values.RuntimeVal right_val, AST.Operator opr)
@@ -232,6 +341,10 @@ namespace NewLangInterpreter.Runtime.eval
                 {
                     return eval_float_bin_expr((Values.FloatVal)left_side, (Values.FloatVal)right_side, binaryExpr.opr, env.is_silly);
                 }
+                else if (left_side.type == Values.ValueType.String)
+                {
+                    return eval_string_bin_expr(left_side, right_side, binaryExpr.opr, env.is_silly);
+                }
                 return new Values.NullVal();
             }
             else if (left_side.type == Values.ValueType.Float && right_side.type == Values.ValueType.Integer)
@@ -241,6 +354,10 @@ namespace NewLangInterpreter.Runtime.eval
             else if (left_side.type == Values.ValueType.Integer && right_side.type == Values.ValueType.Float)
             {
                 return eval_float_bin_expr(new Values.FloatVal(((Values.IntVal)left_side).value), (Values.FloatVal)right_side, binaryExpr.opr, env.is_silly);
+            }
+            else if (left_side.type == Values.ValueType.String || right_side.type == Values.ValueType.String)
+            {
+                return eval_string_bin_expr(left_side, right_side, binaryExpr.opr, env.is_silly);
             }
             else
             {

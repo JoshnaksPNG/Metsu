@@ -1,21 +1,21 @@
-﻿func int clock_recursive()
+﻿int clock()
 {
 	while(true)
 	{
-		print("Hour: ");
-		println(hour());
+		io.print("Hour: ");
+		io.println(chrono.hour());
 
-		print("Minute: ");
-		println(minute());
+		io.print("Minute: ");
+		io.println(chrono.minute());
 
-		print("Second: ");
-		println(second());
+		io.print("Second: ");
+		io.println(chrono.second());
 	
-		println(" ");
+		io.println(" ");
 
-		sleep(1000);
+		chrono.sleep(1000);
 	}
 	
 }
 
-clock_recursive();
+clock();
