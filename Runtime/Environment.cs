@@ -36,6 +36,64 @@ namespace NewLangInterpreter.Runtime
                         return new Values.NullVal();
                     })
                 },
+                { "clearConsole", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        Console.Clear();
+                        return new Values.NullVal();
+                    })
+                },
+                { "consoleBackgroundColor", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        if(args.Count > 0)
+                        {
+                            if (args[0].type == Values.ValueType.Integer)
+                            {
+                                Values.IntVal intVal = (Values.IntVal)args[0];
+                                if(intVal.value >= 0 && intVal.value <= 15)
+                                {
+                                    Console.BackgroundColor = (ConsoleColor)intVal.value;
+                                    return new Values.NullVal();
+                                } else
+                                {
+                                    throw new Exception("Parameter should be in range between 0-15");
+                                }
+                            } else
+                            {
+                                throw new Exception("First Argument Should be Integer Type");
+                            }
+                        } else
+                        {
+                            throw new Exception("Expected Integer Argument");
+                        }
+                    })
+
+                },
+                { "consoleTextColor", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        if(args.Count > 0)
+                        {
+                            if (args[0].type == Values.ValueType.Integer)
+                            {
+                                Values.IntVal intVal = (Values.IntVal)args[0];
+                                if(intVal.value >= 0 && intVal.value <= 15)
+                                {
+                                    Console.ForegroundColor = (ConsoleColor)intVal.value;
+                                    return new Values.NullVal();
+                                } else
+                                {
+                                    throw new Exception("Parameter should be in range between 0-15");
+                                }
+                            } else
+                            {
+                                throw new Exception("First Argument Should be Integer Type");
+                            }
+                        } else
+                        {
+                            throw new Exception("Expected Integer Argument");
+                        }
+                    })
+
+                },
                 { "readTextFile", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
                     {
                         if(args.Count > 0)
@@ -155,6 +213,39 @@ namespace NewLangInterpreter.Runtime
             chrono.properties = chronoFunctions;
 
             scope.declareVar("chrono", chrono, true, AST.DataType.Object);
+
+            // Define Native IO Functions
+            Dictionary<string, Values.RuntimeVal> mathFunctions = new Dictionary<string, Values.RuntimeVal>()
+            {
+                { "randomInt", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) => 
+                    {
+                        Random r = new Random();
+
+                        if(args.Count > 1 && args[0].type == Values.ValueType.Integer && args[1].type == Values.ValueType.Integer)
+                        {
+                            int low = ((Values.IntVal)args[0]).value;
+                            int high = ((Values.IntVal)args[1]).value;
+
+                            return new Values.IntVal(r.Next(low, high));
+                        }
+
+                        return new Values.IntVal(r.Next());
+                    })
+                },
+                { "randomFloat", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        Random r = new Random();
+
+                        return new Values.FloatVal((float)r.NextDouble());
+                        
+                    })
+                },
+            };
+
+            Values.ObjectVal math = new Values.ObjectVal();
+            math.properties = mathFunctions;
+
+            scope.declareVar("math", math, true, AST.DataType.Object);
         }
 
         public bool is_default_constant;

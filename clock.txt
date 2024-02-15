@@ -2,6 +2,7 @@
 {
 	while(true)
 	{
+		io.clearConsole();
 		io.print("Hour: ");
 		io.println(chrono.hour());
 
@@ -14,6 +15,9 @@
 		io.println(" ");
 
 		chrono.sleep(1000);
+
+		io.consoleBackgroundColor(math.randomInt(0, 16));
+		io.consoleTextColor(math.randomInt(0,16));
 	}
 	
 }
