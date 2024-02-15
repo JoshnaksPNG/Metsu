@@ -45,16 +45,34 @@ namespace NewLangInterpreter.Runtime
                                 return new Values.StringVal( File.ReadAllText( ((Values.StringVal) args[0]).value ) );
                             } else
                             {
-                                throw new Exception("Expeced String at first argument, recieved type: " + args[0].type);
+                                throw new Exception("Expected String at first argument, recieved type: " + args[0].type);
                             }
                         } else
                         {
-                            throw new Exception("Expeced argument");
+                            throw new Exception("Expected argument");
                         }
 
                     })
+                },
+                { "writeTextFile", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        if(args.Count > 1)
+                        {
+                            if(args[0].type == Values.ValueType.String && args[1].type == Values.ValueType.String)
+                            {
+                                File.WriteAllText( ((Values.StringVal) args[0]).value, ((Values.StringVal) args[1]).value );
+                                return new NullVal();
+                            } else
+                            {
+                                throw new Exception("Expected String at first and second argument, recieved types: " + args[0].type + ", " + args[1].type);
+                            }
+                        } else
+                        {
+                            throw new Exception("Expected argument");
+                        }
 
-                }
+                    })
+                },
             };
 
             Values.ObjectVal io = new Values.ObjectVal();
