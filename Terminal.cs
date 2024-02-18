@@ -1,5 +1,7 @@
 ﻿using NewLangInterpreter.Frontend;
 using NewLangInterpreter.Runtime;
+using System.IO;
+using System.Net;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -67,6 +69,20 @@ void run(string path)
     //Console.WriteLine(result.ToString());
 }
 
+if (args.Length > 1)
+{
+    string appName = System.AppDomain.CurrentDomain.FriendlyName;
+    Console.WriteLine("Usage:");
+    Console.WriteLine("  " + appName + "             : Enter interpreter/REPL mode");
+    Console.WriteLine("  " + appName + " script_file : Run script_file");
+    System.Environment.Exit(-1);
+}
+else if (args.Length == 1)
+{
+    run(args.First());
+    System.Environment.Exit(0);
+}
+
 Console.WriteLine("Type Repl for Repl, or Run {path} to run a file");
 string choice = Console.ReadLine();
 
@@ -81,6 +97,4 @@ else if (choice.ToLower().StartsWith("run"))
 {
     string path = choice.Split(' ')[1];
     run(path);
-    //run("C:\\git\\NewLangInterpreter\\test.txt");
-    //run("C:\\git\\NewLangInterpreter\\clock.txt");
 }
