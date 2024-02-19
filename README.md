@@ -104,6 +104,7 @@ TODO
 | - | - |
 | `void print(val)` | Converts **val** to a string and prints that string to the console. |
 | `void println(val)` | Converts **val** to a string and prints that string to the console. |
+| `string readln()` | Reads line of characters from the console and returns them as a string. |
 | `void clearConsole()` | Clears the console. |
 | `void consoleBackgroundColor(int color)` | Changes the background color of the console to **color**. |
 | `void consoleTextColor(int color)` | Changes the foreground color of the console to **color**. |

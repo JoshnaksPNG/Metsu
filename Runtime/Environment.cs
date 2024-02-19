@@ -36,6 +36,18 @@ namespace NewLangInterpreter.Runtime
                         return new Values.NullVal();
                     })
                 },
+                { "readln", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        string? readVal = Console.ReadLine();
+
+                        if (readVal == null)
+                        {
+                            readVal = "";
+                        }
+
+                        return new Values.StringVal(readVal);
+                    })
+                },
                 { "clearConsole", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
                     {
                         Console.Clear();
