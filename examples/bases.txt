@@ -1,0 +1,8 @@
+// Print the number 1294 from all supported integer constant bases:
+io.println(0b10100001110);  // binary
+io.println(0q110032);       // quaternary (base-4)
+io.println(0o2416);         // octal
+io.println(1294);           // decimal
+io.println(0x50E);          // hexadecimal
+io.println(0v18e);          // duotrigesimal (base-32)
+io.println(0zZY);           // hexatridecimal (base-36)
