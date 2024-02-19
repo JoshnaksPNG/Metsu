@@ -45,7 +45,6 @@ namespace NewLangInterpreter.Runtime.eval
 
                 default:
                     throw new Exception("Operator not supported: " + opr.ToString());
-                    break;
             }
 
             return new Values.IntVal(result);
@@ -84,7 +83,6 @@ namespace NewLangInterpreter.Runtime.eval
 
                 default:
                     throw new Exception("Operator not supported: " + opr.ToString());
-                    break;
             }
 
             return new Values.FloatVal(result);
@@ -138,7 +136,6 @@ namespace NewLangInterpreter.Runtime.eval
 
                 default:
                     throw new Exception("Unexpected DataType: "+ left_side.type.ToString());
-                    break;
             }
 
             switch (right_side.type)
@@ -182,7 +179,6 @@ namespace NewLangInterpreter.Runtime.eval
 
                 default:
                     throw new Exception("Unexpected DataType: " + right_side.type.ToString());
-                    break;
             }
 
             switch (opr)
@@ -193,7 +189,6 @@ namespace NewLangInterpreter.Runtime.eval
 
                 default:
                     throw new Exception("Operator not supported: " + opr.ToString());
-                    break;
             }
 
             return new Values.StringVal(result);
@@ -409,7 +404,6 @@ namespace NewLangInterpreter.Runtime.eval
 
             foreach(AST.Property property in obj.properties) 
             {
-                
                 _obj.properties.Add(property.key, Interpreter.evaluate(property.value, env));
             }
 
@@ -476,7 +470,7 @@ namespace NewLangInterpreter.Runtime.eval
                     scope.declareVar(func.parameters[i], args[i], true, Values.value_type_to_data_type(args[i].type)); // Parameters are constant
                 }
 
-                Values.RuntimeVal result = null;
+                Values.RuntimeVal? result = null;
                 
 
                 // Evaluate Function Body

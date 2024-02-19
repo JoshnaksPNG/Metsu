@@ -1,0 +1,17 @@
+//Calculate the combination function C(n,k) via recursion using recursion ideas of Pascal's Triangle.
+int pascals_combination(int n, int k)
+{
+  if ((k == 0) || (k == n))
+  {
+    return 1;
+  }
+
+  return pascals_combination(n - 1, k - 1) + pascals_combination(n - 1, k);
+}
+
+// Print the 4th row of Pascal's Triangle.  (n=0 is the first row)
+io.println("The 4th row of Pascal's Triangle:");
+io.println(pascals_combination(3,0));
+io.println(pascals_combination(3,1));
+io.println(pascals_combination(3,2));
+io.println(pascals_combination(3,3));

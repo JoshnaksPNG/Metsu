@@ -89,7 +89,7 @@ namespace NewLangInterpreter.Runtime.eval
 
             if (((Values.BoolVal)condition_val).value)
             {
-                Values.RuntimeVal result = null;
+                Values.RuntimeVal? result = null;
 
                 foreach (AST.Statement stmt in if_stmt.body) 
                 {
@@ -115,7 +115,7 @@ namespace NewLangInterpreter.Runtime.eval
 
             if (((Values.BoolVal)condition_val).value)
             {
-                Values.RuntimeVal result = null;
+                Values.RuntimeVal? result = null;
 
                 foreach (AST.Statement stmt in if_else_stmt.ifstmt.body)
                 {
@@ -129,7 +129,7 @@ namespace NewLangInterpreter.Runtime.eval
             }
             else
             {
-                Values.RuntimeVal result = null;
+                Values.RuntimeVal? result = null;
 
                 foreach (AST.Statement stmt in if_else_stmt.body)
                 {
@@ -153,7 +153,7 @@ namespace NewLangInterpreter.Runtime.eval
             
             while (do_loop)
             {
-                Values.RuntimeVal result = null;
+                Values.RuntimeVal? result = null;
 
                 foreach (AST.Statement stmt in while_stmt.body)
                 {
@@ -177,7 +177,7 @@ namespace NewLangInterpreter.Runtime.eval
 
             while (do_loop)
             {
-                Values.RuntimeVal result = null;
+                Values.RuntimeVal? result = null;
 
                 foreach (AST.Statement stmt in for_stmt.body)
                 {
@@ -201,7 +201,7 @@ namespace NewLangInterpreter.Runtime.eval
 
             do
             {
-                Values.RuntimeVal result = null;
+                Values.RuntimeVal? result = null;
 
                 foreach (AST.Statement stmt in do_while_stmt.body)
                 {

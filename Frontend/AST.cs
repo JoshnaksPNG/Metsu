@@ -105,7 +105,7 @@ namespace NewLangInterpreter.Frontend
 
         public class Expression : Statement 
         {
-            public DataType dataType;
+            public DataType dataType = DataType.Null;
         }
 
         public class Program : Statement
@@ -140,7 +140,7 @@ namespace NewLangInterpreter.Frontend
 
             public DataType dataType;
 
-            public Expression? value;
+            public Expression value = new Expression();
 
             public bool is_default;
 
@@ -208,9 +208,14 @@ namespace NewLangInterpreter.Frontend
         {
             public Expression? value;
 
-            public ReturnStatement(Expression value) 
+            public ReturnStatement(Expression? value) 
             {
                 this.kind = NodeType.Return;
+                if (value == null)
+                {
+                    this.value = null;
+                    return;
+                }
                 this.value = value;
             }
         }
@@ -226,7 +231,7 @@ namespace NewLangInterpreter.Frontend
 
             public DataType returnType;
 
-            public Expression? value;
+            //public Expression? value;
 
             public FunctionDeclaration(string ident, List<Statement> body, List<KeyValuePair<string, string>> args, string ret_type)
             {
@@ -793,7 +798,7 @@ namespace NewLangInterpreter.Frontend
 
             public List<Expression> elements;
 
-            public NodeType arrayType;
+            //public NodeType arrayType;
 
             public override string ToString()
             {
@@ -825,8 +830,8 @@ namespace NewLangInterpreter.Frontend
             }
 
             public string key;
-            public Expression? value;
-            public DataType dataType;
+            public Expression value;
+            new public DataType dataType;
 
             public override string ToString()
             {
@@ -840,7 +845,14 @@ namespace NewLangInterpreter.Frontend
 
                 returned += ", value: ";
 
-                returned += value.ToString() + " }";
+                if (value == null)
+                {
+                    returned += ", value: null }";
+                }
+                else
+                {
+                    returned += value.ToString() + " }";
+                }
 
                 return returned;
             }

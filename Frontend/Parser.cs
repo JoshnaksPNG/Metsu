@@ -11,7 +11,7 @@ namespace NewLangInterpreter.Frontend
 {
     internal class Parser
     {
-        private List<Token> tokens;
+        private List<Token> tokens = new List<Token>();
 
         private Token advance()
         {
@@ -25,7 +25,12 @@ namespace NewLangInterpreter.Frontend
             Token token = tokens[0];
             tokens.RemoveAt(0);
 
-            if (token == null || token.type != type)
+            if (token == null)
+            {
+                Console.Error.WriteLine("Parser Error: " + failure_msg + "\nToken is null");
+                System.Environment.Exit(0);
+            }
+            if (token.type != type)
             {
                 Console.Error.WriteLine("Parser Error: " + failure_msg + "\nRecieved: " + token.type + "\nExpecting: " + type);
                 System.Environment.Exit(0);
@@ -378,17 +383,12 @@ namespace NewLangInterpreter.Frontend
         {
             advance(); // Advance past return keyword
 
-            AST.Expression ret_val;
+            AST.Expression? ret_val =  null;
 
             if (tokens[0].type != Token.TokenType.SemiColon)
             {
                 ret_val = parse_expr();
-            }
-            else
-            {
-                ret_val = null;
-            }
-            
+            }            
 
             advance(Token.TokenType.SemiColon, "Expected Semi-Colon After Return Statement");
 

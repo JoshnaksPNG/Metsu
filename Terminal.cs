@@ -37,7 +37,13 @@ void repl()
     while (true)
     {
         Console.Write("> ");
-        string input = Console.ReadLine();
+        string? input = Console.ReadLine();
+
+        if (input == null)
+        {
+            Console.WriteLine("Failed to read data from the console.");
+            System.Environment.Exit(-1);
+        }
 
         if (input == "exit")
         {
@@ -84,17 +90,29 @@ else if (args.Length == 1)
 }
 
 Console.WriteLine("Type Repl for Repl, or Run {path} to run a file");
-string choice = Console.ReadLine();
+string? choice = Console.ReadLine();
 
+if (choice == null)
+{
+    Console.WriteLine("Failed to read data from the console.");
+    System.Environment.Exit(-1);
+}
 if (choice.ToLower() == "exit")
 {
     System.Environment.Exit(0);
-} else if(choice.ToLower() == "repl")
+}
+else if(choice.ToLower() == "repl")
 {
     repl();
 }
 else if (choice.ToLower().StartsWith("run"))
 {
-    string path = choice.Split(' ')[1];
+    string[] cmdWords = choice.Split(' ');
+    if (cmdWords.Length != 2)
+    {
+        Console.WriteLine("Only one argument may be passed to the run command.");
+        System.Environment.Exit(-1);
+    }
+    string path = cmdWords[1];
     run(path);
 }
