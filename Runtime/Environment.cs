@@ -1,4 +1,5 @@
-﻿using NewLangInterpreter.Frontend;
+﻿using Microsoft.VisualBasic;
+using NewLangInterpreter.Frontend;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -356,7 +357,7 @@ namespace NewLangInterpreter.Runtime
 
             AST.DataType type = Values.value_type_to_data_type(value.type);
 
-            if (type != env.var_types[name])
+            if (type != env.var_types[name] && type != AST.DataType.Null)
             {
                 throw new Exception("Cannot assign value of type: " + type + " to variable of type: " + env.var_types[name]);
             }
