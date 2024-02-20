@@ -12,7 +12,7 @@ namespace NewLangInterpreter.Runtime.eval
 {
     internal static class Expressions
     {
-        public static Values.IntVal eval_int_bin_expr(Values.IntVal left_side, Values.IntVal right_side, AST.Operator opr, bool is_silly)
+        public static Values.RuntimeVal eval_int_bin_expr(Values.IntVal left_side, Values.IntVal right_side, AST.Operator opr, bool is_silly)
         {
             int result = 0;
 
@@ -44,13 +44,13 @@ namespace NewLangInterpreter.Runtime.eval
                     break;
 
                 default:
-                    throw new Exception("Operator not supported: " + opr.ToString());
+                    return new Values.ErrorVal("Operator not supported: " + opr.ToString());
             }
 
             return new Values.IntVal(result);
         }
 
-        public static Values.FloatVal eval_float_bin_expr(Values.FloatVal left_side, Values.FloatVal right_side, AST.Operator opr, bool is_silly)
+        public static Values.RuntimeVal eval_float_bin_expr(Values.FloatVal left_side, Values.FloatVal right_side, AST.Operator opr, bool is_silly)
         {
             float result = 0;
 
@@ -82,13 +82,13 @@ namespace NewLangInterpreter.Runtime.eval
                     break;
 
                 default:
-                    throw new Exception("Operator not supported: " + opr.ToString());
+                    return new Values.ErrorVal("Operator not supported: " + opr.ToString());
             }
 
             return new Values.FloatVal(result);
         }
 
-        public static Values.StringVal eval_string_bin_expr(Values.RuntimeVal left_side, Values.RuntimeVal right_side, AST.Operator opr, bool is_silly)
+        public static Values.RuntimeVal eval_string_bin_expr(Values.RuntimeVal left_side, Values.RuntimeVal right_side, AST.Operator opr, bool is_silly)
         {
             string result = "";
 
@@ -135,7 +135,7 @@ namespace NewLangInterpreter.Runtime.eval
                     break;
 
                 default:
-                    throw new Exception("Unexpected DataType: "+ left_side.type.ToString());
+                    return new Values.ErrorVal("Unexpected DataType: " + left_side.type.ToString());
             }
 
             switch (right_side.type)
@@ -178,7 +178,7 @@ namespace NewLangInterpreter.Runtime.eval
                     break;
 
                 default:
-                    throw new Exception("Unexpected DataType: " + right_side.type.ToString());
+                    return new Values.ErrorVal("Unexpected DataType: " + right_side.type.ToString());
             }
 
             switch (opr)
@@ -188,13 +188,13 @@ namespace NewLangInterpreter.Runtime.eval
                     break;
 
                 default:
-                    throw new Exception("Operator not supported: " + opr.ToString());
+                    return new Values.ErrorVal("Operator not supported: " + opr.ToString());
             }
 
             return new Values.StringVal(result);
         }
 
-        public static Values.BoolVal eval_comparison_expr(Values.RuntimeVal left_val, Values.RuntimeVal right_val, AST.Operator opr)
+        public static Values.RuntimeVal eval_comparison_expr(Values.RuntimeVal left_val, Values.RuntimeVal right_val, AST.Operator opr)
         {
             if (right_val.type == Values.ValueType.Float || right_val.type == Values.ValueType.Integer)
             {
@@ -253,7 +253,7 @@ namespace NewLangInterpreter.Runtime.eval
                     case AST.Operator.LessThan:
                     case AST.Operator.GreaterEqTo:
                     case AST.Operator.GreaterThan:
-                        throw new Exception("Cannot Apply Operator " + opr + "To String Value");
+                        return new Values.ErrorVal("Cannot Apply Operator " + opr + "To String Value");
 
                     case AST.Operator.EqualTo:
                         return new Values.BoolVal(left_state == right_state);
@@ -273,7 +273,7 @@ namespace NewLangInterpreter.Runtime.eval
                     case AST.Operator.LessThan:
                     case AST.Operator.GreaterEqTo:
                     case AST.Operator.GreaterThan:
-                        throw new Exception("Cannot Apply Operator " + opr + "To String Value");
+                        return new Values.ErrorVal("Cannot Apply Operator " + opr + "To String Value");
 
                     case AST.Operator.EqualTo:
                         return new Values.BoolVal(left_state == right_state);
@@ -283,7 +283,7 @@ namespace NewLangInterpreter.Runtime.eval
                 }
             }
 
-            throw new Exception("Cannot Apply Operator " + opr + "To Value");
+            return new Values.ErrorVal("Cannot Apply Operator " + opr + "To Value");
         }
 
         public static Values.RuntimeVal eval_logical_bin_expr(Values.BoolVal left,  Values.BoolVal right, AST.Operator opr) 
@@ -323,7 +323,7 @@ namespace NewLangInterpreter.Runtime.eval
                         }
                         else
                         {
-                            throw new Exception("Logical operators only apply to boolean values");
+                            return new Values.ErrorVal("Logical operators only apply to boolean values");
                         }
 
                 }
@@ -380,7 +380,7 @@ namespace NewLangInterpreter.Runtime.eval
 
                 if (int_val.value >= arr_val.elements.Count)
                 {
-                    throw new Exception("Index: " + int_val.value + " Out Of Bounds");
+                    return new Values.ErrorVal("Index: " + int_val.value + " Out Of Bounds");
                 }
 
                 Values.RuntimeVal assignVal = Interpreter.evaluate(node.value, env);
@@ -426,7 +426,7 @@ namespace NewLangInterpreter.Runtime.eval
                 }
                 else if(val.type != arrType)
                 {
-                    throw new Exception("Array element type does not match the type of array literal");
+                    return new Values.ErrorVal("Array element type does not match the type of array literal");
                 }
 
                 elems.Add(val);
@@ -521,7 +521,7 @@ namespace NewLangInterpreter.Runtime.eval
 
             if(int_val.value >= arr_val.elements.Count) 
             {
-                throw new Exception("Index: " + int_val.value + " Out Of Bounds");
+                return new Values.ErrorVal("Index: " + int_val.value + " Out Of Bounds");
             }
 
             return arr_val.elements[int_val.value];

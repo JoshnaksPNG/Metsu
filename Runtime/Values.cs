@@ -22,6 +22,9 @@ namespace NewLangInterpreter.Runtime
             NativeFn,
             Function,
             Array,
+
+            // Error Value
+            Error,
         }
 
         public class RuntimeVal 
@@ -302,6 +305,20 @@ namespace NewLangInterpreter.Runtime
                 returned += "}";
 
                 return returned;
+            }
+        }
+
+        // Error Value Handler
+        public class ErrorVal : RuntimeVal
+        {
+            public string errMsg;
+
+
+            public ErrorVal(string errMsg) 
+            {
+                type = ValueType.Error;
+
+                this.errMsg = errMsg;
             }
         }
 

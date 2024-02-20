@@ -229,7 +229,7 @@ namespace NewLangInterpreter.Frontend
                                 }
                                 else
                                 {
-                                    throw new Exception("Invalid Meta Keyword");
+                                    throw_lexer_error("Invalid Meta Keyword");
                                 }
                                 
 
@@ -291,7 +291,7 @@ namespace NewLangInterpreter.Frontend
 
                                 if (src.Count == 0)
                                 {
-                                    throw new Exception("Expeced \" character at end of string literal");
+                                    throw_lexer_error("Expected \" character at end of string literal");
                                 }
                                 
                                 src.RemoveAt(0);
@@ -302,6 +302,11 @@ namespace NewLangInterpreter.Frontend
                             {
                                 src.RemoveAt(0);
                                 char value;
+
+                                if (src.Count == 0)
+                                {
+                                    throw_lexer_error("Expected Character after \'");
+                                }
 
                                 if (src[0] == '\\')
                                 {
@@ -323,15 +328,14 @@ namespace NewLangInterpreter.Frontend
                                 }
                                 else
                                 {
-                                    throw new Exception("Expected Closing single quote \"'\" ");
+                                    throw_lexer_error("Expected Closing single quote \"'\" ");
                                 }
 
                                 tokens.Add(new Token(Token.TokenType.Char, "" + value));
                             }
                             else
                             {
-                                Console.WriteLine("Unrecognized character found in source: " + src[0] + "\nCharcode: " + ((byte)src[0]));
-                                Environment.Exit(0);
+                                throw_lexer_error("Unrecognized character found in source: " + src[0] + "\nCharcode: " + ((byte)src[0]));
                             }
 
                             break;
@@ -465,6 +469,12 @@ namespace NewLangInterpreter.Frontend
             { '\'', '\'' },
             { '\"', '\"' },
         };
+
+        static void throw_lexer_error(string msg)
+        {
+            Console.Error.WriteLine("Lexer Error: " + msg);
+            System.Environment.Exit(0);
+        }
     }
 
 }

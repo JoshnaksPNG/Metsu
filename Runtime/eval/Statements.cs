@@ -66,7 +66,7 @@ namespace NewLangInterpreter.Runtime.eval
 
                 if (Values.value_type_to_data_type(ret_val.type) != killing_env.func_return_type && killing_env.func_return_type != AST.DataType.Void)
                 {
-                    throw new Exception("Cannot return value of type: " + ret_val.type + " in function of type: " + killing_env.func_return_type);
+                    return new Values.ErrorVal("Cannot return value of type: " + ret_val.type + " in function of type: " + killing_env.func_return_type);
                 }
 
                 return ret_val;
@@ -77,7 +77,7 @@ namespace NewLangInterpreter.Runtime.eval
             }
             else 
             {
-                throw new Exception("Cannot use empty return statement in non-void function");
+                return new Values.ErrorVal("Cannot use empty return statement in non-void function");
             }
         }
 
