@@ -473,7 +473,7 @@ namespace NewLangInterpreter.Frontend
         {
             bool isConstant = this.advance().type == Token.TokenType.Const;
 
-            Token type_token = this.advance(Token.TokenType.DataType, "Expected variable datatype following mut or const!");
+            Token type_token = this.advance(new Token.TokenType[] { Token.TokenType.DataType, Token.TokenType.Function }, "Expected variable datatype following mut or const!");
 
             AST.DataType dataType = AST.type_from_string(type_token.value);
 

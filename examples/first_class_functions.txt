@@ -1,0 +1,12 @@
+void call_f(func f)
+{
+    f("This is called through call_f");
+}
+
+mut func caller;
+
+caller = io.println;
+
+call_f(io.println);
+
+caller("This is called through caller");

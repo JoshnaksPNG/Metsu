@@ -140,7 +140,7 @@ namespace NewLangInterpreter.Frontend
 
             public DataType dataType;
 
-            public Expression value = new Expression();
+            public Expression? value;
 
             public bool is_default;
 
@@ -151,6 +151,7 @@ namespace NewLangInterpreter.Frontend
                 is_default = true;
                 identifier = ident;
                 this.dataType = dataType;
+                value = null;
             }
 
             public VarDeclaration(string ident, bool isConst, DataType dataType)
@@ -160,6 +161,7 @@ namespace NewLangInterpreter.Frontend
                 identifier = ident;
                 this.dataType = dataType;
                 is_default = false;
+                value = null;
             }
 
             public VarDeclaration(string ident, bool isConst, Expression val, DataType dataType)
@@ -192,9 +194,12 @@ namespace NewLangInterpreter.Frontend
 
                 returned += identifier.ToString();
 
-                returned += ", value: ";
+                if (value != null)
+                {
+                    returned += ", value: ";
 
-                returned += value.ToString();
+                    returned += value.ToString();
+                }
 
                 returned += ", isConstant: ";
 

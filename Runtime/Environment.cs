@@ -333,7 +333,7 @@ namespace NewLangInterpreter.Runtime
 
             AST.DataType val_type = Values.value_type_to_data_type(value.type);
 
-            if (val_type != type)
+            if (val_type != type && val_type != AST.DataType.Null)
             {
                 throw new Exception("Cannot assign value of type: " + val_type + " to variable of type: " + type);
             }
