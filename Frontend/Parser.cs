@@ -39,6 +39,25 @@ namespace NewLangInterpreter.Frontend
             return token;
         }
 
+        private Token advance(Token.TokenType[] types, string failure_msg)
+        {
+            Token token = tokens[0];
+            tokens.RemoveAt(0);
+
+            if (token == null)
+            {
+                Console.Error.WriteLine("Parser Error: " + failure_msg + "\nToken is null");
+                System.Environment.Exit(0);
+            }
+            if (!types.Contains(token.type))
+            {
+                Console.Error.WriteLine("Parser Error: " + failure_msg + "\nRecieved: " + token.type + "\nExpecting: " + types.ToString());
+                System.Environment.Exit(0);
+            }
+
+            return token;
+        }
+
         int parse_int(string raw)
         {
             int result = 0;
@@ -969,14 +988,14 @@ namespace NewLangInterpreter.Frontend
 
         List<KeyValuePair<AST.Expression, string>> parse_args_list_typed()
         {
-            Token type_token = advance(Token.TokenType.DataType, "Expected Data Type for Parameter");
+            Token type_token = advance(new Token.TokenType[] {Token.TokenType.DataType, Token.TokenType.Function}, "Expected Data Type for Parameter");
             string arg_type = type_token.value;
 
             List<KeyValuePair<AST.Expression, string>> args = new List<KeyValuePair<AST.Expression, string>>() { new KeyValuePair<AST.Expression, string>( parse_expr(), arg_type) };
 
             while (tokens[0].type == Token.TokenType.Comma && advance() != null)
             {
-                type_token = advance(Token.TokenType.DataType, "Expected Data Type for Parameter");
+                type_token = advance(new Token.TokenType[] { Token.TokenType.DataType, Token.TokenType.Function }, "Expected Data Type for Parameter");
                 arg_type = type_token.value;
                 KeyValuePair<AST.Expression, string> arg = new KeyValuePair<AST.Expression, string>(parse_expr(), arg_type);
 
