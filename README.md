@@ -168,3 +168,13 @@ The 4th row of Pascal's Triangle:
 | `int randomInt(int a, int b)` | Returns an integer uniform deviate in the range of [**a**,**b**).  **a** may be returned, but **b** cannot be returned.|
 | `int randomInt()` | Synonymous with `randomInt(0, 2147483648)`.|
 | `float randomFloat()` | Returns a floating point uniform deviate in the range of [0, 1.0) |
+| `int round(float f)` | Rounds floating-point value **f** to an integer, and rounds midpoint values to the nearest integer. |
+| `int floor(float f)` | Returns the largest integer value less than or equal to **f**. |
+| `int ceiling(float f)` | Returns the largest integer value greater than or equal to **f**. |
+| `float sin(float theta)` | Returns the sine of the specified angle **theta**. |
+| `float cos(float theta)` | Returns the cosine of the specified angle **theta**. |
+| `float tan(float theta)` | Returns the tangent of the specified angle **theta**. |
+| `float asin(float a)` | Returns the angle whose sine is the specified number **a**. |
+| `float acos(float a)` | Returns the angle whose cosine is the specified number **a**. |
+| `float atan(float a)` | Returns the angle whose tangent is the specified number **a**. |
+| `float atan2(float y, float x)` | Returns the angle whose tangent is the quotient specified numbers **y** and **x**. |

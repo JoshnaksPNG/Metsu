@@ -253,6 +253,228 @@ namespace NewLangInterpreter.Runtime
                         
                     })
                 },
+                { "round", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        float param;
+
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            return args[0];
+                        } else if (args[0].type == Values.ValueType.Float)
+                        {
+                            param = ((Values.FloatVal)args[0]).value;
+                        } else
+                        {
+                            return new Values.ErrorVal("Native Function Call Error: math.round only accepts an int or float value as the first parameter.");
+                        }
+
+                        int val = (int) Math.Round(param);
+
+                        return new Values.IntVal(val);
+
+                    })
+                },
+                { "floor", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        float param;
+
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            return args[0];
+                        } else if (args[0].type == Values.ValueType.Float)
+                        {
+                            param = ((Values.FloatVal)args[0]).value;
+                        } else
+                        {
+                            return new Values.ErrorVal("Native Function Call Error: math.floor only accepts an int or float value as the first parameter.");
+                        }
+
+                        int val = (int) Math.Floor(param);
+
+                        return new Values.IntVal(val);
+
+                    })
+                },
+                { "ceiling", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        float param;
+
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            return args[0];
+                        } else if (args[0].type == Values.ValueType.Float)
+                        {
+                            param = ((Values.FloatVal)args[0]).value;
+                        } else
+                        {
+                            return new Values.ErrorVal("Native Function Call Error: math.ceiling only accepts an int or float value as the first parameter.");
+                        }
+
+                        int val = (int) Math.Ceiling(param);
+
+                        return new Values.IntVal(val);
+
+                    })
+                },
+                { "sin", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        float param;
+
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            param = ((Values.IntVal)args[0]).value;
+                        } else if (args[0].type == Values.ValueType.Float)
+                        {
+                            param = ((Values.FloatVal)args[0]).value;
+                        } else
+                        {
+                            return new Values.ErrorVal("Native Function Call Error: math.sin only accepts an int or float value as the first parameter.");
+                        }
+
+                        float val = (float) Math.Sin(param);
+
+                        return new Values.FloatVal(val);
+
+                    })
+                },
+                { "cos", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        float param;
+
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            param = ((Values.IntVal)args[0]).value;
+                        } else if (args[0].type == Values.ValueType.Float)
+                        {
+                            param = ((Values.FloatVal)args[0]).value;
+                        } else
+                        {
+                            return new Values.ErrorVal("Native Function Call Error: math.cos only accepts an int or float value as the first parameter.");
+                        }
+
+                        float val = (float) Math.Cos(param);
+
+                        return new Values.FloatVal(val);
+
+                    })
+                },
+                { "tan", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        float param;
+
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            param = ((Values.IntVal)args[0]).value;
+                        } else if (args[0].type == Values.ValueType.Float)
+                        {
+                            param = ((Values.FloatVal)args[0]).value;
+                        } else
+                        {
+                            return new Values.ErrorVal("Native Function Call Error: math.tan only accepts an int or float value as the first parameter.");
+                        }
+
+                        float val = (float) Math.Tan(param);
+
+                        return new Values.FloatVal(val);
+
+                    })
+                },
+                { "asin", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        float param;
+
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            param = ((Values.IntVal)args[0]).value;
+                        } else if (args[0].type == Values.ValueType.Float)
+                        {
+                            param = ((Values.FloatVal)args[0]).value;
+                        } else
+                        {
+                            return new Values.ErrorVal("Native Function Call Error: math.asin only accepts an int or float value as the first parameter.");
+                        }
+
+                        float val = (float) Math.Asin(param);
+
+                        return new Values.FloatVal(val);
+
+                    })
+                },
+                { "acos", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        float param;
+
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            param = ((Values.IntVal)args[0]).value;
+                        } else if (args[0].type == Values.ValueType.Float)
+                        {
+                            param = ((Values.FloatVal)args[0]).value;
+                        } else
+                        {
+                            return new Values.ErrorVal("Native Function Call Error: math.acos only accepts an int or float value as the first parameter.");
+                        }
+
+                        float val = (float) Math.Acos(param);
+
+                        return new Values.FloatVal(val);
+
+                    })
+                },
+                { "atan", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        float param;
+
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            param = ((Values.IntVal)args[0]).value;
+                        } else if (args[0].type == Values.ValueType.Float)
+                        {
+                            param = ((Values.FloatVal)args[0]).value;
+                        } else
+                        {
+                            return new Values.ErrorVal("Native Function Call Error: math.atan only accepts an int or float value as the first parameter.");
+                        }
+
+                        float val = (float) Math.Atan(param);
+
+                        return new Values.FloatVal(val);
+
+                    })
+                },
+                { "atan2", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                    {
+                        float y;
+                        float x;
+
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            y = ((Values.IntVal)args[0]).value;
+                        } else if (args[0].type == Values.ValueType.Float)
+                        {
+                            y = ((Values.FloatVal)args[0]).value;
+                        } else
+                        {
+                            return new Values.ErrorVal("Native Function Call Error: math.atan2 only accepts an int or float value as first parameters.");
+                        }
+
+                        if (args[0].type == Values.ValueType.Integer)
+                        {
+                            x = ((Values.IntVal)args[1]).value;
+                        } else if (args[0].type == Values.ValueType.Float)
+                        {
+                            x = ((Values.FloatVal)args[1]).value;
+                        } else
+                        {
+                            return new Values.ErrorVal("Native Function Call Error: math.atan2 only accepts an int or float value as first parameters.");
+                        }
+
+                        float val = (float) Math.Atan2(y, x);
+
+                        return new Values.FloatVal(val);
+
+                    })
+                },
             };
 
             Values.ObjectVal math = new Values.ObjectVal();
