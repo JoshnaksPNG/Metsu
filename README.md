@@ -83,7 +83,58 @@ The 4th row of Pascal's Triangle:
 | `void` | Absence of a value.  Used exclusively for the return type of functions that do not return any value. | |
 
 ## Operators
-TODO
+
+### bool
+| Operator | Name | Description |
+| - | - | - |
+| `!` | Logical NOT | Returns the inverse boolean value to the value right of the operator. Returns boolean. |
+| `&&` | Logical AND | Returns `true` if both values to right and left of operator are `true`, returns `false` otherwise. Returns boolean. |
+| `||` | Logical OR | Returns `false` if both values to right and left of operator are `false`, returns `true` otherwise. Returns boolean. |
+
+### int
+| Operator | Name | Description |
+| - | - | - |
+| `+` | Integer Add | Adds two integers together. Returns an integer |
+| `-` | Integer Subtract | Subtracts integer right of the operator from integer left of the operator. Returns an integer. |
+| `*` | Integer Multiply | Multiplies two integers together. Returns an integer. |
+| `\` | Integer Divide | Divides integer left of the operator by integer right of the operator. Returns an integer. |
+| `%` | Integer Modulo | Returns the remainder of an integer division. Returns an integer. |
+| `>` | Greater Than | Returns `true` if value on the left is greater than value on the right of operator. Returns a boolean. |
+| `<` | Less Than | Returns `true` if value on the left is less than value on the right of operator. Returns a boolean. |
+| `>=` | Greater Than Equal To | Returns `true` if value on the left is greater than or equal to value on the right of operator. Returns a boolean. |
+| `<=` | Less Than Equal To | Returns `true` if value on the left is less than or equal to value on the right of operator. Returns a boolean. |
+| `==` | Equal To | Returns `true` if value on the left is equal to value on the right of operator. Returns a boolean. |
+| `!=` | Not Equal | Returns `true` if value on the left is not equal to value on the right of operator. Returns a boolean. |
+
+### float
+| Operator | Name | Description |
+| - | - | - |
+| `+` | Floating Point Add | Adds two floats together. Returns an float. |
+| `-` | Floating Point Subtract | Subtracts float right of the operator from float left of the operator. Returns an float. |
+| `*` | Floating Point Multiply | Multiplies two floats together. Returns an float. |
+| `/` | Floating Point Divide | Divides float left of the operator by integer right of the operator. Returns an float. |
+| `%` | Floating Point Modulo | Returns the remainder of an float division. Returns an float. |
+| `>` | Greater Than | Returns `true` if value on the left is greater than value on the right of operator. Returns a boolean. |
+| `<` | Less Than | Returns `true` if value on the left is less than value on the right of operator. Returns a boolean. |
+| `>=` | Greater Than Equal To | Returns `true` if value on the left is greater than or equal to value on the right of operator. Returns a boolean. |
+| `<=` | Less Than Equal To | Returns `true` if value on the left is less than or equal to value on the right of operator. Returns a boolean. |
+| `==` | Equal To | Returns `true` if value on the left is equal to value on the right of operator. Returns a boolean. |
+| `!=` | Not Equal | Returns `true` if value on the left is not equal to value on the right of operator. Returns a boolean. |
+
+### char
+| Operator | Name | Description |
+| - | - | - |
+| `+` | Character Concat | Concatenates two characters together into a string. Returns a string. |
+
+### string
+| Operator | Name | Description |
+| - | - | - |
+| `+` | String Concat | Concatenates two strings together. Returns a string. |
+
+### obj
+| Operator | Name | Description |
+| - | - | - |
+| `.` | Object Accessor | Accesses the property to the right of the operator of the object to the left of the operator. Returns any type. |
 
 ## Standard Modules
 
