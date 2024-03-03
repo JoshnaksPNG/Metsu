@@ -1,11 +1,11 @@
-﻿using NewLangInterpreter.Frontend;
+﻿using NewLangInterpreter.src.Frontend;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using static NewLangInterpreter.Frontend.AST;
+using static NewLangInterpreter.src.Frontend.AST;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace NewLangInterpreter.Runtime.eval

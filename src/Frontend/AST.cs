@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using static NewLangInterpreter.Frontend.AST;
+using static NewLangInterpreter.src.Frontend.AST;
 
-namespace NewLangInterpreter.Frontend
+namespace NewLangInterpreter.src.Frontend
 {
     internal class AST
     {
@@ -103,7 +103,7 @@ namespace NewLangInterpreter.Frontend
             public NodeType kind;
         }
 
-        public class Expression : Statement 
+        public class Expression : Statement
         {
             public DataType dataType = DataType.Null;
         }
@@ -213,9 +213,9 @@ namespace NewLangInterpreter.Frontend
         {
             public Expression? value;
 
-            public ReturnStatement(Expression? value) 
+            public ReturnStatement(Expression? value)
             {
-                this.kind = NodeType.Return;
+                kind = NodeType.Return;
                 if (value == null)
                 {
                     this.value = null;
@@ -243,8 +243,8 @@ namespace NewLangInterpreter.Frontend
                 kind = NodeType.FunctionDeclaration;
                 name = ident;
                 this.body = body;
-                this.parameters = args;
-                this.returnType = type_from_string(ret_type);
+                parameters = args;
+                returnType = type_from_string(ret_type);
             }
 
             /*public override string ToString()
@@ -403,7 +403,7 @@ namespace NewLangInterpreter.Frontend
             }
         }
 
-        public class AssignmentExpr : Expression 
+        public class AssignmentExpr : Expression
         {
             public Expression assignee;
 
@@ -474,7 +474,7 @@ namespace NewLangInterpreter.Frontend
         {
             public CallExpr(Expression callee)
             {
-                this.args = new List<Expression>();
+                args = new List<Expression>();
                 this.callee = callee;
 
                 kind = NodeType.CallExper;
@@ -482,7 +482,7 @@ namespace NewLangInterpreter.Frontend
 
             public CallExpr(Expression callee, List<Expression> arg_list)
             {
-                this.args = arg_list;
+                args = arg_list;
                 this.callee = callee;
 
                 kind = NodeType.CallExper;
@@ -515,7 +515,7 @@ namespace NewLangInterpreter.Frontend
             {
                 this.obj = obj;
                 this.property = property;
-                this.is_computed = comp;
+                is_computed = comp;
 
                 kind = NodeType.MemberExpr;
             }
@@ -758,7 +758,7 @@ namespace NewLangInterpreter.Frontend
             public ObjectLiteral()
             {
                 kind = NodeType.ObjectLiteral;
-                this.properties = new List<Property>();
+                properties = new List<Property>();
             }
 
             public ObjectLiteral(List<Property> properties)
@@ -777,7 +777,7 @@ namespace NewLangInterpreter.Frontend
 
                 returned += ", properties: [";
 
-                foreach (Property property in properties) 
+                foreach (Property property in properties)
                 {
                     returned += property.ToString() + ", ";
                 }
@@ -831,7 +831,7 @@ namespace NewLangInterpreter.Frontend
                 kind = NodeType.Property;
                 this.key = key;
                 this.value = value;
-                this.dataType = type_from_string(type);
+                dataType = type_from_string(type);
             }
 
             public string key;
@@ -868,7 +868,7 @@ namespace NewLangInterpreter.Frontend
             public NullLiteral()
             {
                 kind = NodeType.NullLiteral;
-                this.value = "null";
+                value = "null";
             }
 
             public string value;
@@ -887,28 +887,28 @@ namespace NewLangInterpreter.Frontend
             }
         }
 
-        public class MetaStatement : Statement 
+        public class MetaStatement : Statement
         {
 
         }
 
-        public class MutDefaultStatement : MetaStatement 
+        public class MutDefaultStatement : MetaStatement
         {
-            public MutDefaultStatement(bool val) 
+            public MutDefaultStatement(bool val)
             {
                 kind = NodeType.SetMutDefault;
-                this.is_immutable = val;
+                is_immutable = val;
             }
 
             public bool is_immutable;
         }
 
-        public class SillyDefaultStatement : MetaStatement 
+        public class SillyDefaultStatement : MetaStatement
         {
             public SillyDefaultStatement()
             {
                 kind = NodeType.SetSilly;
-                this.val = true;
+                val = true;
             }
 
             public bool val;
@@ -916,7 +916,7 @@ namespace NewLangInterpreter.Frontend
 
         public static Operator operator_from_string(string val)
         {
-            switch (val) 
+            switch (val)
             {
                 case "+":
                     return Operator.Add;
@@ -930,7 +930,7 @@ namespace NewLangInterpreter.Frontend
                 case "/":
                     return Operator.Divide;
 
-                case "%": 
+                case "%":
                     return Operator.Modulo;
 
                 case "&&":
@@ -962,14 +962,14 @@ namespace NewLangInterpreter.Frontend
 
                 default:
                     Console.Error.WriteLine("Error! Unknown Operator: " + val);
-                    System.Environment.Exit(0);
+                    Environment.Exit(0);
                     return Operator.Unknown;
             }
         }
 
         public static DataType type_from_string(string val)
         {
-            switch (val) 
+            switch (val)
             {
                 case "int":
                     return DataType.Int;
