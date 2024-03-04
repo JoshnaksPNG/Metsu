@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NewLangInterpreter.src.Compiler
 {
-    internal class TreeCompiler
+    internal class TreeParser
     {
         public class CIL_Instruction
         {
@@ -27,6 +27,7 @@ namespace NewLangInterpreter.src.Compiler
                 if (value >= 0 && value <= 8)
                 {
                     this.body += "." + value;
+                    this.size = 1;
                 }
                 else
                 {
