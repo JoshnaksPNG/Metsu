@@ -26,7 +26,6 @@ namespace NewLangInterpreter.src.Frontend
             // Literals
             IntLiteral,
             NullLiteral,
-            Property,
             ObjectLiteral,
             StringLiteral,
             CharLiteral,
@@ -42,6 +41,7 @@ namespace NewLangInterpreter.src.Frontend
             MemberExpr,
             CallExper,
             IndexExpr,
+            Property,
 
             // Meta-Statements
             SetMutDefault,
@@ -125,6 +125,15 @@ namespace NewLangInterpreter.src.Frontend
                 returned += kind.ToString();
 
                 returned += ", body: ";
+
+                returned += "[\n";
+
+                foreach (Statement s in body) 
+                {
+                    returned += s.ToString() + "\n";
+                }
+
+                returned += "]";
 
                 returned += body.ToString() + " }";
 
@@ -247,7 +256,7 @@ namespace NewLangInterpreter.src.Frontend
                 returnType = type_from_string(ret_type);
             }
 
-            /*public override string ToString()
+            public override string ToString()
             {
                 string returned = "{ kind: ";
 
@@ -257,16 +266,21 @@ namespace NewLangInterpreter.src.Frontend
 
                 returned += name.ToString();
 
-                returned += ", value: ";
+                returned += ", body: ";
 
-                returned += value.ToString();
+                returned += "[\n";
 
-                returned += ", isConstant: ";
+                foreach (Statement s in body)
+                {
+                    returned += s.ToString() + "\n";
+                }
 
-                returned += isConstant.ToString() + " }";
+                returned += "]";
+
+                returned += " }";
 
                 return returned;
-            }*/
+            }
         }
 
         public class IfStatement : Statement
