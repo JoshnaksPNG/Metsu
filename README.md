@@ -89,7 +89,7 @@ The 4th row of Pascal's Triangle:
 | - | - | - |
 | `!` | Logical NOT | Returns the inverse boolean value to the value right of the operator. Returns boolean. |
 | `&&` | Logical AND | Returns `true` if both values to right and left of operator are `true`, returns `false` otherwise. Returns boolean. |
-| `||` | Logical OR | Returns `false` if both values to right and left of operator are `false`, returns `true` otherwise. Returns boolean. |
+| `\|\|` | Logical OR | Returns `false` if both values to right and left of operator are `false`, returns `true` otherwise. Returns boolean. |
 
 ### int
 | Operator | Name | Description |
