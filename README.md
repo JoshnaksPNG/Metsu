@@ -97,7 +97,7 @@ The 4th row of Pascal's Triangle:
 | `+` | Integer Add | Adds two integers together. Returns an integer |
 | `-` | Integer Subtract | Subtracts integer right of the operator from integer left of the operator. Returns an integer. |
 | `*` | Integer Multiply | Multiplies two integers together. Returns an integer. |
-| `\` | Integer Divide | Divides integer left of the operator by integer right of the operator. Returns an integer. |
+| `/` | Integer Divide | Divides integer left of the operator by integer right of the operator. Returns an integer. |
 | `%` | Integer Modulo | Returns the remainder of an integer division. Returns an integer. |
 | `>` | Greater Than | Returns `true` if value on the left is greater than value on the right of operator. Returns a boolean. |
 | `<` | Less Than | Returns `true` if value on the left is less than value on the right of operator. Returns a boolean. |
