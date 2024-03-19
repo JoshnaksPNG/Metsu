@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NewLangInterpreter.src.Frontend;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace NewLangInterpreter.src.Compiler
     {
         public class CIL_Instruction
         {
-            public string? body;
+            public string body = "";
             public int size;
         }
 
@@ -26,12 +27,12 @@ namespace NewLangInterpreter.src.Compiler
 
                 if (value >= 0 && value <= 8)
                 {
-                    this.body += "." + value;
+                    this.body += "." + value + "\n";
                     this.size = 1;
                 }
                 else
                 {
-                    this.body += " " + value;
+                    this.body += " " + value + "\n";
                 }
             }
         }
@@ -44,7 +45,7 @@ namespace NewLangInterpreter.src.Compiler
             {
                 this.size = 5;
                 this.value = value;
-                this.body = "ldc.i4 " + (int) value;
+                this.body = "ldc.i4 " + (int) value + "\n";
             }
         }
 
@@ -55,7 +56,7 @@ namespace NewLangInterpreter.src.Compiler
             public String_Literal(string value) 
             {
                 this.value = value;
-                this.body = "ldstr \"" + value + "\"";
+                this.body = "ldstr \"" + value + "\"\n";
                 this.size = 5;
             }
         }
@@ -70,10 +71,10 @@ namespace NewLangInterpreter.src.Compiler
                 this.value = value;
                 if (value)
                 {
-                    this.body = "ldc.i4.1";
+                    this.body = "ldc.i4.1\n";
                 } else
                 {
-                    this.body = "ldc.i4.0";
+                    this.body = "ldc.i4.0\n";
                 }
             }
         }
@@ -86,7 +87,66 @@ namespace NewLangInterpreter.src.Compiler
             {
                 this.size = 5;
                 this.value = value;
-                this.body = "ldc.r4 " + value;
+                this.body = "ldc.r4 " + value + "\n";
+            }
+        }
+
+        public class Array_Literal : CIL_Instruction
+        {
+            public Array_Literal(List<AST.Expression> elements)
+            {
+                this.body = "newobj instance void class [mscorlib]System.Collections.Generic.List`1<int32>::ctor()\n";
+
+                foreach (AST.Expression e in elements)
+                {
+                    this.body += "dup\n";
+                    this.body += get_expression_body(e);
+                    this.body += "callvirt instance void class [mscorlib]System.Collections.Generic.List`1<int32>::Add(!0)\n";
+                    this.body += "nop\n";
+                }
+            }
+
+            public static string get_expression_body(AST.Expression element)
+            {
+                CIL_Instruction instruction = CIL_Emitter.get_node_instruction(element);
+
+                if (instruction != null)
+                {
+                    return instruction.body;
+                }
+                else
+                {
+                    return "nop\n";
+                }
+            }
+        }
+
+        public class Function_Declaration : CIL_Instruction
+        {
+            public string return_type;
+            public string name;
+
+            public Function_Declaration(AST.FunctionDeclaration declaration)
+            {
+                return_type = declaration.returnType.ToString();
+                name = declaration.name;
+
+                body = ".method public static " + return_type + " " + name + "\n{\n";
+
+                foreach(AST.Statement stmt in declaration.body) 
+                {
+                    body += CIL_Emitter.get_node_instruction(stmt).body;
+                }
+            }
+
+            public string declaration_parameters() 
+            {
+                throw new NotImplementedException();
+            }
+
+            public static string front_to_cil_type(string front) 
+            {
+                throw new NotSupportedException();
             }
         }
     }
