@@ -1,7 +1,7 @@
-# NewLangInterpreter
-Interpreter for an as yet unnamed language
+# Metsu
+Interpreter for Metsu language
 
-This language and its documentation is very much a work in progress.
+The Metsu language and its documentation is very much a work in progress.
 
 ## Interesting Features
 
@@ -22,13 +22,13 @@ This language and its documentation is very much a work in progress.
 	- One can make variables mutable by default by typing `#mutable` at the top of the file
 
 ## Style
-NewLangInterpreter uses a C-style syntax with statements being terminated with a semicolon and code blocks contained within braces.
+Metsu uses a C-style syntax with statements being terminated with a semicolon and code blocks contained within braces.
 
 Control flow is accomplished with the `if`, `else`, `for`, `do`, and `while` keywords.
 
 ## Paradigm
 
-NewLangInterpreter is currently a procedural/imperative language.
+Metsu is currently a procedural/imperative language.
 
 Unless inside a function definition, code is interpreted as it is encountered.
 
