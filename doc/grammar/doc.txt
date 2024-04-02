@@ -1,0 +1,50 @@
+﻿<program> ::= (<preprocess_statement> "\n")* <statement_list>
+<preprocess_statement> ::= "#mutable" | "#silly"
+<statement_list> ::= (<whitespace> <statement> <whitespace>)* <whitespace>
+<statement> ::= <expression> ";" | <var_declaration> | <ret_stmt> | <function_declaration> | <var_declaration> | <if_else_stmt> | <while_stmt> | <do_while_stmt> | <for_stmt>
+<expression> ::= <identifier> | <assignment_expr> | <binary_expr> | <call_expr> | <member_expr> | <integer_literal> | <float_literal> | <array_idx_expr> | <unary_expr> | <string_literal> | <char_literal> | <obj_literal>
+<var_declaration> ::= <base_var_declaration> | "mut " <base_var_declaration> | "const " <base_var_declaration>
+<base_var_declaration> ::= <type> " " <identifier> ";" | <type> " " <identifier> <whitespace> "=" <whitespace> <expression> <whitespace> ";"
+<ret_stmt> ::= "return " <expression> ";" | "return;"
+<function_declaration> ::= <type> " " <identifier> "(" <paren_def_list> ")" <whitespace> "{" <whitespace> <statement_list> <whitespace> "}"
+<type> ::= "void" | "int" | "bool" | "float" | "char" | "string"
+<identifier> ::= <ident_start> <ident_char>*
+<ident_start> ::= <alphabet_char> | "_"
+<ident_char> ::= <alphabet_char> | <digit> | "_"
+<float_literal> ::= <base_10_int> "." <base_10_int>
+<integer_literal> ::= <base_10_int> | <base_2_int> | <base_4_int> | <base_8_int> | <base_16_int> | <base_32_int> | <base_36_int>
+<base_10_int> ::= <digit>+
+<base_2_int> ::= "0b" [0-1]+
+<base_4_int> ::= "0q" [0-3]+
+<base_8_int> ::= "0o" [0-7]+
+<base_16_int> ::= "0x" <hex_digit>+
+<base_32_int> ::= "0v" <dtd_digit>+
+<base_36_int> ::= "0z" <htd_digit>+
+<digit> ::= [0-9]
+<hex_digit> ::= [0-9] | [a-f] | [A-F]
+<dtd_digit> ::= [0-9] | [a-v] | [A-V]
+<htd_digit> ::= <digit> | <alphabet_char>
+<alphabet_char> ::= [a-z] | [A-Z]
+<escape_sequence> ::= "\\n" | "\\r" | "\\t" | "\\v" | "\\\\" | "\\'" | "\\\""
+<ascii_char> ::= <alphabet_char> | <escape_sequence> | <digit> | " " | "!" | "#" | "$" | "%" | "&" | "'" | "^" | "(" | ")" | "*" | "+" | "," | "-" | "." | "/" | ":" | ";" | "<" | ">" | "=" | "?" | "@" | "[" | "]" | "^" | "_" | "`" | "{" | "|" | "}" | "~"
+<string_literal> ::= "\"" <ascii_char>* "\""
+<char_literal> ::= "'" <ascii_char> "'"
+<whitespace> ::=  " "* "\n"* " "*
+<paren_def_list> ::= (<paren> " "* ",")* <paren> | " "
+<paren_list> ::= (<expression> " "* "," " "* )* <expression> | " "
+<paren> ::= <type> " " <identifier>
+<if_else_stmt> ::= <if_stmt> | <if_stmt> <whitespace> "else" <whitespace> <if_else_stmt> | <if_else_stmt> <whitespace> <else_stmt>
+<else_stmt> ::= "else" <whitespace> "{" <whitespace> <statement_list> <whitespace> "}"
+<if_stmt> ::= "if" <whitespace> "(" <expression> ")" <whitespace> "{" <whitespace> <statement_list> <whitespace> "}"
+<while_stmt> ::= "while" <whitespace> "(" <expression> ")" <whitespace> "{" <whitespace> <statement_list> <whitespace> "}"
+<do_while_stmt> ::= "do" <whitespace> "{" <whitespace> <statement_list> <whitespace> "}" " "* "while" <whitespace> "(" <expression> ")"
+<for_stmt> ::= "for" " "* "(" <whitespace> <expression> <whitespace> ";" <whitespace> <expression> <whitespace> ";" <whitespace> <expression> <whitespace> ")" <whitespace> "{" <whitespace> <statement_list> <whitespace> "}"
+<assignment_expr> ::= <expression> " "* "=" " "* <expression>
+<binary_expr> ::= <expression> " "* <binary_opr> " "* <expression>
+<binary_opr> ::= "&&" | "||" | "+" | "-" | "*" | "/" | "%" | ">" | "<" | ">=" | "<=" | "==" | "!="
+<call_expr> ::= <expression> "(" <paren_list> ")" | <expression> "(" " "* ")"
+<member_expr> ::= <expression> "." <identifier>
+<array_idx_expr> ::= <expression> "[" " "* <expression> " "* "]"
+<unary_expr> ::= <unary_opr> <expression> | <expression> <unary_opr>
+<unary_opr> ::= "++" | "--" | "!"
+<obj_literal> ::= "{" <whitespace> (<identifier> " "* ":" " "* <expression> <whitespace> "," <whitespace>)* <identifier> " "* ":" " "* <expression> <whitespace> "}"
