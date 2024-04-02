@@ -1,3 +1,5 @@
+#include io
+
 void call_f(func f)
 {
     f("This is called through call_f");

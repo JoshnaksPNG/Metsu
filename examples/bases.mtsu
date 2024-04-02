@@ -1,3 +1,5 @@
+#include io
+
 // Print the number 1294 from all supported integer constant bases:
 io.println(0b10100001110);  // binary
 io.println(0q110032);       // quaternary (base-4)

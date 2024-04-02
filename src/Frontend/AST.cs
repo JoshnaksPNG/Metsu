@@ -46,6 +46,7 @@ namespace NewLangInterpreter.src.Frontend
             // Meta-Statements
             SetMutDefault,
             SetSilly,
+            Include,
         }
 
         public enum DataType
@@ -926,6 +927,26 @@ namespace NewLangInterpreter.src.Frontend
             }
 
             public bool val;
+        }
+
+        public class IncludeStatement : MetaStatement
+        {
+            public IncludeStatement(string lib)
+            {
+                kind = NodeType.Include;
+                this.lib = lib;
+                this.alias = lib;
+            }
+
+            public IncludeStatement(string lib, string ident)
+            {
+                kind = NodeType.Include;
+                this.lib = lib;
+                this.alias = ident;
+            }
+
+            public string lib;
+            public string alias;
         }
 
         public static Operator operator_from_string(string val)

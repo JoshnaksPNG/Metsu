@@ -44,15 +44,7 @@ namespace NewLangInterpreter.Runtime
 
             public override string ToString()
             {
-                string returned = "{ type: ";
-
-                returned += type.ToString();
-
-                returned += ", value: ";
-
-                returned += value.ToString() + " }";
-
-                return returned;
+                return "";
             }
 
         }

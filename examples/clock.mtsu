@@ -1,4 +1,6 @@
-﻿int clock()
+﻿#include io
+
+int clock()
 {
 	while(true)
 	{

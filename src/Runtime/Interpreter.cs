@@ -116,6 +116,11 @@ namespace NewLangInterpreter.Runtime
                     eval_value = MetaStatements.eval_meta_silly_default(((AST.SillyDefaultStatement)astNode).val, env);
                     break;
 
+                case AST.NodeType.Include:
+                    AST.IncludeStatement includeStatement = (AST.IncludeStatement)astNode;
+                    eval_value = MetaStatements.eval_meta_include(includeStatement.lib, includeStatement.alias, env);
+                    break;
+
                 default:
                     eval_value = new Values.ErrorVal("Error: This AST Node has not been set up for interpretation: " + astNode);
                     break;

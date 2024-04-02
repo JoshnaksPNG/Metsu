@@ -457,7 +457,7 @@ namespace NewLangInterpreter.Frontend
             { "while", Token.TokenType.While },
             { "for", Token.TokenType.For },
 
-            
+            { "as", Token.TokenType.As },
         };
 
         public Dictionary<string, Token.TokenType> META_KEYWORDS = new Dictionary<string, Token.TokenType>()
@@ -468,6 +468,8 @@ namespace NewLangInterpreter.Frontend
 
             { "silly", Token.TokenType.MetaSilly },
             { "funny", Token.TokenType.MetaSilly },
+
+            { "include", Token.TokenType.MetaInclude },
         };
 
         public Dictionary<char, char> ESCAPE_CHARACTERS = new Dictionary<char, char>()

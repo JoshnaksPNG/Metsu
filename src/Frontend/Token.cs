@@ -79,6 +79,8 @@ namespace NewLangInterpreter.Frontend
             MetaImmutable,
             MetaMutable,
             MetaSilly,
+            MetaInclude,
+            As,
         }
 
         override public string ToString()

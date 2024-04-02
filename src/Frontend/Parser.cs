@@ -388,6 +388,7 @@ namespace NewLangInterpreter.Frontend
                 case Token.TokenType.MetaSilly:
                 case Token.TokenType.MetaMutable:
                 case Token.TokenType.MetaImmutable:
+                case Token.TokenType.MetaInclude:
                     return this.parse_meta_stmt();
 
                 default:
@@ -1102,6 +1103,32 @@ namespace NewLangInterpreter.Frontend
                 case Token.TokenType.MetaSilly:
                     advance();
                     return new AST.SillyDefaultStatement();
+
+                case Token.TokenType.MetaInclude:
+                    advance();
+                    Token path = advance();
+
+                    if (path.type != Token.TokenType.Identifier)
+                    {
+                        Console.Error.WriteLine("Unexpected Token found in Parsing include: " + path.ToString());
+                    }
+
+                    if (tokens[0].type == Token.TokenType.As)
+                    {
+                        advance();
+                        Token alias = advance();
+
+                        if (path.type != Token.TokenType.Identifier)
+                        {
+                            Console.Error.WriteLine("Unexpected Token found in Parsing include: " + path.ToString());
+                        }
+
+                        return new AST.IncludeStatement(path.value, alias.value);
+                    }
+                    else
+                    {
+                        return new AST.IncludeStatement(path.value);
+                    }
 
                 default:
                     throw new Exception("Unrecognized Meta Statement");
