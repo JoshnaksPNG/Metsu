@@ -285,8 +285,19 @@ namespace NewLangInterpreter.Frontend
 
                                 while (src.Count > 0 && src[0] != '"' )
                                 {
-                                    value += src[0];
-                                    src.RemoveAt(0);
+                                    if (src[0] == '\\')
+                                    {
+                                        src.RemoveAt(0);
+
+                                        value += ESCAPE_CHARACTERS[src[0]];
+                                        src.RemoveAt(0);
+                                    }
+                                    else
+                                    {
+                                        value += src[0];
+                                        src.RemoveAt(0);
+                                    }
+                                    
                                 }
 
                                 if (src.Count == 0)
