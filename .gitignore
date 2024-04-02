@@ -7,3 +7,4 @@ NewLangInterpreter.csproj
 NewLangInterpreter.sln
 *.user
 *.pubxml
+*.sln

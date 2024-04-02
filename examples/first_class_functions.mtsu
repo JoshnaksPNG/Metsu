@@ -3,6 +3,11 @@ void call_f(func f)
     f("This is called through call_f");
 }
 
+void ret_f()
+{
+    return io.println;
+}
+
 mut func caller;
 
 caller = io.println;
@@ -10,3 +15,5 @@ caller = io.println;
 call_f(io.println);
 
 caller("This is called through caller");
+
+ret_f()("This is called through ret_f");
