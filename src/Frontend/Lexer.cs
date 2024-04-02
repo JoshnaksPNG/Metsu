@@ -465,6 +465,7 @@ namespace NewLangInterpreter.Frontend
             { 'r', '\r' },
             { 't', '\t' },
             { 'v', '\v' },
+            { 'a', '\a' },
             { '\\', '\\' },
             { '\'', '\'' },
             { '\"', '\"' },
