@@ -1,7 +1,7 @@
-# NewLangInterpreter
-Interpreter for an as yet unnamed language
+# Metsu
+Interpreter for Metsu language
 
-This language and its documentation is very much a work in progress.
+The Metsu language and its documentation is very much a work in progress.
 
 ## Interesting Features
 
@@ -22,13 +22,13 @@ This language and its documentation is very much a work in progress.
 	- One can make variables mutable by default by typing `#mutable` at the top of the file
 
 ## Style
-NewLangInterpreter uses a C-style syntax with statements being terminated with a semicolon and code blocks contained within braces.
+Metsu uses a C-style syntax with statements being terminated with a semicolon and code blocks contained within braces.
 
 Control flow is accomplished with the `if`, `else`, `for`, `do`, and `while` keywords.
 
 ## Paradigm
 
-NewLangInterpreter is currently a procedural/imperative language.
+Metsu is currently a procedural/imperative language.
 
 Unless inside a function definition, code is interpreted as it is encountered.
 
@@ -89,7 +89,7 @@ The 4th row of Pascal's Triangle:
 | - | - | - |
 | `!` | Logical NOT | Returns the inverse boolean value to the value right of the operator. Returns boolean. |
 | `&&` | Logical AND | Returns `true` if both values to right and left of operator are `true`, returns `false` otherwise. Returns boolean. |
-| `||` | Logical OR | Returns `false` if both values to right and left of operator are `false`, returns `true` otherwise. Returns boolean. |
+| `\|\|` | Logical OR | Returns `false` if both values to right and left of operator are `false`, returns `true` otherwise. Returns boolean. |
 
 ### int
 | Operator | Name | Description |
@@ -97,7 +97,7 @@ The 4th row of Pascal's Triangle:
 | `+` | Integer Add | Adds two integers together. Returns an integer |
 | `-` | Integer Subtract | Subtracts integer right of the operator from integer left of the operator. Returns an integer. |
 | `*` | Integer Multiply | Multiplies two integers together. Returns an integer. |
-| `\` | Integer Divide | Divides integer left of the operator by integer right of the operator. Returns an integer. |
+| `/` | Integer Divide | Divides integer left of the operator by integer right of the operator. Returns an integer. |
 | `%` | Integer Modulo | Returns the remainder of an integer division. Returns an integer. |
 | `>` | Greater Than | Returns `true` if value on the left is greater than value on the right of operator. Returns a boolean. |
 | `<` | Less Than | Returns `true` if value on the left is less than value on the right of operator. Returns a boolean. |
