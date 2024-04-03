@@ -1,9 +1,16 @@
 ﻿#include io
+#include chrono 
+#include math
 
 int clock()
 {
+	mut string title;
+
 	while(true)
 	{
+		title = chrono.hour() + ":" + chrono.minute() + ":" + chrono.second();
+		io.consoleTitle(title);
+		
 		io.clearConsole();
 		io.print("Hour: ");
 		io.println(chrono.hour());

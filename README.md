@@ -153,12 +153,15 @@ The 4th row of Pascal's Triangle:
 ### io
 | Function | Description |
 | - | - |
-| `void print(val)` | Converts **val** to a string and prints that string to the console. |
-| `void println(val)` | Converts **val** to a string and prints that string to the console. |
-| `string readln()` | Reads line of characters from the console and returns them as a string. |
+| `void print(val)` | Converts **val** to a string and writes that string to standard output. |
+| `void println(val)` | Converts **val** to a string and writes that string to standard output on it's own line. |
+| `void debug(val)` | Converts **val** to a string and writes that string to standard error. |
+| `void debugln(val)` | Converts **val** to a string and writes that string to standard error on it's own line. |
+| `string readln()` | Reads line of characters from standard input and returns them as a string. |
 | `void clearConsole()` | Clears the console. |
 | `void consoleBackgroundColor(int color)` | Changes the background color of the console to **color**. |
 | `void consoleTextColor(int color)` | Changes the foreground color of the console to **color**. |
+| `void consoleTitle(string title)` | Changes the title of the console window. |
 | `string readTextFile(string path)` | Opens the file located at **path** as a text file and returns the contents as a string. |
 | `void writeTextFile(string path, string contents)` | Creates a text file at **path** and writes **contents** to that file. |
 

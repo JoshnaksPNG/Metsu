@@ -32,6 +32,24 @@ namespace metsu.src.Runtime.eval.nativeModules
                     return new Values.NullVal();
                 })
             },
+            { "debug", new Values.NativeFnVal((List<RuntimeVal> args , Environment env) =>
+                {
+                    foreach (RuntimeVal arg in args)
+                    {
+                        Console.Error.Write(arg.ToString());
+                    }
+                    return new Values.NullVal();
+                }) 
+            },
+            { "debugln", new Values.NativeFnVal((List<RuntimeVal> args , Environment env) =>
+                {
+                    foreach (RuntimeVal arg in args)
+                    {
+                        Console.Error.WriteLine(arg.ToString());
+                    }
+                    return new Values.NullVal();
+                })
+            },
             { "readln", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
                 {
                     string? readVal = Console.ReadLine();
@@ -100,7 +118,18 @@ namespace metsu.src.Runtime.eval.nativeModules
                         throw new Exception("Expected Integer Argument");
                     }
                 })
-
+            },
+            { "consoleTitle", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
+                {
+                    if(args.Count > 0 && args[0].type == Values.ValueType.String)
+                    {
+                        Console.Title = ((Values.StringVal)args[0]).value;
+                        return new Values.NullVal();
+                    } else
+                    {
+                        return new Values.ErrorVal("Expected String Argument");
+                    }
+                })
             },
             { "readTextFile", new Values.NativeFnVal((List<RuntimeVal> args, Environment env) =>
                 {
