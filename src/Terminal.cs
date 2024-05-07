@@ -1,6 +1,7 @@
 ﻿using NewLangInterpreter.Frontend;
 using NewLangInterpreter.Runtime;
 using NewLangInterpreter.src.Frontend;
+using NewLangInterpreter.src.Compiler;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -76,6 +77,23 @@ void run(string path)
     //Console.WriteLine(result.ToString());
 }
 
+void comp(string path)
+{
+    Parser p = new Parser();
+
+    NewLangInterpreter.Runtime.Environment env = new NewLangInterpreter.Runtime.Environment();
+
+    string input = File.ReadAllText(path);
+
+    AST.Program program = p.produceAST(input);
+
+    Console.WriteLine(CIL_Emitter.get_node_instruction(program).body);
+
+    //Values.RuntimeVal result = Interpreter.evaluate(program, env);
+
+    //Console.WriteLine(result.ToString());
+}
+
 if (args.Length > 1)
 {
     string appName = System.AppDomain.CurrentDomain.FriendlyName;
@@ -116,4 +134,15 @@ else if (choice.ToLower().StartsWith("run"))
     }
     string path = cmdWords[1];
     run(path);
+}
+else if (choice.ToLower().StartsWith("comp"))
+{
+    string[] cmdWords = choice.Split(' ');
+    if (cmdWords.Length != 2)
+    {
+        Console.WriteLine("Only one argument may be passed to the comp command.");
+        System.Environment.Exit(-1);
+    }
+    string path = cmdWords[1];
+    comp(path);
 }

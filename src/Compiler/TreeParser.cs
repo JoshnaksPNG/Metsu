@@ -149,5 +149,22 @@ namespace NewLangInterpreter.src.Compiler
                 throw new NotSupportedException();
             }
         }
+
+        public class Program : CIL_Instruction
+        {
+            public Program(List<AST.Statement> programBody)
+            {
+                this.body += ".class public auto ansi beforefieldinit ProgramName extends [System.Runtime] System.Object\r\n" +
+                    "{\r\n    .method private hidebysig static void Main() cil managed\r\n    " +
+                    "{\r\n        .entrypoint\r\n        ";
+
+                foreach (AST.Statement stmt in programBody)
+                {
+                    this.body += CIL_Emitter.get_node_instruction(stmt).body;
+                }
+
+                this.body += "        ret\r\n    }\r\n}";
+            }
+        }
     }
 }

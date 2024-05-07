@@ -49,7 +49,8 @@ namespace NewLangInterpreter.src.Compiler
 
                 case AST.NodeType.BinaryExpr: break;
 
-                case AST.NodeType.Program: break;
+                case AST.NodeType.Program:
+                    return new TreeParser.Program(((AST.Program)node).body);
 
                 case AST.NodeType.VarDeclaration: break;
 
