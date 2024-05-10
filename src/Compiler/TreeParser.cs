@@ -146,7 +146,28 @@ namespace NewLangInterpreter.src.Compiler
 
             public static string front_to_cil_type(string front) 
             {
-                throw new NotSupportedException();
+                switch (front.ToLower())
+                {
+                    case "int":
+                        return "int32";
+
+                    case "float":
+                        return "float32";
+
+                    case "string":
+                        return "string";
+
+                    case "char":
+                        return "char";
+
+                    case "bool":
+                        return "bool";
+
+                    case "void":
+                    default:
+                        return "void";
+                    
+                }
             }
         }
 
@@ -154,6 +175,8 @@ namespace NewLangInterpreter.src.Compiler
         {
             public Program(List<AST.Statement> programBody)
             {
+                this.body += ".assembly ProgramName {}\r\n";
+                this.body += ".assembly extern mscorlib {}\r\n";
                 this.body += ".class public auto ansi beforefieldinit ProgramName extends [System.Runtime] System.Object\r\n" +
                     "{\r\n    .method private hidebysig static void Main() cil managed\r\n    " +
                     "{\r\n        .entrypoint\r\n        ";
@@ -164,6 +187,19 @@ namespace NewLangInterpreter.src.Compiler
                 }
 
                 this.body += "        ret\r\n    }\r\n}";
+            }
+        }
+
+        public class CallExpr : CIL_Instruction
+        {
+            public CallExpr(AST.CallExpr callExpr)
+            {
+                foreach (AST.Statement stmt in callExpr.args)
+                {
+                    this.body += CIL_Emitter.get_node_instruction(stmt).body;
+                }
+
+                this.body += "call " + "void " + "[mscorlib]System.Console::WriteLine(string)\r\n";
             }
         }
     }

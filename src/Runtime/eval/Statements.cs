@@ -11,11 +11,23 @@ namespace NewLangInterpreter.Runtime.eval
     {
         public static Values.RuntimeVal eval_program(AST.Program program, Environment env)
         {
+
+            foreach (AST.Statement statement in program.body)
+            {
+                if (statement.kind == AST.NodeType.FunctionDeclaration)
+                {
+                    Interpreter.evaluate(statement, env);
+                }
+            }
+
             Values.RuntimeVal lastEvaluated = new Values.NullVal();
 
             foreach (AST.Statement statement in program.body)
             {
-                lastEvaluated = Interpreter.evaluate(statement, env);
+                if (statement.kind != AST.NodeType.FunctionDeclaration)
+                {
+                    lastEvaluated = Interpreter.evaluate(statement, env);
+                }
             }
 
             return lastEvaluated;

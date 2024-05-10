@@ -45,7 +45,7 @@ namespace NewLangInterpreter.src.Compiler
                     return new TreeParser.Array_Literal(((AST.ArrayLiteral)node).elements);
 
                 case AST.NodeType.CallExper:
-                    break;
+                    return new TreeParser.CallExpr(((AST.CallExpr)node));
 
                 case AST.NodeType.BinaryExpr: break;
 

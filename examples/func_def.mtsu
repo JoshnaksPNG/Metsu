@@ -1,0 +1,11 @@
+#include io
+
+printer("This was defined after the call!", 3);
+
+void printer(string input, int rep)
+{
+    for(int i = 0; i < rep; i = i + 1)
+    {
+        io.println(input);
+    }
+}
