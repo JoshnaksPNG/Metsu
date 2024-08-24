@@ -80,6 +80,7 @@ The 4th row of Pascal's Triangle:
 | `char` | Character value | |
 | `string` | String value | |
 | `obj` | Object value | |
+| `func` | Function value | |
 | `void` | Absence of a value.  Used exclusively for the return type of functions that do not return any value. | |
 
 ## Operators
